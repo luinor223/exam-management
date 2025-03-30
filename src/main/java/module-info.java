@@ -9,4 +9,6 @@ module com.hcmus.exammanagement {
 
     opens com.hcmus.exammanagement to javafx.fxml;
     exports com.hcmus.exammanagement;
+    requires java.sql;
+    requires org.postgresql.jdbc;
 }
