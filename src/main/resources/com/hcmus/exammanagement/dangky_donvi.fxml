@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTreeTableColumn?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="1800.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label layoutX="20.0" layoutY="14.0" text="Thông tin khách hàng">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="20.0" layoutY="54.0" text="Tên đơn vị" />
+        <TextField layoutX="20.0" layoutY="72.0" prefHeight="40.0" prefWidth="380.0" promptText="Tên đơn vị" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+      <Label layoutX="20.0" layoutY="436.0" text="Thông tin thí sinh">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="35.0" layoutY="1730.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="965.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Đăng ký thi" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Button>
+      <JFXTreeTableView layoutX="431.0" layoutY="55.0" prefHeight="344.0" prefWidth="551.0">
+          <columns>
+              <JFXTreeTableColumn prefWidth="110.0" text="Tên đơn vị" />
+              <JFXTreeTableColumn prefWidth="110.0" text="Mã số thuế" />
+            <JFXTreeTableColumn prefWidth="110.0" text="Email" />
+            <JFXTreeTableColumn prefWidth="110.0" text="Số điện thoại" />
+            <JFXTreeTableColumn prefWidth="110.0" text="Địa chỉ" />
+
+          </columns>
+      </JFXTreeTableView>
+      <Button layoutX="459.0" layoutY="829.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="117.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Thêm thí sinh" textFill="WHITE" />
+      <Label layoutX="20.0" layoutY="122.0" text="Mã số thuế" />
+      <TextField layoutX="20.0" layoutY="140.0" prefHeight="40.0" prefWidth="380.0" promptText="Mã số thuế" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+      <Label layoutX="21.0" layoutY="190.0" text="Email" />
+      <TextField layoutX="20.0" layoutY="208.0" prefHeight="40.0" prefWidth="380.0" promptText="Email" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+      <Label layoutX="21.0" layoutY="258.0" text="Số điện thoại" />
+      <TextField layoutX="20.0" layoutY="276.0" prefHeight="40.0" prefWidth="380.0" promptText="Số điện thoại" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+      <Label layoutX="20.0" layoutY="326.0" text="Địa chỉ" />
+      <TextField layoutX="20.0" layoutY="344.0" prefHeight="40.0" prefWidth="380.0" promptText="Địa chỉ" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+      <Label layoutX="20.0" layoutY="487.0" text="Họ tên" />
+      <TextField layoutX="20.0" layoutY="505.0" prefHeight="40.0" prefWidth="380.0" promptText="Họ tên" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+      <Label layoutX="20.0" layoutY="555.0" text="Căn cước công dân" />
+      <TextField layoutX="20.0" layoutY="573.0" prefHeight="40.0" prefWidth="380.0" promptText="Căn cước công dân" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+      <Label layoutX="20.0" layoutY="623.0" text="Ngày sinh" />
+      <Label layoutX="20.0" layoutY="691.0" text="Giới tính" />
+      <DatePicker layoutX="20.0" layoutY="643.0" prefHeight="40.0" prefWidth="380.0" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-background-radius: 8px;" />
+      <JFXComboBox layoutX="20.0" layoutY="713.0" prefHeight="40.0" prefWidth="380.0" promptText="Giới tính" visibleRowCount="3" />
+      <Label layoutX="21.0" layoutY="1289.0" text="Lịch thi">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <JFXTreeTableView layoutX="22.0" layoutY="1337.0" prefHeight="312.0" prefWidth="486.0" />
+      <Button layoutX="206.0" layoutY="1670.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="117.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Chọn lịch thi" textFill="WHITE" />
+      <Label layoutX="550.0" layoutY="1337.0" text="Mã lịch thi:" />
+      <Label layoutX="550.0" layoutY="1377.0" text="Ngày giờ thi:" />
+      <Label layoutX="550.0" layoutY="1417.0" text="Thời lượng thi:" />
+      <Label layoutX="550.0" layoutY="1457.0" text="Số lượng thí sinh:" />
+      <Label layoutX="550.0" layoutY="1497.0" text="Chứng chỉ:" />
+      <Button cancelButton="true" layoutX="448.0" layoutY="1227.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="117.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Xóa" textFill="WHITE" />
+      <JFXTreeTableView layoutX="431.0" layoutY="469.0" prefHeight="344.0" prefWidth="551.0">
+         <columns>
+            <JFXTreeTableColumn prefWidth="137.5" text="Họ tên" />
+            <JFXTreeTableColumn prefWidth="137.5" text="CCCD" />
+            <JFXTreeTableColumn prefWidth="137.5" text="Ngày sinh" />
+            <JFXTreeTableColumn prefWidth="137.5" text="Giới tính" />
+         </columns>
+      </JFXTreeTableView>
+      <JFXTreeTableView layoutX="242.0" layoutY="874.0" prefHeight="344.0" prefWidth="551.0">
+         <columns>
+            <JFXTreeTableColumn editable="false" prefWidth="137.5" reorderable="false" sortable="false" text="Họ tên" />
+            <JFXTreeTableColumn editable="false" prefWidth="137.5" reorderable="false" sortable="false" text="CCCD" />
+            <JFXTreeTableColumn editable="false" prefWidth="137.5" reorderable="false" sortable="false" text="Ngày sinh" />
+            <JFXTreeTableColumn editable="false" prefWidth="137.5" reorderable="false" sortable="false" text="Giới tính" />
+         </columns>
+      </JFXTreeTableView>
+    </children>
+</AnchorPane>

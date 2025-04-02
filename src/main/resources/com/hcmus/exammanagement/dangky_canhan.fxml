@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label layoutX="20.0" layoutY="14.0" text="Thông tin khách hàng">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="21.0" layoutY="46.0" text="Mã khách hàng" />
+        <TextField layoutX="20.0" layoutY="72.0" prefHeight="38.0" prefWidth="270.0" promptText="Mã khách hàng" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+        <Label layoutX="359.0" layoutY="46.0" text="Tên khách hàng" />
+        <TextField layoutX="358.0" layoutY="72.0" prefHeight="38.0" prefWidth="270.0" promptText="Tên khách hàng" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+        <Label layoutX="680.0" layoutY="46.0" text="Mã số thuế" />
+        <TextField layoutX="679.0" layoutY="72.0" prefHeight="38.0" prefWidth="270.0" promptText="Mã số thuế" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+        <Label layoutX="22.0" layoutY="136.0" text="Email đơn vị" />
+        <TextField layoutX="21.0" layoutY="162.0" prefHeight="38.0" prefWidth="270.0" promptText="Email đơn vị" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+        <Label layoutX="360.0" layoutY="136.0" text="Số điện thoại" />
+        <TextField layoutX="359.0" layoutY="162.0" prefHeight="38.0" prefWidth="270.0" promptText="Số điện thoại" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+        <Label layoutX="681.0" layoutY="136.0" text="Địa chỉ" />
+        <TextField layoutX="680.0" layoutY="162.0" prefHeight="38.0" prefWidth="270.0" promptText="Địa chỉ" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+    </children>
+</AnchorPane>

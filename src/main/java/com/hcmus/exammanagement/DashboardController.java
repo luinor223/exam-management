@@ -36,23 +36,23 @@ public class DashboardController {
         sidebarButtons.clear();
         switch (employeeType) {
             case "Tiep nhan":
-                sidebarButtons.add(createButton("Dang ky", "#TNDangKy"));
-                sidebarButtons.add(createButton("Thanh toan", "#ThanhToan"));
+                sidebarButtons.add(createButton("Đăng ký", "#TNDangKy"));
+                sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
                 break;
             case "Ke toan":
                 sidebarButtons.add(createButton("Inbox", "#Inbox"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Nhap lieu":
-                sidebarButtons.add(createButton("Thanh toan", "#ThanhToan"));
+                sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Khao thi":
-                sidebarButtons.add(createButton("Thanh toan", "#ThanhToan"));
+                sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Quan tri":
-                sidebarButtons.add(createButton("Thanh toan", "#ThanhToan"));
+                sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
         }

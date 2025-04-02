@@ -61,12 +61,12 @@
 }
 
 .custom-table-view .column-header {
-    -fx-background-color: linear-gradient(to bottom, #DFFFEF, #B8F5DA);
+    -fx-background-color: #18c27b;
     -fx-font-weight: bold;
 }
 
 .custom-table-view .column-header .label {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }
 
 .custom-table-view .table-row-cell:hover {
