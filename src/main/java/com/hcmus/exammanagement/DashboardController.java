@@ -3,11 +3,14 @@ package com.hcmus.exammanagement;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,23 +37,23 @@ public class DashboardController {
         sidebarButtons.clear();
         switch (employeeType) {
             case "Tiep nhan":
-                sidebarButtons.add(createButton("Today", "#Today"));
-                sidebarButtons.add(createButton("Important", "#Important"));
+                sidebarButtons.add(createButton("Dang ky", "#TNDangKy"));
+                sidebarButtons.add(createButton("Test", "#Test"));
                 break;
             case "Ke toan":
                 sidebarButtons.add(createButton("Inbox", "#Inbox"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Nhap lieu":
-                sidebarButtons.add(createButton("Inbox", "#Inbox"));
+                sidebarButtons.add(createButton("Test", "#Test"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Khao thi":
-                sidebarButtons.add(createButton("Inbox", "#Inbox"));
+                sidebarButtons.add(createButton("Test", "#Test"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Quan tri":
-                sidebarButtons.add(createButton("Inbox", "#Inbox"));
+                sidebarButtons.add(createButton("Test", "#Test"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
         }
@@ -64,17 +67,23 @@ public class DashboardController {
         button.setPrefWidth(174.0);
         button.getStyleClass().add("invisible-button");
         button.setStyle("-fx-background-color: transparent; -fx-text-fill: WHITE");
-        button.setOnAction(event -> handleButtonAction(action, button));
+        button.setOnAction(event -> {
+            try {
+                handleButtonAction(action, button);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         button.setFont(new Font("System Bold", 12.0));
         return button;
     }
 
-    private void handleButtonAction(String action, JFXButton button) {
+    private void handleButtonAction(String action, JFXButton button) throws IOException {
         resetButtonStyles();
         button.setStyle("-fx-background-color: #77dbb8; -fx-background-radius: 10px; -fx-text-fill: WHITE");
         switch (action) {
-            case "#Today":
-                Today(new ActionEvent());
+            case "#TNDangKy":
+                TNDangKy(new ActionEvent());
                 break;
             case "#Important":
                 Important(new ActionEvent());
@@ -84,6 +93,9 @@ public class DashboardController {
                 break;
             case "#Someday":
                 Someday(new ActionEvent());
+                break;
+            case "#Test":
+                Test(new ActionEvent());
                 break;
             // Add more cases for other actions
         }
@@ -111,7 +123,15 @@ public class DashboardController {
     }
 
     @FXML
-    void Today(ActionEvent event) {
-        // Implementation
+    void TNDangKy(ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/nvtn_dangky.fxml"));
+        contentArea.getChildren().clear();
+        contentArea.getChildren().add(fxml);
+    }
+
+    void Test(ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/test.fxml"));
+        contentArea.getChildren().clear();
+        contentArea.getChildren().add(fxml);
     }
 }
