@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.LoginController">
+   <left>
+      <AnchorPane prefHeight="540.0" prefWidth="480.0" styleClass="linear-grad" stylesheets="@style.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="73.0" layoutY="215.0" prefHeight="70.0" prefWidth="241.0" text="ASSESSIFY" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="47.0" />
+               </font>
+            </Label>
+            <Text fill="WHITE" layoutX="73.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Effortlessly organize, conduct, and evaluate exams with this smart, user-friendly application, built for efficiency and accuracy" wrappingWidth="306.4195251464844" />
+            <FontIcon iconColor="WHITE" iconLiteral="fas-book-open" layoutX="315.0" layoutY="267.0" text="">
+               <font>
+                  <Font size="47.0" />
+               </font>
+            </FontIcon>
+         </children></AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="540.0" prefWidth="480.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="usernameField" layoutX="120.0" layoutY="200.0" prefHeight="41.0" prefWidth="248.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-color: #18C27B; -fx-border-width: 0px 0px 2px 0px;" stylesheets="@style.css" />
+            <PasswordField fx:id="passwordField" layoutX="119.0" layoutY="270.0" prefHeight="41.0" prefWidth="248.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #18C27B; -fx-border-width: 0px 0px 2px 0px;" />
+            <FontIcon iconLiteral="far-user" layoutX="90.0" layoutY="228.0">
+               <font>
+                  <Font size="21.0" />
+               </font></FontIcon>
+            <FontIcon iconLiteral="fas-lock" layoutX="89.0" layoutY="298.0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </FontIcon>
+            <Label layoutX="88.0" layoutY="130.0" text="LOGIN">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="194.0" layoutY="369.0" onAction="#handleLoginButtonAction" prefHeight="33.0" prefWidth="100.0" style="-fx-background-color: #71D9B6; -fx-background-radius: 50px;" text="LOGIN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <Label fx:id="loginMessage" layoutX="230.0" layoutY="336.0" />
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>

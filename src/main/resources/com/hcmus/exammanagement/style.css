@@ -1,0 +1,40 @@
+.linear-grad
+{
+    -fx-background-color: linear-gradient(to bottom left, #71D9B6, #18C27B);
+}
+
+.linear-grad-Dashboard
+{
+    -fx-background-color: linear-gradient(to bottom , #3454F5, #0082F4);
+}
+
+.text-field{
+    -fx-prompt-text-fill:c5c5c5;
+    -fx-font-size: 14px;
+
+}
+
+.text-field:focus{
+    -fx-prompt-text-size: 14px;
+}
+
+.jfx-snackbar-content{
+    -fx-background-color: #ff1c03;
+}
+
+.jfx-snackbar-toast{
+    -fx-alignment: center;
+    -fx-text-fill: #ffffff;
+}
+
+.Top-Pane
+{
+    -fx-background-color: linear-gradient(Gray, Black);
+}
+
+.invisible-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: black; /* Change text color as needed */
+}
+
