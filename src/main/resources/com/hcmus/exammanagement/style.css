@@ -38,3 +38,46 @@
     -fx-text-fill: black; /* Change text color as needed */
 }
 
+.white-green-button {
+    -fx-background-color: white;
+    -fx-border-color: #71D9B6;
+    -fx-text-fill: #71D9B6;
+}
+
+.custom-combobox {
+    -fx-background-color: white;
+    -fx-border-color: #c5c5c5;
+    -fx-text-fill: black;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.custom-table-view {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-font-size: 14px;
+}
+
+.custom-table-view .column-header {
+    -fx-background-color: linear-gradient(to bottom, #DFFFEF, #B8F5DA);
+    -fx-font-weight: bold;
+}
+
+.custom-table-view .column-header .label {
+    -fx-text-fill: black;
+}
+
+.custom-table-view .table-row-cell:hover {
+    -fx-text-fill: black;
+}
+
+
+.custom-table-view .table-row-cell:selected {
+    -fx-background-color: transparent;
+    -fx-border-radius: 4px;
+    -fx-border-color: #71D9B6;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 3);
+}
+

@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -38,22 +37,22 @@ public class DashboardController {
         switch (employeeType) {
             case "Tiep nhan":
                 sidebarButtons.add(createButton("Dang ky", "#TNDangKy"));
-                sidebarButtons.add(createButton("Test", "#Test"));
+                sidebarButtons.add(createButton("Thanh toan", "#ThanhToan"));
                 break;
             case "Ke toan":
                 sidebarButtons.add(createButton("Inbox", "#Inbox"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Nhap lieu":
-                sidebarButtons.add(createButton("Test", "#Test"));
+                sidebarButtons.add(createButton("Thanh toan", "#ThanhToan"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Khao thi":
-                sidebarButtons.add(createButton("Test", "#Test"));
+                sidebarButtons.add(createButton("Thanh toan", "#ThanhToan"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Quan tri":
-                sidebarButtons.add(createButton("Test", "#Test"));
+                sidebarButtons.add(createButton("Thanh toan", "#ThanhToan"));
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
         }
@@ -94,8 +93,8 @@ public class DashboardController {
             case "#Someday":
                 Someday(new ActionEvent());
                 break;
-            case "#Test":
-                Test(new ActionEvent());
+            case "#ThanhToan":
+                ThanhToan(new ActionEvent());
                 break;
             // Add more cases for other actions
         }
@@ -129,8 +128,8 @@ public class DashboardController {
         contentArea.getChildren().add(fxml);
     }
 
-    void Test(ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/test.fxml"));
+    void ThanhToan(ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/thanhtoan.fxml"));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }
