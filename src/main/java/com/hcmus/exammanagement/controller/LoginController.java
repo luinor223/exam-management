@@ -1,4 +1,4 @@
-package com.hcmus.exammanagement;
+package com.hcmus.exammanagement.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

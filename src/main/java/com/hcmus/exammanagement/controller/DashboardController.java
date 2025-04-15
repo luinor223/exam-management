@@ -1,4 +1,4 @@
-package com.hcmus.exammanagement;
+package com.hcmus.exammanagement.controller;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
