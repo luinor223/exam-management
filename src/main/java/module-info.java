@@ -13,4 +13,5 @@ module com.hcmus.exammanagement {
     opens com.hcmus.exammanagement.controller to javafx.fxml;
     requires java.sql;
     requires org.postgresql.jdbc;
+    requires com.zaxxer.hikari;
 }
