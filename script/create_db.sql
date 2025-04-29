@@ -81,8 +81,7 @@ CREATE TABLE chung_chi (
 CREATE TABLE phong (
     ma_phong TEXT PRIMARY KEY DEFAULT 'P' || LPAD(nextval('seq_phong')::TEXT, 6, '0'),
     ten_phong VARCHAR(50) NOT NULL,
-    suc_chua_toi_da INT,
-    trang_thai VARCHAR(50)
+    so_ghe INT
 );
 
 -- Bảng Lịch Thi

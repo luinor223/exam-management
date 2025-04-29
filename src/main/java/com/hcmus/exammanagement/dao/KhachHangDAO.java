@@ -2,6 +2,7 @@ package com.hcmus.exammanagement.dao;
 
 import com.hcmus.exammanagement.dto.Database;
 import com.hcmus.exammanagement.dto.KhachHangDTO;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class KhachHangDAO {
     public List<KhachHangDTO> findAll() throws SQLException {
         List<KhachHangDTO> khList = new ArrayList<>();
@@ -21,6 +23,9 @@ public class KhachHangDAO {
             while (rs.next()) {
                 khList.add(KhachHangDTO.fromResultSet(rs));
             }
+        } catch (SQLException e) {
+            log.error("Error finding all khach hang: {}", e.getMessage());
+            throw e;
         }
 
         return khList;
@@ -37,6 +42,9 @@ public class KhachHangDAO {
             while (rs.next()) {
                 khList.add(KhachHangDTO.fromResultSet(rs));
             }
+        } catch (SQLException e) {
+            log.error("Error finding all khach hang by loai kh: {}", e.getMessage());
+            throw e;
         }
 
         return khList;
@@ -52,6 +60,9 @@ public class KhachHangDAO {
             if (rs.next()) {
                 return KhachHangDTO.fromResultSet(rs);
             }
+        } catch (SQLException e) {
+            log.error("Error finding khach hang by ID {}: {}", maKH, e.getMessage());
+            throw e;
         }
 
         return null;
@@ -70,6 +81,9 @@ public class KhachHangDAO {
             stmt.setString(6, khachHang.getLoai_kh());
 
             stmt.executeUpdate();
+        } catch (SQLException e) {
+            log.error("Error inserting khach hang: {}", e.getMessage());
+            throw e;
         }
     }
 }

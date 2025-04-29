@@ -56,19 +56,19 @@ INSERT INTO chung_chi (ten_chung_chi, thoi_gian_hieu_luc, mo_ta, le_phi) VALUES
 ('CILS', 1095, 'Chứng chỉ Tiếng Ý', 2400000),
 ('TRKI', 1095, 'Chứng chỉ Tiếng Nga', 2200000);
 
-INSERT INTO phong (ten_phong, suc_chua_toi_da, trang_thai) VALUES
-('Phòng A101', 30, 'Sẵn sàng'),
-('Phòng A102', 25, 'Sẵn sàng'),
-('Phòng A103', 35, 'Sẵn sàng'),
-('Phòng B201', 40, 'Sẵn sàng'),
-('Phòng B202', 30, 'Sẵn sàng'),
-('Phòng B203', 45, 'Sẵn sàng'),
-('Phòng C301', 50, 'Sẵn sàng'),
-('Phòng C302', 35, 'Sẵn sàng'),
-('Phòng C303', 40, 'Sẵn sàng'),
-('Phòng D401', 30, 'Sẵn sàng'),
-('Phòng D402', 25, 'Sẵn sàng'),
-('Phòng D403', 35, 'Sẵn sàng');
+INSERT INTO phong (ten_phong, so_ghe) VALUES
+('Phòng A101', 30),
+('Phòng A102', 25),
+('Phòng A103', 35),
+('Phòng B201', 40),
+('Phòng B202', 30),
+('Phòng B203', 45),
+('Phòng C301', 50),
+('Phòng C302', 35),
+('Phòng C303', 40),
+('Phòng D401', 30),
+('Phòng D402', 25),
+('Phòng D403', 35);
 
 INSERT INTO giam_thi (ho_ten, sdt, email) VALUES
 ('Nguyễn Văn Giám', '0912345678', 'giam.nguyen@email.com'),

@@ -267,7 +267,10 @@ public class DangKyDonViController {
 
             // Register all candidates
             for (ThiSinhDTO thiSinh : thiSinhList) {
-                thiSinhBUS.createThiSinh(thiSinh);
+                if (thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd()) != null) {
+                    thiSinhBUS.capNhatThiSinh(thiSinh);
+                }
+                thiSinhBUS.taoThiSinh(thiSinh);
             }
 
             showAlert(Alert.AlertType.INFORMATION, "Thành công", "Đăng ký thành công",

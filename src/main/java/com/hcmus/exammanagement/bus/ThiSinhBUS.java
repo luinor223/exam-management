@@ -21,21 +21,28 @@ public class ThiSinhBUS {
         return thiSinhDAO.findAll();
     }
 
-    public ThiSinhDTO layThiSinh(String maThiSinh) throws IllegalArgumentException, SQLException {
+    public ThiSinhDTO layThiSinhBangMaTS(String maThiSinh) throws IllegalArgumentException, SQLException {
         if (maThiSinh == null || maThiSinh.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã thí sinh không được để trống");
         }
         return thiSinhDAO.findById(maThiSinh);
     }
 
-    public List<ThiSinhDTO> layThiSinhByPhieuDangKy(String maPhieuDangKy) throws IllegalArgumentException, SQLException {
+    public ThiSinhDTO layThiSinhBangCCCD(String cccd) throws IllegalArgumentException, SQLException {
+        if (cccd == null || cccd.trim().isEmpty()) {
+            throw new IllegalArgumentException("CCCD không được để trống");
+        }
+        return thiSinhDAO.findByCCCD(cccd);
+    }
+
+    public List<ThiSinhDTO> layThiSinhBangPhieuDangKy(String maPhieuDangKy) throws IllegalArgumentException, SQLException {
         if (maPhieuDangKy == null || maPhieuDangKy.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã phiếu đăng ký không được để trống");
         }
         return thiSinhDAO.findByPhieuDangKy(maPhieuDangKy);
     }
 
-    public void createThiSinh(ThiSinhDTO thiSinh) throws IllegalArgumentException, SQLException {
+    public void taoThiSinh(ThiSinhDTO thiSinh) throws IllegalArgumentException, SQLException {
         if (thiSinh == null) {
             throw new IllegalArgumentException("Thí sinh không được để trống");
         }
@@ -61,7 +68,7 @@ public class ThiSinhBUS {
         thiSinhDAO.insert(thiSinh);
     }
 
-    public boolean updateThiSinh(ThiSinhDTO thiSinh) throws IllegalArgumentException, SQLException {
+    public boolean capNhatThiSinh(ThiSinhDTO thiSinh) throws IllegalArgumentException, SQLException {
         if (thiSinh == null) {
             throw new IllegalArgumentException("Thí sinh không được để trống");
         }

@@ -2,6 +2,7 @@ package com.hcmus.exammanagement.dao;
 
 import com.hcmus.exammanagement.dto.Database;
 import com.hcmus.exammanagement.dto.ThiSinhDTO;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class ThiSinhDAO {
 
     public List<ThiSinhDTO> findAll() throws SQLException {
@@ -23,6 +25,9 @@ public class ThiSinhDAO {
             while (rs.next()) {
                 thiSinhList.add(ThiSinhDTO.fromResultSet(rs));
             }
+        } catch (SQLException e) {
+            log.error("Error finding all thi sinh: {}", e.getMessage());
+            throw e;
         }
 
         return thiSinhList;
@@ -40,6 +45,9 @@ public class ThiSinhDAO {
                     return ThiSinhDTO.fromResultSet(rs);
                 }
             }
+        } catch (SQLException e) {
+            log.error("Error finding thi sinh by ID {}: {}", maThiSinh, e.getMessage());
+            throw e;
         }
 
         return null;
@@ -52,15 +60,36 @@ public class ThiSinhDAO {
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, maPhieuDangKy);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    thiSinhList.add(ThiSinhDTO.fromResultSet(rs));
-                }
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                thiSinhList.add(ThiSinhDTO.fromResultSet(rs));
             }
+
+        } catch (SQLException e) {
+            log.error("Error finding thi sinh by phieu dang ky {}: {}", maPhieuDangKy, e.getMessage());
+            throw e;
         }
 
         return thiSinhList;
+    }
+
+    public ThiSinhDTO findByCCCD(String cccd) throws SQLException {
+        String sql = "SELECT * FROM thi_sinh WHERE cccd = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, cccd);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return ThiSinhDTO.fromResultSet(rs);
+            }
+
+        } catch (SQLException e) {
+            log.error("Error finding thi sinh by CCCD {}: {}", cccd, e.getMessage());
+            throw e;
+        }
+
+        return null;
     }
 
     public int insert(ThiSinhDTO thiSinh) throws SQLException {
@@ -75,6 +104,9 @@ public class ThiSinhDAO {
             stmt.setString(4, thiSinh.getGioiTinh());
 
             return stmt.executeUpdate();
+        } catch (SQLException e) {
+            log.error("Error inserting thi sinh: {}", e.getMessage());
+            throw e;
         }
     }
 
@@ -91,6 +123,9 @@ public class ThiSinhDAO {
             stmt.setString(5, thiSinh.getMaThiSinh());
 
             return stmt.executeUpdate();
+        } catch (SQLException e) {
+            log.error("Error updating thi sinh with ID {}: {}", thiSinh.getMaThiSinh(), e.getMessage());
+            throw e;
         }
     }
 
@@ -102,6 +137,9 @@ public class ThiSinhDAO {
 
             stmt.setString(1, maThiSinh);
             return stmt.executeUpdate();
+        } catch (SQLException e) {
+            log.error("Error deleting thi sinh with ID {}: {}", maThiSinh, e.getMessage());
+            throw e;
         }
     }
 }
