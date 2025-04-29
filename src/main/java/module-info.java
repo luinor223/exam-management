@@ -14,4 +14,5 @@ module com.hcmus.exammanagement {
     requires java.sql;
     requires org.postgresql.jdbc;
     requires com.zaxxer.hikari;
+    requires static lombok;
 }

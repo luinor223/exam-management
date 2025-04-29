@@ -40,6 +40,7 @@ CREATE TABLE khach_hang (
     ma_kh TEXT PRIMARY KEY DEFAULT 'KH' || LPAD(nextval('seq_khach_hang')::TEXT, 6, '0'),
     ho_ten VARCHAR(100) NOT NULL,
     cccd CHAR(12) NOT NULL,
+    email VARCHAR(50) UNIQUE,
     sdt VARCHAR(15) UNIQUE,
     dia_chi TEXT,
     loai_kh VARCHAR(20) CHECK(loai_kh IN ('Cá nhân', 'Đơn vị'))

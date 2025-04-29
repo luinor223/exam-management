@@ -2,40 +2,33 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1090.0" style="-fx-background-color: #f9fafb;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.TNDangKyController">
-   <children>
-      <ScrollPane layoutX="19.0" layoutY="64.0" prefHeight="632.0" prefWidth="1051.0" style="-fx-background-radius: 8px; -fx-background-color: #f9fafb;">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1900.0" prefWidth="1036.0" style="-fx-background-color: WHITE; -fx-background-radius: 8px;">
-               <children>
-                  <Label layoutX="20.0" layoutY="21.0" text="Loại khách hàng">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Label>
-                  <JFXButton fx:id="caNhanButton" layoutX="20.0" layoutY="49.0" onAction="#handleCaNhanButtonAction" prefHeight="38.0" prefWidth="86.0" style="-fx-background-color: #f3f4f6; -fx-background-radius: 10px;" text="Cá nhân">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </JFXButton>
-                  <AnchorPane fx:id="formContainer" layoutY="100.0" prefHeight="1800.0" prefWidth="1036.0" />
-                  <JFXButton fx:id="donViButton" layoutX="114.0" layoutY="49.0" onAction="#handleDonViButtonAction" prefHeight="38.0" prefWidth="86.0" style="-fx-background-color: #f3f4f6; -fx-background-radius: 10px;" text="Đơn vị">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </AnchorPane>
-         </content>
-      </ScrollPane>
-      <Label layoutX="14.0" layoutY="14.0" text="Đăng ký thi">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Label>
-   </children>
-</AnchorPane>
+<BorderPane prefHeight="720.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.TNDangKyController">
+   <top>
+      <AnchorPane prefHeight="50.0" prefWidth="1036.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="14.0" layoutY="8.0" text="Đăng ký thi">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="caNhanButton" layoutX="173.0" layoutY="11.0" onAction="#handleCaNhanButtonAction" prefHeight="32.0" prefWidth="78.0" style="-fx-background-color: #f3f4f6; -fx-background-radius: 10px;" text="Cá nhân">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="donViButton" layoutX="265.0" layoutY="11.0" onAction="#handleDonViButtonAction" prefHeight="32.0" prefWidth="78.0" style="-fx-background-color: #f3f4f6; -fx-background-radius: 10px;" text="Đơn vị">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane fx:id="formContainer" prefHeight="1067.0" prefWidth="1090.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
