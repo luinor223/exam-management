@@ -39,12 +39,15 @@ public class KhachHangDAO {
             stmt.setString(1, loaiKh);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
+                System.out.println(rs.getString("loai_kh"));
                 khList.add(KhachHangDTO.fromResultSet(rs));
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
         }
 
+        System.out.println(sql + loaiKh);
+        System.out.println(khList);
         return khList;
     }
 

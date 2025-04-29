@@ -1,0 +1,1 @@
+SELECT * FROM khach_hang WHERE loai_kh = 'Đơn vị';

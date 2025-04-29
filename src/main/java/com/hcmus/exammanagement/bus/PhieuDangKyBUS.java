@@ -1,5 +1,6 @@
 package com.hcmus.exammanagement.bus;
 
+import com.hcmus.exammanagement.dao.KhachHangDAO;
 import com.hcmus.exammanagement.dao.PhieuDangKyDAO;
 import com.hcmus.exammanagement.dto.PhieuDangKyDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +14,11 @@ import java.util.List;
 @Slf4j
 public class PhieuDangKyBUS {
     private final PhieuDangKyDAO phieuDangKyDAO;
-    private final KhachHangBUS khachHangBUS;
+    private final KhachHangDAO khachHangDAO;
 
     public PhieuDangKyBUS() {
         this.phieuDangKyDAO = new PhieuDangKyDAO();
-        this.khachHangBUS = new KhachHangBUS();
+        this.khachHangDAO = new KhachHangDAO();
     }
 
     public List<PhieuDangKyDTO> layDSPhieuDangKy() {
@@ -42,7 +43,7 @@ public class PhieuDangKyBUS {
         }
         
         // Check if the customer exists
-        if (khachHangBUS.getKhachHangById(phieuDangKy.getMaKH()) == null) {
+        if (khachHangDAO.findById(phieuDangKy.getMaKH()) == null) {
             throw new IllegalArgumentException("Khách hàng không tồn tại: " + phieuDangKy.getMaKH());
         }
         

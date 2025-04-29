@@ -17,6 +17,8 @@ public class Database {
             config.setPassword(password);
             config.setDriverClassName("org.postgresql.Driver");
 
+            //config.addDataSourceProperty("characterEncoding", "UTF-8");
+            //config.addDataSourceProperty("useUnicode", "true");
             config.setMaximumPoolSize(10);
             config.setMinimumIdle(2);
             config.setIdleTimeout(30000);

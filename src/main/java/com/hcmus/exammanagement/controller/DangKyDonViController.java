@@ -8,6 +8,9 @@ import com.hcmus.exammanagement.dto.KhachHangDTO;
 import com.hcmus.exammanagement.dto.PhieuDangKyDTO;
 import com.hcmus.exammanagement.dto.ThiSinhDTO;
 import com.jfoenix.controls.JFXComboBox;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,9 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -122,17 +123,17 @@ public class DangKyDonViController {
     }
 
     private void setupDonViTable() {
-        tenDonViColumn.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
-        maSoThueColumn.setCellValueFactory(new PropertyValueFactory<>("cccd")); // Using cccd field for maSoThue
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        sdtColumn.setCellValueFactory(new PropertyValueFactory<>("sdt"));
-        diaChiColumn.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
+        tenDonViColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHoTen()));
+        maSoThueColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCccd()));
+        emailColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmail()));
+        sdtColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSdt()));
+        diaChiColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDiaChi()));
 
         donViTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 selectedDonVi = newSelection;
                 tenDonViField.setText(newSelection.getHoTen());
-                maSoThueField.setText(newSelection.getCccd()); // Using cccd field for maSoThue
+                maSoThueField.setText(newSelection.getCccd());
                 emailField.setText(newSelection.getEmail());
                 sdtField.setText(newSelection.getSdt());
                 diaChiField.setText(newSelection.getDiaChi());
@@ -142,7 +143,7 @@ public class DangKyDonViController {
 
     private void loadDonViData() {
         try {
-            List<KhachHangDTO> donViList = khachHangBUS.getKhachHangDonVi();
+            List<KhachHangDTO> donViList = khachHangBUS.layDSKhachHangDonVi();
             donViTable.setItems(FXCollections.observableArrayList(donViList));
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải danh sách đơn vị", e.getMessage());
@@ -150,10 +151,10 @@ public class DangKyDonViController {
     }
 
     private void setupThiSinhTable() {
-        tenTSColumn.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
-        cccdTSColumn.setCellValueFactory(new PropertyValueFactory<>("cccd"));
-        ngSinhTSColumn.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
-        gioiTinhTSColumn.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
+        tenTSColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHoTen()));
+        cccdTSColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCccd()));
+        ngSinhTSColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNgaySinh()));
+        gioiTinhTSColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getGioiTinh()));
 
         // Add delete button column
         thiSinhActionColumn.setCellFactory(param -> new TableCell<>() {
@@ -179,14 +180,14 @@ public class DangKyDonViController {
     }
 
     private void setupThiSinhDangKyTable() {
-        sttColumn.setCellValueFactory(cellData -> {
-            int index = thiSinhDangKyTable.getItems().indexOf(cellData.getValue()) + 1;
+        sttColumn.setCellValueFactory(data -> {
+            int index = thiSinhDangKyTable.getItems().indexOf(data.getValue()) + 1;
             return new javafx.beans.property.SimpleObjectProperty<>(index);
         });
-        hoTenTSDKColumn.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
-        gioiTinhTSDKColumn.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
-        ngSinhTSDKColumn.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
-        cccdTSDKColumn.setCellValueFactory(new PropertyValueFactory<>("cccd"));
+        hoTenTSDKColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHoTen()));
+        gioiTinhTSDKColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getGioiTinh()));
+        ngSinhTSDKColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNgaySinh()));
+        cccdTSDKColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCccd()));
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
@@ -234,30 +235,30 @@ public class DangKyDonViController {
                 // Use existing organization
                 khachHang = selectedDonVi;
             } else {
-                // Create new organization
+                // Create a new organization
                 khachHang = new KhachHangDTO(
-                    null, // maKH will be generated by the database
-                    tenDonViField.getText().trim(),
-                    emailField.getText().trim(),
-                    maSoThueField.getText().trim(), // Using maSoThue as cccd
-                    sdtField.getText().trim(),
-                    diaChiField.getText().trim(),
-                    "Đơn vị" // loai_kh
+                        null, // maKH will be generated by the database
+                        tenDonViField.getText().trim(),
+                        emailField.getText().trim(),
+                        maSoThueField.getText().trim(), // Using maSoThue as cccd
+                        sdtField.getText().trim(),
+                        diaChiField.getText().trim(),
+                        "Đơn vị" // loai_kh
                 );
 
                 // Save the new organization
-                boolean success = khachHangBUS.createKhachHang(khachHang);
+                boolean success = khachHangBUS.taoKhachHang(khachHang);
                 if (!success) {
-                    showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tạo đơn vị", 
+                    showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tạo đơn vị",
                             "Có lỗi xảy ra khi tạo đơn vị. Vui lòng thử lại.");
                     return;
                 }
 
                 // Reload the organization to get the generated ID
-                List<KhachHangDTO> donViList = khachHangBUS.getKhachHangDonVi();
+                List<KhachHangDTO> donViList = khachHangBUS.layDSKhachHangDonVi();
                 for (KhachHangDTO dv : donViList) {
-                    if (dv.getHoTen().equals(khachHang.getHoTen()) && 
-                        dv.getCccd().equals(khachHang.getCccd())) {
+                    if (dv.getHoTen().equals(khachHang.getHoTen()) &&
+                            dv.getCccd().equals(khachHang.getCccd())) {
                         khachHang = dv;
                         break;
                     }
@@ -266,13 +267,13 @@ public class DangKyDonViController {
 
             // Create PhieuDangKyDTO
             PhieuDangKyDTO phieuDangKy = new PhieuDangKyDTO(
-                null, // maPhieuDangKy will be generated by the database
-                null, // hanNop - not used in this context
-                "Chờ xử lý", // trangThai
-                new Date(), // ngayLap - current date
-                diaChiField.getText().trim(), // diaChiGiao
-                khachHang.getMaKH(), // maKH
-                "NV001" // maNVTao - placeholder, in a real app this would come from the logged-in user
+                    null, // maPhieuDangKy will be generated by the database
+                    null, // hanNop - not used in this context
+                    "Chờ xử lý", // trangThai
+                    new Date(), // ngayLap - current date
+                    diaChiField.getText().trim(), // diaChiGiao
+                    khachHang.getMaKH(), // maKH
+                    "NV001" // maNVTao - placeholder, in a real app this would come from the logged-in user
             );
 
             // Save the registration form
@@ -283,15 +284,15 @@ public class DangKyDonViController {
                 thiSinhBUS.createThiSinh(thiSinh);
             }
 
-            showAlert(Alert.AlertType.INFORMATION, "Thành công", "Đăng ký thành công", 
-                    "Đơn vị " + khachHang.getHoTen() + " đã đăng ký thành công cho " + 
-                    thiSinhList.size() + " thí sinh.");
+            showAlert(Alert.AlertType.INFORMATION, "Thành công", "Đăng ký thành công",
+                    "Đơn vị " + khachHang.getHoTen() + " đã đăng ký thành công cho " +
+                            thiSinhList.size() + " thí sinh.");
 
             // Reset the form
             resetForm();
 
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể đăng ký", 
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể đăng ký",
                     "Có lỗi xảy ra khi đăng ký: " + e.getMessage());
         }
     }
@@ -352,7 +353,7 @@ public class DangKyDonViController {
         // Check if candidate already exists in the list
         for (ThiSinhDTO ts : thiSinhList) {
             if (ts.getCccd().equals(cccd)) {
-                showAlert(Alert.AlertType.ERROR, "Lỗi", "Thí sinh đã tồn tại", 
+                showAlert(Alert.AlertType.ERROR, "Lỗi", "Thí sinh đã tồn tại",
                         "Thí sinh với CCCD " + cccd + " đã được thêm vào danh sách.");
                 return;
             }
@@ -371,7 +372,7 @@ public class DangKyDonViController {
         candidateDobPicker.setValue(null);
         genderComboBox.setValue("Nam");
 
-        showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thêm thí sinh thành công", 
+        showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thêm thí sinh thành công",
                 "Thí sinh " + hoTen + " đã được thêm vào danh sách.");
     }
 
@@ -379,7 +380,7 @@ public class DangKyDonViController {
     private void handleChooseSchedule() {
         // In a real implementation, this would open a dialog to select an exam schedule
         // For now, we'll just show a dialog to inform the user that this functionality is not yet implemented
-        showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Chức năng chưa được triển khai", 
+        showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Chức năng chưa được triển khai",
                 "Chức năng chọn lịch thi chưa được triển khai trong phiên bản này.");
     }
 
@@ -394,14 +395,14 @@ public class DangKyDonViController {
 
     private boolean validateOrganizationInfo() {
         // Check if an organization is selected or new information is entered
-        if (selectedDonVi == null && 
-            (tenDonViField.getText().trim().isEmpty() || 
-             maSoThueField.getText().trim().isEmpty() || 
-             emailField.getText().trim().isEmpty() || 
-             sdtField.getText().trim().isEmpty() || 
-             diaChiField.getText().trim().isEmpty())) {
+        if (selectedDonVi == null &&
+                (tenDonViField.getText().trim().isEmpty() ||
+                        maSoThueField.getText().trim().isEmpty() ||
+                        emailField.getText().trim().isEmpty() ||
+                        sdtField.getText().trim().isEmpty() ||
+                        diaChiField.getText().trim().isEmpty())) {
 
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Thông tin không hợp lệ", 
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Thông tin không hợp lệ",
                     "Vui lòng chọn một đơn vị từ danh sách hoặc điền đầy đủ thông tin đơn vị mới.");
             return false;
         }
@@ -409,7 +410,7 @@ public class DangKyDonViController {
         // Validate email format if provided
         String email = emailField.getText().trim();
         if (!email.isEmpty() && !email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Email không hợp lệ", 
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Email không hợp lệ",
                     "Vui lòng nhập đúng định dạng email.");
             return false;
         }
@@ -417,7 +418,7 @@ public class DangKyDonViController {
         // Validate phone number format if provided
         String sdt = sdtField.getText().trim();
         if (!sdt.isEmpty() && !sdt.matches("^[0-9]{10,11}$")) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Số điện thoại không hợp lệ", 
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Số điện thoại không hợp lệ",
                     "Vui lòng nhập đúng định dạng số điện thoại (10-11 số).");
             return false;
         }
@@ -428,7 +429,7 @@ public class DangKyDonViController {
     private boolean validateCandidateInfo() {
         // Check if there are any candidates added
         if (thiSinhList.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Danh sách thí sinh trống", 
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Danh sách thí sinh trống",
                     "Vui lòng thêm ít nhất một thí sinh vào danh sách.");
             return false;
         }

@@ -17,26 +17,26 @@ public class KhachHangBUS {
         this.khachHangDAO = new KhachHangDAO();
     }
 
-    public List<KhachHangDTO> getAllKhachHang() {
+    public List<KhachHangDTO> layDSKhachHang() {
         return khachHangDAO.findAll();
     }
 
-    public List<KhachHangDTO> getKhachHangDonVi() {
+    public List<KhachHangDTO> layDSKhachHangDonVi() {
         return khachHangDAO.findByLoaiKh("Đơn vị");
     }
 
-    public List<KhachHangDTO> getKhachHangCaNhan() {
+    public List<KhachHangDTO> layDSKhachHangCaNhan() {
         return khachHangDAO.findByLoaiKh("Cá nhân");
     }
 
-    public KhachHangDTO getKhachHangById(String maKH) throws IllegalArgumentException {
+    public KhachHangDTO layKhachHang(String maKH) throws IllegalArgumentException {
         if (maKH == null || maKH.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã khách hàng không được để trống");
         }
         return khachHangDAO.findById(maKH);
     }
 
-    public boolean createKhachHang(KhachHangDTO khachHang) throws IllegalArgumentException {
+    public boolean taoKhachHang(KhachHangDTO khachHang) throws IllegalArgumentException {
         if (khachHang == null) {
             throw new IllegalArgumentException("Khách hàng không được để trống");
         }
