@@ -164,6 +164,7 @@ CREATE TABLE hoa_don (
     ngay_lap DATE DEFAULT CURRENT_DATE,
     nhan_vien_tao TEXT,
     ma_pdk TEXT,
+    ma_thanh_toan TEXT,
 
     FOREIGN KEY (nhan_vien_tao) REFERENCES nhan_vien(ma_nv) ON DELETE CASCADE,
     FOREIGN KEY (ma_pdk) REFERENCES phieu_dang_ky(ma_pdk) ON DELETE CASCADE

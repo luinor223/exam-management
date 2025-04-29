@@ -27,21 +27,21 @@ public class TNDangKyController {
             donViButton.setStyle("-fx-background-color: #f3f4f6; -fx-background-radius: 10px; -fx-text-fill: BLACK");
         }
         // Load the default form
-        loadForm("/com/hcmus/exammanagement/dangky_canhan.fxml");
+        loadForm("/com/hcmus/exammanagement/DangKy/dangky_canhan.fxml");
     }
 
     @FXML
     private void handleCaNhanButtonAction() {
         caNhanButton.setStyle("-fx-background-color: #71D9B6; -fx-background-radius: 10px; -fx-text-fill: WHITE");
         donViButton.setStyle("-fx-background-color: #f3f4f6; -fx-background-radius: 10px; -fx-text-fill: BLACK");
-        loadForm("/com/hcmus/exammanagement/dangky_canhan.fxml");
+        loadForm("/com/hcmus/exammanagement/DangKy/dangky_canhan.fxml");
     }
 
     @FXML
     private void handleDonViButtonAction() {
         donViButton.setStyle("-fx-background-color: #71D9B6; -fx-background-radius: 10px; -fx-text-fill: WHITE");
         caNhanButton.setStyle("-fx-background-color: #f3f4f6; -fx-background-radius: 10px; -fx-text-fill: BLACK");
-        loadForm("/com/hcmus/exammanagement/dangky_donvi.fxml");
+        loadForm("/com/hcmus/exammanagement/DangKy/dangky_donvi.fxml");
     }
 
     private void loadForm(String fxmlPath) {

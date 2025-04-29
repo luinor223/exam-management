@@ -259,8 +259,8 @@ public class DangKyDonViController {
                     "Chờ xử lý", // trangThai
                     new Date(), // ngayLap - current date
                     diaChiField.getText().trim(), // diaChiGiao
-                    khachHang.getMaKH(), // maKH
-                    "NV001" // maNVTao - placeholder
+                    khachHang, // maKH
+                    "NV000001" // maNVTao - placeholder
             );
 
             // Save the registration form

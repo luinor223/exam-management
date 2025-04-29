@@ -123,13 +123,13 @@ public class DashboardController {
 
     @FXML
     void TNDangKy(ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/nvtn_dangky.fxml"));
+        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/DangKy/nvtn_dangky.fxml"));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }
 
     void ThanhToan(ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/thanhtoan.fxml"));
+        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/thanhtoan.fxml"));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }

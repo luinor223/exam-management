@@ -40,13 +40,13 @@ public class PhieuDangKyBUS {
         }
 
         // Validate registration form data
-        if (phieuDangKy.getMaKH() == null || phieuDangKy.getMaKH().trim().isEmpty()) {
+        if (phieuDangKy.getKhachHang().getMaKH() == null || phieuDangKy.getKhachHang().getMaKH().trim().isEmpty()) {
             throw new IllegalArgumentException("Mã khách hàng trống");
         }
 
         // Check if the customer exists
-        if (khachHangDAO.findById(phieuDangKy.getMaKH()) == null) {
-            throw new IllegalArgumentException("Khách hàng không tồn tại: " + phieuDangKy.getMaKH());
+        if (khachHangDAO.findById(phieuDangKy.getKhachHang().getMaKH()) == null) {
+            throw new IllegalArgumentException("Khách hàng không tồn tại: " + phieuDangKy.getKhachHang().getMaKH());
         }
 
         if (phieuDangKy.getTrangThai() == null || phieuDangKy.getTrangThai().trim().isEmpty()) {

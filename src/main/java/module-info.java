@@ -10,6 +10,7 @@ module com.hcmus.exammanagement {
     requires com.zaxxer.hikari;
     requires static lombok;
     requires org.slf4j;
+    requires java.desktop;
 
     opens com.hcmus.exammanagement to javafx.fxml;
     exports com.hcmus.exammanagement;

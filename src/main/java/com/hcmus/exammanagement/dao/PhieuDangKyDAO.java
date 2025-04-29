@@ -13,7 +13,11 @@ import java.util.List;
 public class PhieuDangKyDAO {
     public List<PhieuDangKyDTO> findAll() throws SQLException {
         List<PhieuDangKyDTO> listPDK = new ArrayList<>();
-        String sql = "SELECT * FROM phieu_dang_ky";
+        String sql = """
+            SELECT pdk.*, kh.*
+            FROM phieu_dang_ky pdk
+            JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh
+        """;
 
         Connection conn = Database.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -26,7 +30,12 @@ public class PhieuDangKyDAO {
     }
 
     public PhieuDangKyDTO findById(String maPhieuDangKy) throws SQLException {
-        String sql = "SELECT * FROM phieu_dang_ky WHERE ma_pdk = ?";
+        String sql = """
+            SELECT pdk.*, kh.*
+            FROM phieu_dang_ky pdk
+            JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh
+            WHERE pdk.ma_pdk = ?
+        """;
 
         Connection conn = Database.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -46,7 +55,7 @@ public class PhieuDangKyDAO {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, phieuDangKy.getTrangThai());
         stmt.setString(2, phieuDangKy.getDiaChiGiao());
-        stmt.setString(3, phieuDangKy.getMaKH());
+        stmt.setString(3, phieuDangKy.getKhachHang().getMaKH());
         stmt.setString(4, phieuDangKy.getMaNVTao());
         stmt.executeUpdate();
     }

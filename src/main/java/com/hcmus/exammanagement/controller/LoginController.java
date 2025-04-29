@@ -43,7 +43,7 @@ public class LoginController {
 //        }
 
         loadDashboard("Tiep nhan");
-        Database.initialize("postgres", "sa");
+        Database.initialize("postgres", "123");
     }
 
     private boolean isValidCredentials(String username, String password) {

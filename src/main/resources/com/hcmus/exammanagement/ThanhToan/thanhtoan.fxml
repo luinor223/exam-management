@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="704.0" prefWidth="1066.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.ThanhToanController">
+   <children>
+      <AnchorPane layoutX="12.0" layoutY="28.0" prefHeight="305.0" prefWidth="1035.0" styleClass="light-white-box" stylesheets="@../style.css">
+         <children>
+            <Label layoutX="5.0" layoutY="6.0" style="-fx-font-weight: bold;" text="Danh sách phiếu đăng ký chờ thanh toán" />
+            <TextField fx:id="searchField" layoutX="15.0" layoutY="31.0" prefHeight="29.0" prefWidth="397.0" promptText="Search..." />
+            <TableView fx:id="DSPhieuDK" layoutX="14.0" layoutY="67.0" prefHeight="202.0" prefWidth="993.0" styleClass="custom-table-view" stylesheets="@../style.css">
+               <columns>
+                  <TableColumn fx:id="colMaPhieu2" prefWidth="124.0" text="Mã Phiếu" />
+                  <TableColumn fx:id="colTen" prefWidth="240.5" text="Tên KH" />
+                  <TableColumn fx:id="colLoaiKH" prefWidth="119.0" text="Loại KH" />
+                  <TableColumn fx:id="colNgayDangKy" prefWidth="228.5" text="Ngày Đăng Ký" />
+                  <TableColumn fx:id="colTrangThai" prefWidth="150.0" text="Trạng Thái" />
+                  <TableColumn fx:id="colAction" prefWidth="110.5" text="Thao tác" />
+               </columns>
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="1" />
+                     <String fx:value="1" />
+                     <String fx:value="1" />
+                     <String fx:value="1" />
+                     <String fx:value="1" />
+                     <String fx:value="1" />
+                     <String fx:value="1" />
+                     <String fx:value="1" />
+                     <String fx:value="1" />
+                  </FXCollections>
+               </items>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="13.0" layoutY="360.0" prefHeight="326.0" prefWidth="1035.0" styleClass="light-white-box" stylesheets="@../style.css">
+         <children>
+      
+                                    <Label layoutX="7.0" layoutY="6.0" style="-fx-font-weight: bold;" text="Lịch Sử Thanh Toán" />
+            <TableView fx:id="LichSuThanhToan" layoutX="8.0" layoutY="77.0" prefHeight="227.0" prefWidth="1002.0" styleClass="custom-table-view" stylesheets="@../style.css">
+               <columns>
+                  <TableColumn fx:id="colMaHoaDon" prefWidth="100.0" text="Mã Hóa Đơn" />
+                  <TableColumn fx:id="colMaPhieu" prefWidth="148.5" text="Mã Phiếu" />
+                  <TableColumn fx:id="colTenKH" prefWidth="180.5" text="Tên KH" />
+                  <TableColumn fx:id="colLoaiKH1" prefWidth="90.0" text="Loại KH" />
+                  <TableColumn fx:id="colPTTT" prefWidth="119.5" text="PTTT" />
+                  <TableColumn fx:id="colTongTien" prefWidth="135.0" text="Tổng Tiền" />
+                  <TableColumn fx:id="colGiamGia" minWidth="0.0" prefWidth="88.0" text="Giảm Giá" />
+                  <TableColumn fx:id="colAction1" prefWidth="134.5" text="Thao tác" />
+               </columns>
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="1" />
+                     <String fx:value="1" />
+                     <String fx:value="1" />
+                  </FXCollections>
+               </items>
+            </TableView>
+            <TextField fx:id="searchField1" layoutX="9.0" layoutY="34.0" prefHeight="29.0" prefWidth="413.0" promptText="Search..." />
+         </children>
+      </AnchorPane>
+
+   </children>
+</AnchorPane>

@@ -17,18 +17,19 @@ public class PhieuDangKyDTO {
     private String trangThai;
     private Date ngayLap;
     private String diaChiGiao;
-    private String maKH;
+    private KhachHangDTO khachHang;
     private String maNVTao;
 
     public static PhieuDangKyDTO fromResultSet(ResultSet rs) throws SQLException {
-        String maPhieuDangKy = rs.getString("ma_phieu_dang_ky");
+        String maPhieuDangKy = rs.getString("ma_pdk");
         Date hanNop = rs.getDate("han_nop");
         String trangThai = rs.getString("trang_thai");
         Date ngayLap = rs.getDate("ngay_lap");
         String diaChiGiao = rs.getString("dia_chi_giao");
-        String maKH = rs.getString("ma_kh");
-        String maNVTao = rs.getString("ma_nv_tao");
+        String maNVTao = rs.getString("nhan_vien_tao");
 
-        return new PhieuDangKyDTO(maPhieuDangKy, hanNop, trangThai, ngayLap, diaChiGiao, maKH, maNVTao);
+        KhachHangDTO khachHang = KhachHangDTO.fromResultSet(rs);
+
+        return new PhieuDangKyDTO(maPhieuDangKy, hanNop, trangThai, ngayLap, diaChiGiao, khachHang, maNVTao);
     }
 }
