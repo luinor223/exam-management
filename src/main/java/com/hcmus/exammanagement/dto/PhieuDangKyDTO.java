@@ -13,7 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class PhieuDangKyDTO {
     private String maPhieuDangKy;
-    private Date hanNop;
     private String trangThai;
     private Date ngayLap;
     private String diaChiGiao;
@@ -22,7 +21,6 @@ public class PhieuDangKyDTO {
 
     public static PhieuDangKyDTO fromResultSet(ResultSet rs) throws SQLException {
         String maPhieuDangKy = rs.getString("ma_pdk");
-        Date hanNop = rs.getDate("han_nop");
         String trangThai = rs.getString("trang_thai");
         Date ngayLap = rs.getDate("ngay_lap");
         String diaChiGiao = rs.getString("dia_chi_giao");
@@ -30,6 +28,6 @@ public class PhieuDangKyDTO {
 
         KhachHangDTO khachHang = KhachHangDTO.fromResultSet(rs);
 
-        return new PhieuDangKyDTO(maPhieuDangKy, hanNop, trangThai, ngayLap, diaChiGiao, khachHang, maNVTao);
+        return new PhieuDangKyDTO(maPhieuDangKy, trangThai, ngayLap, diaChiGiao, khachHang, maNVTao);
     }
 }
