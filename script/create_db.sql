@@ -107,19 +107,6 @@ CREATE TABLE chi_tiet_phieu_dk (
     FOREIGN KEY (ma_lt) REFERENCES lich_thi(ma_lt) ON DELETE CASCADE
 );
 
--- Bảng Chi Tiết Phòng Thi
-CREATE TABLE chi_tiet_phong_thi (
-    ma_ctpt TEXT PRIMARY KEY DEFAULT 'CTPT' || LPAD(nextval('seq_chi_tiet_phong_thi')::TEXT, 6, '0'),
-    ma_phong TEXT NOT NULL,
-    ma_lt TEXT NOT NULL,
-    so_luong_hien_tai INT,
-    so_luong_toi_da INT,
-
-    CHECK (so_luong_hien_tai <= chi_tiet_phong_thi.so_luong_toi_da),
-    FOREIGN KEY (ma_phong) REFERENCES phong(ma_phong) ON DELETE CASCADE,
-    FOREIGN KEY (ma_lt) REFERENCES lich_thi(ma_lt) ON DELETE CASCADE
-);
-
 -- Bảng Giám Thị
 CREATE TABLE giam_thi (
     ma_gt TEXT PRIMARY KEY DEFAULT 'GT' || LPAD(nextval('seq_giam_thi')::TEXT, 6, '0'),
@@ -128,14 +115,19 @@ CREATE TABLE giam_thi (
     email VARCHAR(50)
 );
 
--- Bảng Giám Sát Thi
-CREATE TABLE giam_sat_thi (
-    ma_lt TEXT,
-    ma_gt TEXT,
+-- Bảng Chi Tiết Phòng Thi
+CREATE TABLE chi_tiet_phong_thi (
+    ma_lt TEXT NOT NULL,
+    ma_phong TEXT NOT NULL,
+    ma_gt TEXT NOT NULL,
+    so_luong_hien_tai INT,
+    so_luong_toi_da INT,
 
-    PRIMARY KEY (ma_lt, ma_gt),
-    FOREIGN KEY (ma_lt) REFERENCES lich_thi(ma_lt),
-    FOREIGN KEY (ma_gt) REFERENCES giam_thi(ma_gt)
+    CHECK (so_luong_hien_tai <= chi_tiet_phong_thi.so_luong_toi_da),
+    PRIMARY KEY (ma_lt, ma_phong),
+    FOREIGN KEY (ma_phong) REFERENCES phong(ma_phong) ON DELETE CASCADE,
+    FOREIGN KEY (ma_lt) REFERENCES lich_thi(ma_lt) ON DELETE CASCADE,
+    FOREIGN KEY (ma_gt) REFERENCES giam_thi(ma_gt) ON DELETE CASCADE
 );
 
 -- Bảng Phiếu Dự Thi
