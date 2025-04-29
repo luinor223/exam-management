@@ -8,14 +8,12 @@ import com.hcmus.exammanagement.dto.KhachHangDTO;
 import com.hcmus.exammanagement.dto.PhieuDangKyDTO;
 import com.hcmus.exammanagement.dto.ThiSinhDTO;
 import com.jfoenix.controls.JFXComboBox;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
@@ -81,11 +79,6 @@ public class DangKyDonViController {
     @FXML private Label emailLabel;
     @FXML private Label sdtLabel;
     @FXML private Label diaChiLabel;
-    @FXML private Label maLichThiConfirmLabel;
-    @FXML private Label ngayGioThiConfirmLabel;
-    @FXML private Label thoiLuongConfirmLabel;
-    @FXML private Label soLuongTSConfirmLabel;
-    @FXML private Label chungChiConfirmLabel;
 
     // Confirmation table
     @FXML private TableView<ThiSinhDTO> thiSinhDangKyTable;
@@ -107,7 +100,7 @@ public class DangKyDonViController {
 
         progressContainer.getChildren().add(stepProgress);
 
-        genderComboBox.getItems().addAll("Nam", "Nữ");
+        genderComboBox.getItems().addAll("Nam", "Nữ", "Khác");
         genderComboBox.setValue("Nam");
 
         setupDonViTable();
@@ -199,9 +192,9 @@ public class DangKyDonViController {
     }
 
     @FXML
-    private void handleNextStep() {
+    private void btnQuayLai() {
         if (currentStep < totalSteps) {
-            if (validateCurrentStep()) {
+            if (kiemTraForm()) {
                 currentStep++;
                 stepProgress.setCurrentStep(currentStep);
                 updateContentVisibility();
@@ -212,12 +205,12 @@ public class DangKyDonViController {
                 }
             }
         } else {
-            handleRegister();
+            btnDangKyThi();
         }
     }
 
     @FXML
-    private void handlePrevStep() {
+    private void btnTiepTheo() {
         if (currentStep > 1) {
             currentStep--;
             stepProgress.setCurrentStep(currentStep);
@@ -227,7 +220,7 @@ public class DangKyDonViController {
     }
 
     @FXML
-    private void handleRegister() {
+    private void btnDangKyThi() {
         try {
             // Create or use existing KhachHangDTO
             KhachHangDTO khachHang;
@@ -247,18 +240,12 @@ public class DangKyDonViController {
                 );
 
                 // Save the new organization
-                boolean success = khachHangBUS.taoKhachHang(khachHang);
-                if (!success) {
-                    showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tạo đơn vị",
-                            "Có lỗi xảy ra khi tạo đơn vị. Vui lòng thử lại.");
-                    return;
-                }
+                khachHangBUS.taoKhachHang(khachHang);
 
                 // Reload the organization to get the generated ID
                 List<KhachHangDTO> donViList = khachHangBUS.layDSKhachHangDonVi();
                 for (KhachHangDTO dv : donViList) {
-                    if (dv.getHoTen().equals(khachHang.getHoTen()) &&
-                            dv.getCccd().equals(khachHang.getCccd())) {
+                    if (dv.getCccd().equals(khachHang.getCccd())) {
                         khachHang = dv;
                         break;
                     }
@@ -273,7 +260,7 @@ public class DangKyDonViController {
                     new Date(), // ngayLap - current date
                     diaChiField.getText().trim(), // diaChiGiao
                     khachHang.getMaKH(), // maKH
-                    "NV001" // maNVTao - placeholder, in a real app this would come from the logged-in user
+                    "NV001" // maNVTao - placeholder
             );
 
             // Save the registration form
@@ -323,7 +310,7 @@ public class DangKyDonViController {
     }
 
     @FXML
-    private void handleAddCandidate() {
+    private void btnThemThiSinh() {
         // Validate candidate information
         String hoTen = candidateNameField.getText().trim();
         String cccd = candidateIdField.getText().trim();
@@ -350,7 +337,7 @@ public class DangKyDonViController {
             return;
         }
 
-        // Check if candidate already exists in the list
+        // Check if the candidate already exists in the list
         for (ThiSinhDTO ts : thiSinhList) {
             if (ts.getCccd().equals(cccd)) {
                 showAlert(Alert.AlertType.ERROR, "Lỗi", "Thí sinh đã tồn tại",
@@ -376,24 +363,15 @@ public class DangKyDonViController {
                 "Thí sinh " + hoTen + " đã được thêm vào danh sách.");
     }
 
-    @FXML
-    private void handleChooseSchedule() {
-        // In a real implementation, this would open a dialog to select an exam schedule
-        // For now, we'll just show a dialog to inform the user that this functionality is not yet implemented
-        showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Chức năng chưa được triển khai",
-                "Chức năng chọn lịch thi chưa được triển khai trong phiên bản này.");
-    }
-
-    private boolean validateCurrentStep() {
+    private boolean kiemTraForm() {
         return switch (currentStep) {
-            case 1 -> validateOrganizationInfo();
-            case 2 -> validateCandidateInfo();
-            case 3 -> validateExamSchedule();
+            case 1 -> kiemTraThongTinDonVi();
+            case 2 -> kiemTraThongTinThiSinh();
             default -> true;
         };
     }
 
-    private boolean validateOrganizationInfo() {
+    private boolean kiemTraThongTinDonVi() {
         // Check if an organization is selected or new information is entered
         if (selectedDonVi == null &&
                 (tenDonViField.getText().trim().isEmpty() ||
@@ -409,7 +387,7 @@ public class DangKyDonViController {
 
         // Validate email format if provided
         String email = emailField.getText().trim();
-        if (!email.isEmpty() && !email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        if (!email.isEmpty() && !email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Email không hợp lệ",
                     "Vui lòng nhập đúng định dạng email.");
             return false;
@@ -426,19 +404,13 @@ public class DangKyDonViController {
         return true;
     }
 
-    private boolean validateCandidateInfo() {
+    private boolean kiemTraThongTinThiSinh() {
         // Check if there are any candidates added
         if (thiSinhList.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Danh sách thí sinh trống",
                     "Vui lòng thêm ít nhất một thí sinh vào danh sách.");
             return false;
         }
-        return true;
-    }
-
-    private boolean validateExamSchedule() {
-        // In a real implementation, we would validate that an exam schedule has been selected
-        // For now, we'll just return true since we're using placeholder values
         return true;
     }
 
@@ -480,14 +452,6 @@ public class DangKyDonViController {
         // Calculate total cost (assuming 500,000 VND per candidate)
         long totalCost = totalCandidates * 500000L;
         tongTienLabel.setText(String.format("%,d đ", totalCost));
-
-        // For now, we'll use placeholder values for exam schedule information
-        // In a real implementation, this would come from the selected exam schedule
-        maLichThiConfirmLabel.setText("LT001");
-        ngayGioThiConfirmLabel.setText("01/01/2024 08:00");
-        thoiLuongConfirmLabel.setText("120 phút");
-        soLuongTSConfirmLabel.setText(String.valueOf(totalCandidates));
-        chungChiConfirmLabel.setText("TOEIC");
     }
 
     private void updateButtonVisibility() {

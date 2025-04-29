@@ -2,15 +2,14 @@ package com.hcmus.exammanagement.bus;
 
 import com.hcmus.exammanagement.dao.ThiSinhDAO;
 import com.hcmus.exammanagement.dto.ThiSinhDTO;
-import lombok.extern.slf4j.Slf4j;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Business logic class for ThiSinh (Candidate) operations
  */
-@Slf4j
 public class ThiSinhBUS {
     private final ThiSinhDAO thiSinhDAO;
 
@@ -18,25 +17,25 @@ public class ThiSinhBUS {
         this.thiSinhDAO = new ThiSinhDAO();
     }
 
-    public List<ThiSinhDTO> layDSThiSinh() {
+    public List<ThiSinhDTO> layDSThiSinh() throws SQLException {
         return thiSinhDAO.findAll();
     }
 
-    public ThiSinhDTO layThiSinh(String maThiSinh) throws IllegalArgumentException {
+    public ThiSinhDTO layThiSinh(String maThiSinh) throws IllegalArgumentException, SQLException {
         if (maThiSinh == null || maThiSinh.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã thí sinh không được để trống");
         }
         return thiSinhDAO.findById(maThiSinh);
     }
 
-    public List<ThiSinhDTO> layThiSinhByPhieuDangKy(String maPhieuDangKy) throws IllegalArgumentException {
+    public List<ThiSinhDTO> layThiSinhByPhieuDangKy(String maPhieuDangKy) throws IllegalArgumentException, SQLException {
         if (maPhieuDangKy == null || maPhieuDangKy.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã phiếu đăng ký không được để trống");
         }
         return thiSinhDAO.findByPhieuDangKy(maPhieuDangKy);
     }
 
-    public boolean createThiSinh(ThiSinhDTO thiSinh) throws IllegalArgumentException {
+    public void createThiSinh(ThiSinhDTO thiSinh) throws IllegalArgumentException, SQLException {
         if (thiSinh == null) {
             throw new IllegalArgumentException("Thí sinh không được để trống");
         }
@@ -59,10 +58,10 @@ public class ThiSinhBUS {
             throw new IllegalArgumentException("Ngày sinh của thí sinh không thể là ngày trong tương lai");
         }
 
-        return thiSinhDAO.insert(thiSinh);
+        thiSinhDAO.insert(thiSinh);
     }
 
-    public boolean updateThiSinh(ThiSinhDTO thiSinh) throws IllegalArgumentException {
+    public boolean updateThiSinh(ThiSinhDTO thiSinh) throws IllegalArgumentException, SQLException {
         if (thiSinh == null) {
             throw new IllegalArgumentException("Thí sinh không được để trống");
         }
@@ -95,10 +94,10 @@ public class ThiSinhBUS {
             throw new IllegalArgumentException("Ngày sinh của thí sinh không thể là ngày trong tương lai");
         }
 
-        return thiSinhDAO.update(thiSinh);
+        return thiSinhDAO.update(thiSinh) > 0;
     }
 
-    public boolean deleteThiSinh(String maThiSinh) throws IllegalArgumentException {
+    public boolean deleteThiSinh(String maThiSinh) throws IllegalArgumentException, SQLException {
         if (maThiSinh == null || maThiSinh.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã thí sinh không được để trống");
         }
@@ -108,7 +107,6 @@ public class ThiSinhBUS {
         if (existingThiSinh == null) {
             throw new IllegalArgumentException("Thí sinh với mã " + maThiSinh + " không tồn tại");
         }
-
-        return thiSinhDAO.delete(maThiSinh);
+        return thiSinhDAO.delete(maThiSinh) > 0;
     }
 }

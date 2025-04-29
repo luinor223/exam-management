@@ -2,14 +2,13 @@ package com.hcmus.exammanagement.bus;
 
 import com.hcmus.exammanagement.dao.KhachHangDAO;
 import com.hcmus.exammanagement.dto.KhachHangDTO;
-import lombok.extern.slf4j.Slf4j;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
  * Business logic class for KhachHang (Customer) operations
  */
-@Slf4j
 public class KhachHangBUS {
     private final KhachHangDAO khachHangDAO;
 
@@ -17,26 +16,26 @@ public class KhachHangBUS {
         this.khachHangDAO = new KhachHangDAO();
     }
 
-    public List<KhachHangDTO> layDSKhachHang() {
+    public List<KhachHangDTO> layDSKhachHang() throws SQLException {
         return khachHangDAO.findAll();
     }
 
-    public List<KhachHangDTO> layDSKhachHangDonVi() {
+    public List<KhachHangDTO> layDSKhachHangDonVi() throws SQLException {
         return khachHangDAO.findByLoaiKh("Đơn vị");
     }
 
-    public List<KhachHangDTO> layDSKhachHangCaNhan() {
+    public List<KhachHangDTO> layDSKhachHangCaNhan() throws SQLException {
         return khachHangDAO.findByLoaiKh("Cá nhân");
     }
 
-    public KhachHangDTO layKhachHang(String maKH) throws IllegalArgumentException {
+    public KhachHangDTO layKhachHang(String maKH) throws IllegalArgumentException, SQLException {
         if (maKH == null || maKH.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã khách hàng không được để trống");
         }
         return khachHangDAO.findById(maKH);
     }
 
-    public boolean taoKhachHang(KhachHangDTO khachHang) throws IllegalArgumentException {
+    public void taoKhachHang(KhachHangDTO khachHang) throws IllegalArgumentException, SQLException {
         if (khachHang == null) {
             throw new IllegalArgumentException("Khách hàng không được để trống");
         }
@@ -46,12 +45,6 @@ public class KhachHangBUS {
             throw new IllegalArgumentException("Tên khách hàng không được để trống");
         }
 
-        try {
-            khachHangDAO.insert(khachHang);
-            return true;
-        } catch (Exception e) {
-            log.error("Error creating customer: {}", e.getMessage());
-            return false;
-        }
+        khachHangDAO.insert(khachHang);
     }
 }

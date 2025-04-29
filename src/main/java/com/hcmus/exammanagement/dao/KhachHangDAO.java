@@ -2,7 +2,6 @@ package com.hcmus.exammanagement.dao;
 
 import com.hcmus.exammanagement.dto.Database;
 import com.hcmus.exammanagement.dto.KhachHangDTO;
-import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,9 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 public class KhachHangDAO {
-    public List<KhachHangDTO> findAll() {
+    public List<KhachHangDTO> findAll() throws SQLException {
         List<KhachHangDTO> khList = new ArrayList<>();
         String sql = "SELECT * FROM khach_hang";
 
@@ -23,14 +21,12 @@ public class KhachHangDAO {
             while (rs.next()) {
                 khList.add(KhachHangDTO.fromResultSet(rs));
             }
-        } catch (SQLException e) {
-            log.error(e.getMessage());
         }
 
         return khList;
     }
 
-    public List<KhachHangDTO> findByLoaiKh(String loaiKh) {
+    public List<KhachHangDTO> findByLoaiKh(String loaiKh) throws SQLException {
         List<KhachHangDTO> khList = new ArrayList<>();
         String sql = "SELECT * FROM khach_hang WHERE loai_kh = ?";
 
@@ -39,19 +35,14 @@ public class KhachHangDAO {
             stmt.setString(1, loaiKh);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getString("loai_kh"));
                 khList.add(KhachHangDTO.fromResultSet(rs));
             }
-        } catch (SQLException e) {
-            log.error(e.getMessage());
         }
 
-        System.out.println(sql + loaiKh);
-        System.out.println(khList);
         return khList;
     }
 
-    public KhachHangDTO findById(String maKH) {
+    public KhachHangDTO findById(String maKH) throws SQLException {
         String sql = "SELECT * FROM khach_hang WHERE ma_kh = ?";
 
         try (Connection conn = Database.getConnection();
@@ -61,14 +52,12 @@ public class KhachHangDAO {
             if (rs.next()) {
                 return KhachHangDTO.fromResultSet(rs);
             }
-        } catch (SQLException e) {
-            log.error(e.getMessage());
         }
 
         return null;
     }
 
-    public void insert(KhachHangDTO khachHang) {
+    public void insert(KhachHangDTO khachHang) throws SQLException {
         String sql = "INSERT INTO khach_hang (ho_ten, cccd, email, sdt, dia_chi, loai_kh) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Database.getConnection();
@@ -81,8 +70,6 @@ public class KhachHangDAO {
             stmt.setString(6, khachHang.getLoai_kh());
 
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            log.error(e.getMessage());
         }
     }
 }

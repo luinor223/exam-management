@@ -3,15 +3,13 @@ package com.hcmus.exammanagement.bus;
 import com.hcmus.exammanagement.dao.KhachHangDAO;
 import com.hcmus.exammanagement.dao.PhieuDangKyDAO;
 import com.hcmus.exammanagement.dto.PhieuDangKyDTO;
-import lombok.extern.slf4j.Slf4j;
 
-import java.util.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
  * Business logic class for PhieuDangKy (Registration Form) operations
  */
-@Slf4j
 public class PhieuDangKyBUS {
     private final PhieuDangKyDAO phieuDangKyDAO;
     private final KhachHangDAO khachHangDAO;
@@ -21,18 +19,22 @@ public class PhieuDangKyBUS {
         this.khachHangDAO = new KhachHangDAO();
     }
 
-    public List<PhieuDangKyDTO> layDSPhieuDangKy() {
-        return phieuDangKyDAO.findAll();
+    public List<PhieuDangKyDTO> layDSPhieuDangKy() throws Exception {
+        try {
+            return phieuDangKyDAO.findAll();
+        } catch (SQLException e) {
+            throw new Exception("Lỗi khi lấy danh sách phiếu đăng ký: " + e.getMessage());
+        }
     }
 
-    public PhieuDangKyDTO layPhieuDangKy(String maPhieuDangKy) throws IllegalArgumentException {
+    public PhieuDangKyDTO layPhieuDangKy(String maPhieuDangKy) throws IllegalArgumentException, SQLException {
         if (maPhieuDangKy == null || maPhieuDangKy.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã phiếu đăng ký không được để trống");
         }
         return phieuDangKyDAO.findById(maPhieuDangKy);
     }
 
-    public void taoPhieuDangKy(PhieuDangKyDTO phieuDangKy) throws IllegalArgumentException {
+    public void taoPhieuDangKy(PhieuDangKyDTO phieuDangKy) throws IllegalArgumentException, SQLException {
         if (phieuDangKy == null) {
             throw new IllegalArgumentException("Phiếu đăng ký không được để trống");
         }
@@ -41,20 +43,16 @@ public class PhieuDangKyBUS {
         if (phieuDangKy.getMaKH() == null || phieuDangKy.getMaKH().trim().isEmpty()) {
             throw new IllegalArgumentException("Mã khách hàng trống");
         }
-        
+
         // Check if the customer exists
         if (khachHangDAO.findById(phieuDangKy.getMaKH()) == null) {
             throw new IllegalArgumentException("Khách hàng không tồn tại: " + phieuDangKy.getMaKH());
         }
-        
+
         if (phieuDangKy.getTrangThai() == null || phieuDangKy.getTrangThai().trim().isEmpty()) {
             phieuDangKy.setTrangThai("Chờ xử lý");
         }
-        
-        try {
-            phieuDangKyDAO.insert(phieuDangKy);
-        } catch (Exception e) {
-            log.error("Error creating registration form: {}", e.getMessage());
-        }
+
+        phieuDangKyDAO.insert(phieuDangKy);
     }
 }

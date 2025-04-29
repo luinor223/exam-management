@@ -14,7 +14,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.DangKyDonViController">
     <VBox fx:id="progressContainer" alignment="CENTER" layoutX="47.0" layoutY="14.0" prefHeight="80.0" prefWidth="996.0" />
-    <AnchorPane fx:id="organizationSection" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0" style="-fx-background-color: white;">
+    <AnchorPane fx:id="organizationSection" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0" style="-fx-background-color: white;" visible="false">
         <Label layoutX="14.0" layoutY="14.0" text="Thông tin khách hàng">
             <font>
                 <Font name="System Bold" size="16.0" />
@@ -57,7 +57,7 @@
         <DatePicker fx:id="candidateDobPicker" layoutX="14.0" layoutY="214.0" prefHeight="40.0" prefWidth="380.0" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-background-radius: 8px;" />
         <Label layoutX="14.0" layoutY="264.0" text="Giới tính" />
         <JFXComboBox fx:id="genderComboBox" layoutX="14.0" layoutY="284.0" prefHeight="40.0" prefWidth="380.0" promptText="Giới tính" visibleRowCount="3" />
-        <Button layoutX="128.0" layoutY="368.0" mnemonicParsing="false" onAction="#handleAddCandidate" prefHeight="32.0" prefWidth="117.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Thêm thí sinh" textFill="WHITE" />
+        <Button layoutX="128.0" layoutY="368.0" mnemonicParsing="false" onAction="#btnThemThiSinh" prefHeight="32.0" prefWidth="117.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Thêm thí sinh" textFill="WHITE" />
         <TableView fx:id="thiSinhTable" layoutX="465.0" layoutY="77.0" prefHeight="323.0" prefWidth="590.0" styleClass="custom-table-view">
             <columns>
                 <TableColumn fx:id="tenTSColumn" prefWidth="124.79998779296875" text="Họ tên" />
@@ -72,7 +72,7 @@
         </TableView>
         <Label layoutX="465.0" layoutY="46.0" text="Danh sách thí sinh đã thêm" />
     </AnchorPane>
-    <ScrollPane fx:id="confirmationSection" hbarPolicy="NEVER" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0" visible="false">
+    <ScrollPane fx:id="confirmationSection" hbarPolicy="NEVER" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0">
         <AnchorPane prefHeight="720.0" prefWidth="1070.0" style="-fx-background-color: white;">
             <Label layoutX="14.0" layoutY="14.0" text="Xác nhận đăng ký">
                 <font>
@@ -91,17 +91,6 @@
                 <Label fx:id="sdtLabel" layoutX="120.0" layoutY="130.0" text="--" />
                 <Label layoutX="10.0" layoutY="160.0" text="Địa chỉ:" />
                 <Label fx:id="diaChiLabel" layoutX="120.0" layoutY="160.0" text="--" />
-            <Label layoutX="546.0" layoutY="40.0" text="Mã lịch thi:" />
-            <Label fx:id="maLichThiConfirmLabel" layoutX="646.0" layoutY="40.0" text="--" />
-            <Label layoutX="546.0" layoutY="70.0" text="Ngày giờ thi:" />
-            <Label fx:id="ngayGioThiConfirmLabel" layoutX="646.0" layoutY="70.0" text="--" />
-            <Label layoutX="546.0" layoutY="100.0" text="Thời lượng thi:" />
-            <Label fx:id="thoiLuongConfirmLabel" layoutX="646.0" layoutY="100.0" text="--" />
-            <Label layoutX="546.0" layoutY="130.0" text="Số lượng thí sinh:" />
-            <Label fx:id="soLuongTSConfirmLabel" layoutX="646.0" layoutY="130.0" text="--" />
-            <Label layoutX="546.0" layoutY="160.0" text="Chứng chỉ:" />
-            <Label fx:id="chungChiConfirmLabel" layoutX="646.0" layoutY="160.0" text="--" />
-            <Label layoutX="546.0" layoutY="10.0" style="-fx-font-weight: bold" text="Thông tin lịch thi" />
             </AnchorPane>
             <Label layoutX="14.0" layoutY="244.0" style="-fx-font-weight: bold" text="Danh sách thí sinh đăng ký" />
             <TableView fx:id="thiSinhDangKyTable" layoutX="14.0" layoutY="274.0" prefHeight="250.0" prefWidth="1026.0" styleClass="custom-table-view">
@@ -125,9 +114,9 @@
             </AnchorPane>
         </AnchorPane>
     </ScrollPane>
-    <Button fx:id="nextButton" layoutX="996.0" layoutY="625.0" mnemonicParsing="false" onAction="#handleNextStep" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Tiếp theo" textFill="WHITE" />
-    <Button fx:id="prevButton" layoutX="14.0" layoutY="625.0" mnemonicParsing="false" onAction="#handlePrevStep" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #18c27b; -fx-border-radius: 10; -fx-text-fill: #18c27b;" text="Quay lại" />
-    <Button layoutX="45.0" layoutY="1406.0" mnemonicParsing="false" onAction="#handleRegister" prefHeight="50.0" prefWidth="966.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Đăng ký thi" textFill="WHITE" visible="false">
+    <Button fx:id="nextButton" layoutX="996.0" layoutY="625.0" mnemonicParsing="false" onAction="#btnQuayLai" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Tiếp theo" textFill="WHITE" />
+    <Button fx:id="prevButton" layoutX="14.0" layoutY="625.0" mnemonicParsing="false" onAction="#btnTiepTheo" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #18c27b; -fx-border-radius: 10; -fx-text-fill: #18c27b;" text="Quay lại" />
+    <Button layoutX="45.0" layoutY="1406.0" mnemonicParsing="false" onAction="#btnDangKyThi" prefHeight="50.0" prefWidth="966.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Đăng ký thi" textFill="WHITE" visible="false">
         <font>
           <Font name="System Bold" size="18.0" />
         </font>
