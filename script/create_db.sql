@@ -145,7 +145,6 @@ CREATE TABLE phieu_du_thi (
 CREATE TABLE ket_qua (
     ma_lt TEXT,
     sbd CHAR(6),
-    ngay_gio_thi DATE,
     diem INT,
     xep_loai VARCHAR(20),
     nhan_xet TEXT,
