@@ -15,15 +15,15 @@ public class ChungChiDTO {
     private String tenChungChi;
     private Integer thoiGianHieuLuc;
     private String moTa;
-    private String loaiChungChi;
+    private Double lePhi;
 
     public static ChungChiDTO fromResultSet(ResultSet rs) throws SQLException {
         String maChungChi = rs.getString("ma_cchi");
         String tenChungChi = rs.getString("ten_chung_chi");
         Integer thoiGianHieuLuc = rs.getInt("thoi_gian_hieu_luc");
         String moTa = rs.getString("mo_ta");
-        String loaiChungChi = rs.getString("loai_chung_chi");
+        Double lePhi = rs.getDouble("le_phi");
 
-        return new ChungChiDTO(maChungChi, tenChungChi, thoiGianHieuLuc, moTa, loaiChungChi);
+        return new ChungChiDTO(maChungChi, tenChungChi, thoiGianHieuLuc, moTa, lePhi);
     }
 }

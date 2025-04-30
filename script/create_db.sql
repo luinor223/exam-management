@@ -89,7 +89,6 @@ CREATE TABLE lich_thi (
     ma_lt TEXT PRIMARY KEY DEFAULT 'LT' || LPAD(nextval('seq_lich_thi')::TEXT, 6, '0'),
     ngay_gio_thi TIMESTAMP,
     thoi_luong_thi INT, --phút
-    so_luong_thi_sinh INT,
     ma_cchi TEXT NOT NULL,
     FOREIGN KEY (ma_cchi) REFERENCES chung_chi(ma_cchi) ON DELETE CASCADE
 );
