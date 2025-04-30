@@ -42,8 +42,8 @@ public class LoginController {
 //            loginMessage.setText("Invalid username or password.");
 //        }
 
-        loadDashboard("Tiep nhan");
-        Database.initialize("postgres", "sa");
+        loadDashboard("Ke toan");
+        Database.initialize("postgres", "tqp912");
     }
 
     private boolean isValidCredentials(String username, String password) {

@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DashboardController {
     @FXML
@@ -40,20 +41,16 @@ public class DashboardController {
                 sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
                 break;
             case "Ke toan":
-                sidebarButtons.add(createButton("Inbox", "#Inbox"));
-                sidebarButtons.add(createButton("Someday", "#Someday"));
+                sidebarButtons.add(createButton("Lập phiếu gia hạn", "#LapPhieuGiaHan"));
                 break;
             case "Nhap lieu":
                 sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
-                sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Khao thi":
                 sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
-                sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Quan tri":
                 sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
-                sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
         }
         sidebarContainer.getChildren().addAll(sidebarButtons);
@@ -84,17 +81,11 @@ public class DashboardController {
             case "#TNDangKy":
                 TNDangKy(new ActionEvent());
                 break;
-            case "#Important":
-                Important(new ActionEvent());
-                break;
-            case "#Inbox":
-                Inbox(new ActionEvent());
-                break;
-            case "#Someday":
-                Someday(new ActionEvent());
-                break;
             case "#ThanhToan":
                 ThanhToan(new ActionEvent());
+                break;
+            case "#LapPhieuGiaHan":
+                LapPhieuGiaHan(new ActionEvent());
                 break;
             // Add more cases for other actions
         }
@@ -107,29 +98,22 @@ public class DashboardController {
     }
 
     @FXML
-    void Important(ActionEvent event) {
-        // Implementation
-    }
-
-    @FXML
-    void Inbox(ActionEvent event) {
-        // Implementation
-    }
-
-    @FXML
-    void Someday(ActionEvent event) {
-        // Implementation
-    }
-
-    @FXML
     void TNDangKy(ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/DangKy/nvtn_dangky.fxml"));
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/DangKy/nvtn_dangky.fxml")));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }
 
+    @FXML
     void ThanhToan(ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/thanhtoan.fxml"));
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/thanhtoan.fxml")));
+        contentArea.getChildren().clear();
+        contentArea.getChildren().add(fxml);
+    }
+
+    @FXML
+    void LapPhieuGiaHan(ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/LapPhieuGiaHan/lap-phieu-gia-han.fxml")));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }
