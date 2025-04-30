@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="289.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.LichThiDialogController">
+    <Label layoutX="14.0" layoutY="14.0" text="Thông tin lịch thi">
+        <font>
+            <Font name="System Bold" size="14.0" />
+        </font>
+    </Label>
+
+    <Label layoutX="14.0" layoutY="50.0" text="Ngày giờ thi" />
+    <DatePicker fx:id="ngayThiPicker" layoutX="14.0" layoutY="70.0" prefHeight="30.0" prefWidth="230.0" style="-fx-background-color: white; -fx-border-color: #dadada;" />
+    <TextField fx:id="gioThiField" layoutX="254.0" layoutY="70.0" prefHeight="30.0" prefWidth="100.0" promptText="Giờ (HH:mm)" style="-fx-background-color: white; -fx-border-color: #dadada;" />
+
+    <Label layoutX="14.0" layoutY="110.0" text="Thời lượng thi (phút)" />
+    <TextField fx:id="thoiLuongThiField" layoutX="14.0" layoutY="130.0" prefHeight="30.0" prefWidth="340.0" style="-fx-background-color: white; -fx-border-color: #dadada;" />
+
+    <Label layoutX="14.0" layoutY="170.0" text="Chứng chỉ" />
+    <ComboBox fx:id="chungChiComboBox" layoutX="14.0" layoutY="190.0" prefHeight="30.0" prefWidth="340.0" style="-fx-background-color: white; -fx-border-color: #dadada;" />
+     <Button fx:id="btnHuy" layoutX="282.0" layoutY="237.0" mnemonicParsing="false" onAction="#btnHuy" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: white; -fx-border-color: #18c27b; -fx-border-radius: 5;" text="Hủy" textFill="#18c27b" />
+     <Button fx:id="btnThem" layoutX="199.0" layoutY="237.0" mnemonicParsing="false" onAction="#btnThem" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #18c27b; -fx-background-radius: 5;" text="Thêm" textFill="WHITE" />
+</AnchorPane>

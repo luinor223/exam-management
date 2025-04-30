@@ -16,5 +16,5 @@ module com.hcmus.exammanagement {
     exports com.hcmus.exammanagement;
     exports com.hcmus.exammanagement.controller;
     opens com.hcmus.exammanagement.controller to javafx.fxml;
-
+    exports com.hcmus.exammanagement.dto to javafx.base;
 }

@@ -21,7 +21,7 @@ public class DashboardController {
     @FXML
     private StackPane contentArea;
 
-    private List<JFXButton> sidebarButtons = new ArrayList<>();
+    private final List<JFXButton> sidebarButtons = new ArrayList<>();
 
     @FXML
     void initialize() {
@@ -48,6 +48,7 @@ public class DashboardController {
                 break;
             case "Khao thi":
                 sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
+                sidebarButtons.add(createButton("Quản lý lịch thi", "#QLLichThi"));
                 break;
             case "Quan tri":
                 sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
@@ -90,7 +91,9 @@ public class DashboardController {
             case "#LapPhieuGiaHan":
                 LapPhieuGiaHan(new ActionEvent());
                 break;
-            // Add more cases for other actions
+            case "#QLLichThi":
+                QLLichThi(new ActionEvent());
+                break;
         }
     }
 
@@ -102,7 +105,7 @@ public class DashboardController {
 
     @FXML
     void TNDangKy(ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/DangKy/nvtn_dangky.fxml")));
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/DangKy/dangky.fxml")));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }
@@ -129,6 +132,13 @@ public class DashboardController {
     @FXML
     void NhapKetQua(ActionEvent event) throws IOException {
         Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/CapChungChi/nhap-ket-qua.fxml")));
+        contentArea.getChildren().clear();
+        contentArea.getChildren().add(fxml);
+    }
+
+    @FXML
+    void QLLichThi(ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/DangKy/quan-ly-lich-thi.fxml")));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }

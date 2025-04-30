@@ -22,9 +22,14 @@ public class LichThiDTO {
         Timestamp ngayGioThi = rs.getTimestamp("ngay_gio_thi");
         Integer thoiLuongThi = rs.getInt("thoi_luong_thi");
         ChungChiDTO chungChi = ChungChiDTO.fromResultSet(rs);
-        Integer soLuongHienTai = rs.getInt("so_luong_hien_tai");
-        Integer soLuongToiDa = rs.getInt("so_luong_toi_da");
 
-        return new LichThiDTO(maLichThi, ngayGioThi, thoiLuongThi, chungChi, soLuongHienTai, soLuongToiDa);
+        try {
+            Integer soLuongHienTai = rs.getInt("so_luong_hien_tai");
+            Integer soLuongToiDa = rs.getInt("so_luong_toi_da");
+
+            return new LichThiDTO(maLichThi, ngayGioThi, thoiLuongThi, chungChi, soLuongHienTai, soLuongToiDa);
+        } catch (Exception e) {
+            return new LichThiDTO(maLichThi, ngayGioThi, thoiLuongThi, chungChi, 0, 0);
+        }
     }
 }

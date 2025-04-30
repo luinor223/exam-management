@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.QuanLyLichThiController">
+    <Label layoutX="14.0" layoutY="14.0" text="Quản lý lịch thi">
+        <font>
+            <Font name="System Bold" size="18.0" />
+        </font>
+    </Label>
+
+    <!-- Lịch thi section -->
+    <AnchorPane layoutX="14.0" layoutY="50.0" prefHeight="300.0" prefWidth="1060.0" style="-fx-background-color: white; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;">
+        <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" spacing="20.0">
+            <Label text="Danh sách lịch thi">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+            <Button fx:id="btnThemLichThi" mnemonicParsing="false" onAction="#handleShowThemLichThi" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #18c27b; -fx-background-radius: 5;" text="Thêm mới" textFill="WHITE" />
+        </HBox>
+        <TableView fx:id="lichThiTable" layoutX="14.0" layoutY="50.0" prefHeight="230.0" prefWidth="1030.0" styleClass="custom-table-view">
+            <columns>
+                <TableColumn fx:id="maLichThiColumn" prefWidth="100.0" text="Mã lịch thi" />
+                <TableColumn fx:id="ngayGioThiColumn" prefWidth="150.0" text="Ngày giờ thi" />
+                <TableColumn fx:id="thoiLuongThiColumn" prefWidth="120.0" text="Thời lượng (phút)" />
+                <TableColumn fx:id="chungChiColumn" prefWidth="150.0" text="Chứng chỉ" />
+                <TableColumn fx:id="soLuongHienTaiColumn" prefWidth="150.0" text="Số lượng hiện tại" />
+                <TableColumn fx:id="soLuongToiDaColumn" prefWidth="150.0" text="Số lượng tối đa" />
+                <TableColumn fx:id="actionColumn" prefWidth="200.0" text="Thao tác" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+    </AnchorPane>
+
+    <!-- Chi tiết phòng thi section -->
+    <AnchorPane fx:id="chiTietPhongThiSection" layoutX="14.0" layoutY="360.0" prefHeight="300.0" prefWidth="1060.0" style="-fx-background-color: white; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" visible="false">
+        <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" spacing="20.0">
+            <Label text="Chi tiết phòng thi">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+            <Button fx:id="btnThemPhongThi" mnemonicParsing="false" onAction="#handleShowPhanCong" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #18c27b; -fx-background-radius: 5;" text="Thêm mới" textFill="WHITE" />
+        </HBox>
+        <TableView fx:id="chiTietPhongThiTable" layoutX="14.0" layoutY="50.0" prefHeight="230.0" prefWidth="1030.0" styleClass="custom-table-view">
+            <columns>
+                <TableColumn fx:id="maPhongColumn" prefWidth="100.0" text="Mã phòng" />
+                <TableColumn fx:id="tenPhongColumn" prefWidth="150.0" text="Tên phòng" />
+                <TableColumn fx:id="maGiamThiColumn" prefWidth="100.0" text="Mã giám thị" />
+                <TableColumn fx:id="tenGiamThiColumn" prefWidth="150.0" text="Tên giám thị" />
+                <TableColumn fx:id="soLuongHienTaiPhongColumn" prefWidth="150.0" text="Số lượng hiện tại" />
+                <TableColumn fx:id="soLuongToiDaPhongColumn" prefWidth="150.0" text="Số lượng tối đa" />
+                <TableColumn fx:id="actionPhongColumn" prefWidth="100.0" text="Thao tác" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+    </AnchorPane>
+</AnchorPane>

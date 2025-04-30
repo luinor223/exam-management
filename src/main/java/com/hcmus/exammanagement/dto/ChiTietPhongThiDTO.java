@@ -4,23 +4,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.SQLException;
+
 @Getter
 @Setter
 @AllArgsConstructor
 public class ChiTietPhongThiDTO {
     private String maLichThi;
-    private String maPhong;
-    private String maGiamThi;
+    private PhongDTO phongDTO;
+    private GiamThiDTO giamThiDTO;
     private Integer soLuongHienTai;
     private Integer soLuongToiDa;
 
-    public static ChiTietPhongThiDTO fromResultSet(java.sql.ResultSet rs) throws java.sql.SQLException {
+    public static ChiTietPhongThiDTO fromResultSet(java.sql.ResultSet rs) throws SQLException {
         String maLichThi = rs.getString("ma_lt");
-        String maPhong = rs.getString("ma_phong");
-        String maGiamThi = rs.getString("ma_gt");
+        PhongDTO phongDTO = PhongDTO.fromResultSet(rs);
+        GiamThiDTO giamThiDTO = GiamThiDTO.fromResultSet(rs);
         Integer soLuongHienTai = rs.getInt("so_luong_hien_tai");
         Integer soLuongToiDa = rs.getInt("so_luong_toi_da");
 
-        return new ChiTietPhongThiDTO(maLichThi, maPhong, maGiamThi, soLuongHienTai, soLuongToiDa);
+        return new ChiTietPhongThiDTO(maLichThi, phongDTO, giamThiDTO, soLuongHienTai, soLuongToiDa);
     }
 }

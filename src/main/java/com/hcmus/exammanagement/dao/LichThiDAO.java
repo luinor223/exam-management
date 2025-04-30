@@ -1,6 +1,5 @@
 package com.hcmus.exammanagement.dao;
 
-import com.hcmus.exammanagement.dto.ChungChiDTO;
 import com.hcmus.exammanagement.dto.Database;
 import com.hcmus.exammanagement.dto.LichThiDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +14,11 @@ import java.util.List;
 @Slf4j
 public class LichThiDAO {
 
-    public List<LichThiDTO> findAll() throws SQLException {
+    public static List<LichThiDTO> findAll() throws SQLException {
         List<LichThiDTO> lichThiList = new ArrayList<>();
         String sql = "SELECT lt.*, cc.*, SUM(ct.so_luong_hien_tai) AS so_luong_hien_tai, SUM(ct.so_luong_toi_da) AS so_luong_toi_da FROM lich_thi lt " +
                      "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
-                "JOIN chi_tiet_phong_thi ct ON lt.ma_lt = ct.ma_lt " +
+                "LEFT JOIN chi_tiet_phong_thi ct ON lt.ma_lt = ct.ma_lt " +
                 "GROUP BY (lt.ma_lt, lt.ma_cchi, lt.ngay_gio_thi, lt.thoi_luong_thi, cc.ma_cchi, cc.le_phi, cc.ten_chung_chi, cc.thoi_gian_hieu_luc, cc.mo_ta)";
 
         try (Connection conn = Database.getConnection();
@@ -37,11 +36,11 @@ public class LichThiDAO {
         return lichThiList;
     }
 
-    public List<LichThiDTO> findAllNew() throws SQLException {
+    public static List<LichThiDTO> findAllNew() throws SQLException {
         List<LichThiDTO> lichThiList = new ArrayList<>();
         String sql = "SELECT lt.*, cc.*, SUM(ct.so_luong_hien_tai) AS so_luong_hien_tai, SUM(ct.so_luong_toi_da) AS so_luong_toi_da FROM lich_thi lt " +
                 "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
-                "JOIN chi_tiet_phong_thi ct ON lt.ma_lt = ct.ma_lt " +
+                "LEFT JOIN chi_tiet_phong_thi ct ON lt.ma_lt = ct.ma_lt " +
                 "WHERE lt.ngay_gio_thi > NOW() " +
                 "GROUP BY (lt.ma_lt, lt.ma_cchi, lt.ngay_gio_thi, lt.thoi_luong_thi, cc.ma_cchi, cc.le_phi, cc.ten_chung_chi, cc.thoi_gian_hieu_luc, cc.mo_ta)" +
                 " ORDER BY lt.ngay_gio_thi DESC";
@@ -61,7 +60,7 @@ public class LichThiDAO {
         return lichThiList;
     }
 
-    public LichThiDTO findById(String maLichThi) throws SQLException {
+    public static LichThiDTO findById(String maLichThi) throws SQLException {
         String sql = "SELECT lt.*, cc.* FROM lich_thi lt " +
                      "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
                      "WHERE lt.ma_lt = ?";
@@ -83,7 +82,7 @@ public class LichThiDAO {
         return null;
     }
 
-    public List<LichThiDTO> findByChungChi(String maChungChi) throws SQLException {
+    public static List<LichThiDTO> findByChungChi(String maChungChi) throws SQLException {
         List<LichThiDTO> lichThiList = new ArrayList<>();
         String sql = "SELECT lt.*, cc.* FROM lich_thi lt " +
                      "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
@@ -106,7 +105,7 @@ public class LichThiDAO {
         return lichThiList;
     }
 
-    public int insert(LichThiDTO lichThi) throws SQLException {
+    public static int insert(LichThiDTO lichThi) throws SQLException {
         String sql = "INSERT INTO lich_thi (ngay_gio_thi, thoi_luong_thi, ma_cchi) " +
                      "VALUES (?, ?, ?)";
 
@@ -124,7 +123,7 @@ public class LichThiDAO {
         }
     }
 
-    public int update(LichThiDTO lichThi) throws SQLException {
+    public static int update(LichThiDTO lichThi) throws SQLException {
         String sql = "UPDATE lich_thi SET ngay_gio_thi = ?, thoi_luong_thi = ?, " +
                      "ma_cchi = ? WHERE ma_lt = ?";
 
@@ -143,7 +142,7 @@ public class LichThiDAO {
         }
     }
 
-    public int delete(String maLichThi) throws SQLException {
+    public static int delete(String maLichThi) throws SQLException {
         String sql = "DELETE FROM lich_thi WHERE ma_lt = ?";
 
         try (Connection conn = Database.getConnection();
