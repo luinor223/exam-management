@@ -15,10 +15,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.text.NumberFormat;
+import java.util.Locale;
 
-public class LapHoaDonController {
+public class LapHoaDonDVController {
 
     @FXML private TableView<ThongTinLapHDDTO> tableThongTinLapHoaDon;
     @FXML private TableColumn<ThongTinLapHDDTO, String> colMaPhieuDangKy;
@@ -41,6 +41,11 @@ public class LapHoaDonController {
 
     @FXML private Button btnHuy;
     @FXML private Button btnThanhToan;
+
+    private float tongTamTinhThucTe = 0;
+    private float troGiaThucTe = 0;
+    private float tongThanhToanThucTe = 0;
+
 
     private ObservableList<ThongTinLapHDDTO> danhSachLapHD;
 
@@ -69,6 +74,34 @@ public class LapHoaDonController {
         colSoLuongThiSinh.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getSoLuongThiSinh()).asObject());
         colTongTien.setCellValueFactory(data -> new SimpleFloatProperty(data.getValue().getTongTien()).asObject());
 
+        NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
+        currencyFormat.setMaximumFractionDigits(0); // 100,000
+
+        colLePhi.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Float item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(currencyFormat.format(item) + "đ");
+                }
+            }
+        });
+
+        colTongTien.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Float item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(currencyFormat.format(item) + "đ");
+                }
+            }
+        });
+
+
         labelNgayLap.setText(java.time.LocalDate.now().toString());
         danhSachLapHD = FXCollections.observableArrayList();
         tableThongTinLapHoaDon.setItems(danhSachLapHD);
@@ -86,12 +119,12 @@ public class LapHoaDonController {
     }
 
     private void tinhToanTongTien() {
-        float tongTamTinh = 0;
+        tongTamTinhThucTe = 0;
         int tongSoLuongThiSinh = 0;
         boolean laDonVi = false;
 
         for (ThongTinLapHDDTO item : danhSachLapHD) {
-            tongTamTinh += item.getTongTien();
+            tongTamTinhThucTe += item.getTongTien();
             tongSoLuongThiSinh += item.getSoLuongThiSinh();
 
             if ("Đơn vị".equalsIgnoreCase(item.getLoaiKhachHang())) {
@@ -99,37 +132,39 @@ public class LapHoaDonController {
             }
         }
 
-        tamTinh.setText(String.format("%.2f", tongTamTinh));
-
         // Khách hàng là đơn vị sẽ được trợ giá 10%, nếu số thí sinh dự thi trên 20 sẽ được giảm tối đa 15%.
-        float troGia = 0;
+        troGiaThucTe = 0;
         String troGiaMessage = "";
 
         if (laDonVi) {
-            troGia = 0.10f * tongTamTinh;
+            troGiaThucTe = 0.10f * tongTamTinhThucTe;
 
             if (tongSoLuongThiSinh > 20) {
-                float tongGiamToiDa = 0.15f * tongTamTinh;
-                float tongGiam = troGia;
-
-                if (tongGiam > tongGiamToiDa) {
-                    troGia = tongGiamToiDa;
-                    if (troGia < 0) troGia = 0;
+                float tongGiamToiDa = 0.15f * tongTamTinhThucTe;
+                if (troGiaThucTe > tongGiamToiDa) {
+                    troGiaThucTe = tongGiamToiDa;
+                    if (troGiaThucTe < 0) troGiaThucTe = 0;
                 }
-                troGiaMessage = String.format("Trợ giá 15%");
+                troGiaMessage = "Trợ giá 15%";
             } else {
                 troGiaMessage = "Trợ giá 10%";
             }
         }
-        giamGia.setText(String.format("%.2f", troGia));
 
-        float tongThanhToan = Math.max(tongTamTinh - troGia, 0);
-        tongTien.setText(String.format("%.2f", tongThanhToan));
+        tongThanhToanThucTe = Math.max(tongTamTinhThucTe - troGiaThucTe, 0);
+
+        NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
+        currencyFormat.setMaximumFractionDigits(0);
+
+        tamTinh.setText(currencyFormat.format(tongTamTinhThucTe) + "đ");
+        giamGia.setText(currencyFormat.format(troGiaThucTe) + "đ");
+        tongTien.setText(currencyFormat.format(tongThanhToanThucTe) + "đ");
         labelTroGia.setText(troGiaMessage);
     }
 
     private void huyHoaDon() {
-
+        Stage stage = (Stage) btnHuy.getScene().getWindow();
+        stage.close();
     }
 
     private void thanhToan() {
@@ -144,9 +179,9 @@ public class LapHoaDonController {
 
         HoaDonDTO hoaDon = new HoaDonDTO(
                 null,
-                Float.parseFloat(tongTien.getText()),
+                tongThanhToanThucTe,
                 phuongThucTT,
-                Float.parseFloat(giamGia.getText()),
+                troGiaThucTe,
                 java.sql.Date.valueOf(labelNgayLap.getText()),
                 "NV000001",
                 phieuDangKy,

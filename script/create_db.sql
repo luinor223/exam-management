@@ -59,7 +59,7 @@ CREATE TABLE nhan_vien (
 -- Bảng Phiếu Đăng Ký
 CREATE TABLE phieu_dang_ky (
     ma_pdk TEXT PRIMARY KEY DEFAULT 'PDK' || LPAD(nextval('seq_phieu_dang_ky')::TEXT, 6, '0'),
-    trang_thai VARCHAR(50) CHECK(trang_thai IN ('Đã xác nhận', 'Chờ xét duyệt', 'Chờ xử lý', 'Chờ xếp lịch')),
+    trang_thai VARCHAR(50) CHECK(trang_thai IN ('Đã xác nhận', 'Chờ xét duyệt', 'Chờ xử lý', 'Chờ xếp lịch', 'Đã hủy')),
     ngay_lap DATE DEFAULT CURRENT_DATE,
     dia_chi_giao VARCHAR(100),
     ma_kh TEXT NOT NULL,

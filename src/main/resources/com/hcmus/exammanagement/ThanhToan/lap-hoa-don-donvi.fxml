@@ -9,44 +9,44 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="590.0" prefWidth="774.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.LapHoaDonController">
+<AnchorPane prefHeight="575.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.LapHoaDonDVController">
     <children>
 
-        <Label layoutX="97.0" layoutY="228.0" text="Tạm tính:" />
-        <Label layoutX="94.0" layoutY="369.0" prefHeight="17.0" prefWidth="141.0" text="PT Thanh Toán:" />
-        <Label layoutX="94.0" layoutY="421.0" text="Email (Gửi hóa đơn):" />
-        <Label layoutX="94.0" layoutY="471.0" text="Mã Thanh Toán:" />
-        <Label layoutX="97.0" layoutY="273.0" text="Giảm giá:" />
+        <Label layoutX="122.0" layoutY="227.0" text="Tạm tính:" />
+        <Label layoutX="119.0" layoutY="368.0" prefHeight="17.0" prefWidth="141.0" text="PT Thanh Toán:" />
+        <Label layoutX="119.0" layoutY="420.0" text="Email (Gửi hóa đơn):" />
+        <Label layoutX="119.0" layoutY="470.0" text="Mã Thanh Toán:" />
+        <Label layoutX="122.0" layoutY="272.0" text="Giảm giá:" />
         <Label layoutX="28.0" layoutY="14.0" text="Ngày lập hóa đơn:" /> <Label fx:id="labelNgayLap" layoutX="137.0" layoutY="10.0" prefHeight="27.0" prefWidth="158.0" text="" />
-        <Label layoutX="97.0" layoutY="319.0" text="Tổng tiền:" />
+        <Label layoutX="122.0" layoutY="318.0" text="Tổng tiền:" />
 
-        <TextField fx:id="tamTinh" disable="true" layoutX="223.0" layoutY="220.0" prefHeight="34.0" prefWidth="400.0" promptText="Tạm tính" styleClass="text-field" />
-        <TextField fx:id="giamGia" disable="true" layoutX="223.0" layoutY="266.0" prefHeight="34.0" prefWidth="400.0" promptText="Giảm giá" styleClass="text-field" /> <Label fx:id="labelTroGia" layoutX="535.0" layoutY="269.0" prefHeight="25.0" prefWidth="120.0" text="" />
-        <TextField fx:id="tongTien" disable="true" layoutX="223.0" layoutY="311.0" prefHeight="34.0" prefWidth="400.0" promptText="Tổng tiền" styleClass="text-field" />
-        <ComboBox fx:id="phuongThuc" layoutX="223.0" layoutY="361.0" prefHeight="34.0" prefWidth="400.0" promptText="Tiền mặt" styleClass="custom-combobox" stylesheets="@../style.css" />
-        <TextField fx:id="emailGuiHoaDon" layoutX="223.0" layoutY="413.0" prefHeight="34.0" prefWidth="400.0" promptText="Email" styleClass="text-field" />
-        <TextField fx:id="maThanhToan" layoutX="223.0" layoutY="463.0" prefHeight="34.0" prefWidth="400.0" promptText="Mã thanh toán" styleClass="text-field" />
+        <TextField fx:id="tamTinh" editable="false" layoutX="248.0" layoutY="219.0" prefHeight="34.0" prefWidth="400.0" promptText="Tạm tính" styleClass="text-field" />
+        <TextField fx:id="giamGia" editable="false" layoutX="248.0" layoutY="265.0" prefHeight="34.0" prefWidth="400.0" promptText="Giảm giá" styleClass="text-field" /> <Label fx:id="labelTroGia" layoutX="568.0" layoutY="268.0" prefHeight="25.0" prefWidth="120.0" text="" />
+        <TextField fx:id="tongTien" editable="false" layoutX="248.0" layoutY="310.0" prefHeight="34.0" prefWidth="400.0" promptText="Tổng tiền" styleClass="text-field" />
+        <ComboBox fx:id="phuongThuc" layoutX="248.0" layoutY="360.0" prefHeight="34.0" prefWidth="400.0" promptText="Tiền mặt" styleClass="custom-combobox" stylesheets="@../style.css" />
+        <TextField fx:id="emailGuiHoaDon" layoutX="248.0" layoutY="412.0" prefHeight="34.0" prefWidth="400.0" promptText="Email" styleClass="text-field" />
+        <TextField fx:id="maThanhToan" layoutX="248.0" layoutY="462.0" prefHeight="34.0" prefWidth="400.0" promptText="Mã thanh toán" styleClass="text-field" />
 
-        <TableView fx:id="tableThongTinLapHoaDon" layoutX="25.0" layoutY="49.0" prefHeight="150.0" prefWidth="731.0" styleClass="custom-table-view" stylesheets="@../style.css">
+        <TableView fx:id="tableThongTinLapHoaDon" layoutX="25.0" layoutY="49.0" prefHeight="150.0" prefWidth="778.0" styleClass="custom-table-view" stylesheets="@../style.css">
             <columns>
                 <TableColumn fx:id="colMaPhieuDangKy" prefWidth="80.5" text="Mã PĐK" />
                 <TableColumn fx:id="colMaKhachHang" prefWidth="78.0" text="Mã KH" />
                 <TableColumn fx:id="colLoaiKhachHang" prefWidth="71.5" text="Loại KH" />
                 <TableColumn fx:id="colTenChungChi" prefWidth="91.5" text="Chứng Chỉ" />
-                <TableColumn fx:id="colNgayGioThi" prefWidth="127.5" text="Thời gian thi" />
-                <TableColumn fx:id="colLePhi" prefWidth="90.0" text="Lệ Phí" />
-                <TableColumn fx:id="colSoLuongThiSinh" prefWidth="78.5" text="SL Thí sinh" />
-                <TableColumn fx:id="colTongTien" prefWidth="111.5" text="Tổng Tiền" />
+                <TableColumn fx:id="colNgayGioThi" prefWidth="171.5" text="Thời gian thi" />
+                <TableColumn fx:id="colLePhi" prefWidth="102.0" text="Lệ Phí" />
+                <TableColumn fx:id="colSoLuongThiSinh" prefWidth="79.0" text="SL Thí sinh" />
+                <TableColumn fx:id="colTongTien" prefWidth="93.5" text="Tổng Tiền" />
             </columns>
         </TableView>
 
 
-        <Button fx:id="btnHuy" layoutX="313.0" layoutY="535.0" prefHeight="25.0" prefWidth="150.0" styleClass="cancel-button" stylesheets="@../style.css" text="Hủy" textFill="WHITE">
+        <Button fx:id="btnHuy" layoutX="468.0" layoutY="526.0" prefHeight="25.0" prefWidth="150.0" styleClass="cancel-button" stylesheets="@../style.css" text="Hủy" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Button>
-        <Button fx:id="btnThanhToan" layoutX="477.0" layoutY="536.0" prefWidth="158.0" styleClass="linear-grad" stylesheets="@../style.css" text="Xác nhận" textFill="WHITE">
+        <Button fx:id="btnThanhToan" layoutX="632.0" layoutY="527.0" prefWidth="158.0" styleClass="linear-grad" stylesheets="@../style.css" text="Xác nhận" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>

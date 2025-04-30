@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="521.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.ChiTietHoaDonController">
+    <children>
+        <Label layoutX="28.0" layoutY="14.0" text="Ngày lập hóa đơn:" />
+        <Label fx:id="labelNgayLap" layoutX="137.0" layoutY="10.0" prefHeight="27.0" prefWidth="158.0" text="" />
+
+        <TableView fx:id="tableThongTinLapHoaDon" layoutX="21.0" layoutY="151.0" prefHeight="206.0" prefWidth="778.0" styleClass="custom-table-view" stylesheets="@../style.css">
+            <columns>
+                <TableColumn fx:id="colMaPhieuDangKy" prefWidth="80.5" text="Mã PĐK" />
+                <TableColumn fx:id="colMaKhachHang" prefWidth="78.0" text="Mã KH" />
+                <TableColumn fx:id="colLoaiKhachHang" prefWidth="71.5" text="Loại KH" />
+                <TableColumn fx:id="colTenChungChi" prefWidth="91.5" text="Chứng Chỉ" />
+                <TableColumn fx:id="colNgayGioThi" prefWidth="171.5" text="Thời gian thi" />
+                <TableColumn fx:id="colLePhi" prefWidth="102.0" text="Lệ Phí" />
+                <TableColumn fx:id="colSoLuongThiSinh" prefWidth="79.0" text="SL Thí sinh" />
+                <TableColumn fx:id="colTongTien" prefWidth="93.5" text="Tổng Tiền" />
+            </columns>
+        </TableView>
+
+        <Label layoutX="118.0" layoutY="374.0" text="Giảm giá:" />
+        <TextField fx:id="giamGia" editable="false" layoutX="244.0" layoutY="367.0" prefHeight="34.0" prefWidth="400.0" promptText="Giảm giá" styleClass="text-field" />
+        <Label fx:id="labelTroGia" layoutX="568.0" layoutY="268.0" prefHeight="25.0" prefWidth="120.0" text="" />
+
+        <Label layoutX="118.0" layoutY="420.0" text="Tổng tiền:" />
+        <TextField fx:id="tongTien" editable="false" layoutX="244.0" layoutY="412.0" prefHeight="34.0" prefWidth="400.0" promptText="Tổng tiền" styleClass="text-field" />
+
+        <Label layoutX="115.0" layoutY="469.0" prefHeight="17.0" prefWidth="141.0" text="PT Thanh Toán:" />
+        <TextField fx:id="phuongThuc" editable="false" layoutX="244.0" layoutY="461.0" prefHeight="34.0" prefWidth="400.0" stylesheets="@../style.css" />
+
+        <Label layoutX="59.0" layoutY="46.0" text="Tên KH:" />
+        <Label fx:id="labelTenKH" layoutX="115.0" layoutY="46.0" prefWidth="250.0" text="" />
+
+        <Label layoutX="59.0" layoutY="76.0" text="Loại KH:" />
+        <Label fx:id="labelLoaiKH" layoutX="115.0" layoutY="76.0" prefWidth="250.0" text="" />
+
+        <Label layoutX="59.0" layoutY="106.0" text="SĐT:" />
+        <Label fx:id="labelSDT" layoutX="117.0" layoutY="106.0" prefWidth="250.0" />
+
+        <Label layoutX="431.0" layoutY="46.0" text="Mã PĐK:" />
+        <Label fx:id="labelMaPDK" layoutX="488.0" layoutY="46.0" prefWidth="250.0" text="" />
+
+        <Label layoutX="431.0" layoutY="76.0" text="Ngày ĐK:" />
+        <Label fx:id="labelNgayDK" layoutX="490.0" layoutY="76.0" prefWidth="250.0" text="" />
+
+    </children>
+</AnchorPane>

@@ -20,8 +20,9 @@ import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.Optional;
 
 public class ThanhToanController {
 
@@ -101,12 +102,24 @@ public class ThanhToanController {
         colPTTT.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPtThanhToan()));
         colLoaiKH1.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPhieuDangKy().getKhachHang().getLoai_kh()));
         colTongTien.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getTongTien()));
+
+        NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
+
+        colGiamGia.setCellValueFactory(data -> {
+            String formatted = currencyFormat.format(data.getValue().getSoTienGiam()) + "đ";
+            return new SimpleStringProperty(formatted);
+        });
+
+        colTongTien.setCellValueFactory(data -> {
+            String formatted = currencyFormat.format(data.getValue().getTongTien()) + "đ";
+            return new SimpleStringProperty(formatted);
+        });
     }
 
     private void addActionButtonsToTableDSPhieu() {
         colAction.setCellFactory(param -> new TableCell<>() {
             private final Button btnLapHoaDon = new Button();
-            private final Button btnXemChiTiet = new Button();
+//            private final Button btnXemChiTiet = new Button();
             private final HBox actionBox = new HBox(2);
 
             {
@@ -122,10 +135,10 @@ public class ThanhToanController {
                     }
                 });
 
-                btnXemChiTiet.setGraphic(new FontIcon("fas-eye"));
-                btnXemChiTiet.getStyleClass().add("action-button");
+//                btnXemChiTiet.setGraphic(new FontIcon("fas-eye"));
+//                btnXemChiTiet.getStyleClass().add("action-button");
 
-                actionBox.getChildren().addAll(btnLapHoaDon, btnXemChiTiet);
+                actionBox.getChildren().addAll(btnLapHoaDon);
             }
 
             @Override
@@ -160,16 +173,43 @@ public class ThanhToanController {
                 btnXem.setGraphic(new FontIcon("fas-eye"));
                 btnXem.getStyleClass().add("action-button");
 
+                btnXem.setOnAction(event -> {
+                    HoaDonDTO hoaDon = getTableView().getItems().get(getIndex());
+                    openXemChiTietPopup(hoaDon);
+                });
+
                 btnXoa.setGraphic(new FontIcon("fas-trash"));
                 btnXoa.getStyleClass().add("action-button");
                 btnXoa.setOnAction(event -> {
                     HoaDonDTO hoaDon = getTableView().getItems().get(getIndex());
-                    if (thanhToanBUS.xoaHoaDon(hoaDon.getMaHd())) {
-                        dsHoaDon.remove(hoaDon);
+
+                    Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirmAlert.setTitle("Xác nhận xóa");
+                    confirmAlert.setHeaderText(null);
+                    confirmAlert.setContentText("Bạn có chắc chắn muốn xóa hóa đơn này?");
+
+                    Optional<ButtonType> result = confirmAlert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        if (thanhToanBUS.xoaHoaDon(hoaDon.getMaHd())) {
+                            dsHoaDon.remove(hoaDon);
+
+                            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                            successAlert.setTitle("Xóa thành công");
+                            successAlert.setHeaderText(null);
+                            successAlert.setContentText("Hóa đơn đã được xóa thành công.");
+                            successAlert.showAndWait();
+                        } else {
+                            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                            errorAlert.setTitle("Xóa thất bại");
+                            errorAlert.setHeaderText(null);
+                            errorAlert.setContentText("Không thể xóa hóa đơn. Vui lòng thử lại.");
+                            errorAlert.showAndWait();
+                        }
                     }
                 });
 
                 actionBox.getChildren().addAll(btnDuyet, btnXem, btnXoa);
+//                actionBox.getChildren().addAll(btnDuyet, btnXem);
             }
 
             @Override
@@ -199,7 +239,7 @@ public class ThanhToanController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/lap-hoa-don-donvi.fxml"));
             Parent root = loader.load();
-            LapHoaDonController controller = loader.getController();
+            LapHoaDonDVController controller = loader.getController();
 
             if (controller != null) {
                 controller.setPhieuDangKy(phieu);
@@ -221,8 +261,8 @@ public class ThanhToanController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/lap-hoa-don-canhan.fxml"));
             Parent root = loader.load();
-            // LapHoaDonController controller = loader.getController();
-            // controller.setPhieuDangKy(phieu);
+            LapHoaDonCNController controller = loader.getController();
+            controller.setPhieuDangKy(phieu);
             String maPhieu = phieu.getMaPhieuDangKy();
             String tenKH = phieu.getKhachHang().getHoTen();
             String title = "Lập hóa đơn cho PDK mã: " + maPhieu + " - Tên KH: " + tenKH;
@@ -238,9 +278,25 @@ public class ThanhToanController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/duyet-thanh-toan.fxml"));
             Parent root = loader.load();
-            // DuyetThanhToanController controller = loader.getController();
-            // controller.setHoaDon(hoaDon);
+            DuyetThanhToanController controller = loader.getController();
+            controller.setHoaDon(hoaDon);
+
             showPopup(root, "Duyệt Thanh Toán");
+            loadHoaDon();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void openXemChiTietPopup(HoaDonDTO hoaDon) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/chi-tiet-hoa-don.fxml"));
+            Parent root = loader.load();
+            ChiTietHoaDonController controller = loader.getController();
+            controller.setHoaDon(hoaDon);
+            controller.setKhachHang(hoaDon.getPhieuDangKy().getKhachHang());
+
+            showPopup(root, "Xem chi tiết hóa đơn");
             loadHoaDon();
         } catch (IOException e) {
             e.printStackTrace();
@@ -249,7 +305,7 @@ public class ThanhToanController {
 
     private void filterPhieuDangKy(String keyword) {
         if (keyword == null || keyword.isEmpty()) {
-            DSPhieuDK.setItems(dsPhieu); // Hiển thị lại toàn bộ
+            DSPhieuDK.setItems(dsPhieu);
             return;
         }
 

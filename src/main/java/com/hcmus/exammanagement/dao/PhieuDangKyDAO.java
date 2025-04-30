@@ -103,4 +103,19 @@ public class PhieuDangKyDAO {
         }
     }
 
+    public boolean huyPhieuDangKy(String maPhieuDangKy) {
+        String sql = "UPDATE phieu_dang_ky SET trang_thai = 'Đã hủy' WHERE ma_pdk = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, maPhieuDangKy);
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }

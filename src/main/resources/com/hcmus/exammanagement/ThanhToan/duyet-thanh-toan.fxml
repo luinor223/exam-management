@@ -1,35 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="308.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="203.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.DuyetThanhToanController">
     <children>
-
-        <Label layoutX="26.0" layoutY="67.0" text="Tạm tính:" />
-        <Label layoutX="28.0" layoutY="205.0" text="Mã Thanh Toán:" />
-        <Label layoutX="26.0" layoutY="112.0" text="Giảm giá:" />
+        <Label layoutX="28.0" layoutY="109.0" text="Mã Thanh Toán:" />
         <Label layoutX="26.0" layoutY="25.0" text="Ngày lập hóa đơn:" />
-        <Label layoutX="26.0" layoutY="158.0" text="Tổng tiền:" />
+        <Label layoutX="26.0" layoutY="62.0" text="Tổng tiền:" />
+        <TextField fx:id="tongTien" editable="false" layoutX="152.0" layoutY="54.0" prefHeight="34.0" prefWidth="400.0" promptText="Tổng tiền" styleClass="text-field" />
+        <TextField fx:id="maThanhToan" layoutX="152.0" layoutY="102.0" prefHeight="34.0" prefWidth="400.0" promptText="Mã thanh toán" styleClass="text-field" />
 
-        <TextField fx:id="tamTinh" disable="true" layoutX="152.0" layoutY="59.0" prefHeight="34.0" prefWidth="400.0" promptText="Tạm tính" styleClass="text-field" />
-        <TextField fx:id="giamGia" disable="true" layoutX="152.0" layoutY="105.0" prefHeight="34.0" prefWidth="400.0" promptText="Giảm giá" styleClass="text-field" />
-        <TextField fx:id="tongTien" disable="true" layoutX="152.0" layoutY="150.0" prefHeight="34.0" prefWidth="400.0" promptText="Tổng tiền" styleClass="text-field" />
-        <TextField fx:id="maThanhToan" layoutX="152.0" layoutY="198.0" prefHeight="34.0" prefWidth="400.0" promptText="Mã thanh toán" styleClass="text-field" />
-
-        <Button fx:id="btnGuiHoaDon" layoutX="362.0" layoutY="264.0" prefHeight="27.0" prefWidth="98.0" styleClass="cancel-button" stylesheets="@../style.css" text="Hủy" textFill="WHITE">
+        <Button fx:id="btnHuy" layoutX="362.0" layoutY="162.0" prefHeight="27.0" prefWidth="98.0" styleClass="cancel-button" stylesheets="@../style.css" text="Hủy" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Button>
-        <Button fx:id="btnThanhToan" layoutX="478.0" layoutY="264.0" prefHeight="25.0" prefWidth="98.0" styleClass="linear-grad" stylesheets="@../style.css" text="Xác nhận" textFill="WHITE">
+        <Button fx:id="btnThanhToan" layoutX="478.0" layoutY="162.0" prefHeight="25.0" prefWidth="98.0" styleClass="linear-grad" stylesheets="@../style.css" text="Xác nhận" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Button>
+      <Label fx:id="labelNgayLap" layoutX="140.0" layoutY="25.0" />
 
     </children>
 </AnchorPane>
