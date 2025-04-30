@@ -9,6 +9,9 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class ExamApplication extends Application {
+
+    private AutoTaskScheduler autoTaskScheduler;
+
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/login.fxml"));
@@ -20,6 +23,14 @@ public class ExamApplication extends Application {
         stage.setTitle("Assessify");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        if (autoTaskScheduler != null) {
+            autoTaskScheduler.stop();
+        }
     }
 
     public static void main(String[] args) {

@@ -8,61 +8,139 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.DangKyCaNhanController">
-    <children>
-        <Label layoutX="20.0" layoutY="14.0" text="Thông tin khách hàng">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1090.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.DangKyCaNhanController">
+    <VBox fx:id="progressContainer" alignment="CENTER" layoutX="47.0" layoutY="14.0" prefHeight="80.0" prefWidth="996.0" />
+    <AnchorPane fx:id="infoSection" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0" style="-fx-background-color: white;">
+        <Label layoutX="14.0" layoutY="14.0" text="Thông tin khách hàng">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
-        <Label layoutX="21.0" layoutY="46.0" text="Mã khách hàng" />
-        <TextField layoutX="20.0" layoutY="72.0" prefHeight="38.0" prefWidth="270.0" promptText="Mã khách hàng" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
-        <Label layoutX="359.0" layoutY="46.0" text="Tên khách hàng" />
-        <TextField layoutX="358.0" layoutY="72.0" prefHeight="38.0" prefWidth="270.0" promptText="Tên khách hàng" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
-        <Label layoutX="680.0" layoutY="46.0" text="Mã số thuế" />
-        <TextField layoutX="679.0" layoutY="72.0" prefHeight="38.0" prefWidth="270.0" promptText="Mã số thuế" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
-        <Label layoutX="22.0" layoutY="136.0" text="Email đơn vị" />
-        <TextField layoutX="21.0" layoutY="162.0" prefHeight="38.0" prefWidth="270.0" promptText="Email đơn vị" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
-        <Label layoutX="360.0" layoutY="136.0" text="Số điện thoại" />
-        <TextField layoutX="359.0" layoutY="162.0" prefHeight="38.0" prefWidth="270.0" promptText="Số điện thoại" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
-        <Label layoutX="681.0" layoutY="136.0" text="Địa chỉ" />
-        <TextField layoutX="680.0" layoutY="162.0" prefHeight="38.0" prefWidth="270.0" promptText="Địa chỉ" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
-      <AnchorPane fx:id="examScheduleSection" layoutX="20.0" layoutY="120.0" prefHeight="500.0" prefWidth="1070.0" style="-fx-background-color: white;">
-         <children>
-            <Label layoutX="14.0" layoutY="14.0" text="Lịch thi">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <TableView fx:id="lichThiTable" layoutX="15.0" layoutY="94.0" prefHeight="312.0" prefWidth="578.0" styleClass="custom-table-view">
-               <columns>
-                  <TableColumn fx:id="maLichThiColumn" prefWidth="75.0" text="Mã lịch" />
-                  <TableColumn fx:id="ngayGioThiColumn" prefWidth="120.0" text="Ngày giờ" />
-                  <TableColumn fx:id="thoiLuongColumn" prefWidth="100.0" text="Thời lượng" />
-                  <TableColumn fx:id="soLuongTSColumn" prefWidth="74.4000244140625" text="Số thí sinh" />
-                  <TableColumn fx:id="chungChiColumn" prefWidth="115.20001220703125" text="Chứng chỉ" />
-                  <TableColumn fx:id="chungChiActionColumn" text="Thao tác" />
-               </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
-            <Label layoutX="647.0" layoutY="139.0" text="Mã lịch thi:" />
-            <Label fx:id="maLichThiLabel" layoutX="747.0" layoutY="139.0" text="--" />
-            <Label layoutX="647.0" layoutY="179.0" text="Ngày giờ thi:" />
-            <Label fx:id="ngayGioThiLabel" layoutX="747.0" layoutY="179.0" text="--" />
-            <Label layoutX="647.0" layoutY="219.0" text="Thời lượng thi:" />
-            <Label fx:id="thoiLuongLabel" layoutX="747.0" layoutY="219.0" text="--" />
-            <Label layoutX="647.0" layoutY="259.0" text="Số lượng thí sinh:" />
-            <Label fx:id="soLuongTSLabel" layoutX="747.0" layoutY="259.0" text="--" />
-            <Label layoutX="647.0" layoutY="299.0" text="Chứng chỉ:" />
-            <Label fx:id="chungChiLabel" layoutX="747.0" layoutY="299.0" text="--" />
-            <Button layoutX="218.0" layoutY="430.0" mnemonicParsing="false" onAction="#handleChooseSchedule" prefHeight="32.0" prefWidth="117.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Chọn lịch thi" textFill="WHITE" />
-            <DatePicker fx:id="ngayThiDP" layoutX="15.0" layoutY="52.0" promptText="Lọc ngày thi" />
-            <ComboBox fx:id="chungChiCombo" layoutX="443.0" layoutY="52.0" prefWidth="150.0" promptText="Chứng chỉ" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6;" />
-         </children>
-      </AnchorPane>
-    </children>
+        <Label layoutX="14.0" layoutY="65.0" text="Họ tên:" />
+        <TextField fx:id="hoTenField" layoutX="95.0" layoutY="54.0" prefHeight="40.0" prefWidth="340.0" promptText="Nguyễn Văn A" style="-fx-background-color: transparent; -fx-border-color: #dadada; -fx-border-radius: 8px;" />
+        <Label layoutX="14.0" layoutY="125.0" text="CCCD:" />
+        <TextField fx:id="CCCDField" layoutX="95.0" layoutY="114.0" prefHeight="40.0" prefWidth="340.0" promptText="123456789" style="-fx-background-color: transparent; -fx-border-color: #dadada; -fx-border-radius: 8px;" />
+        <Label layoutX="14.0" layoutY="185.0" text="Email:" />
+        <TextField fx:id="emailField" layoutX="95.0" layoutY="174.0" prefHeight="40.0" prefWidth="340.0" promptText="example@gmail.com" style="-fx-background-color: transparent; -fx-border-color: #dadada; -fx-border-radius: 8px;" />
+        <Label layoutX="14.0" layoutY="245.0" text="Số điện thoại:" />
+        <TextField fx:id="sdtField" layoutX="95.0" layoutY="234.0" prefHeight="40.0" prefWidth="340.0" promptText="0911222333" style="-fx-background-color: transparent; -fx-border-color: #dadada; -fx-border-radius: 8px;" />
+      <Label layoutX="568.0" layoutY="14.0" text="Thông tin thí sinh">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="568.0" layoutY="65.0" text="Họ tên:" />
+      <TextField fx:id="hoTenThiSinhField" layoutX="649.0" layoutY="54.0" prefHeight="40.0" prefWidth="340.0" promptText="Nguyễn Văn B" style="-fx-background-color: transparent; -fx-border-color: #dadada; -fx-border-radius: 8px;" />
+      <Label layoutX="568.0" layoutY="125.0" text="CCCD:" />
+      <TextField fx:id="CCCDThiSinhField" layoutX="649.0" layoutY="114.0" prefHeight="40.0" prefWidth="340.0" promptText="123456789" style="-fx-background-color: transparent; -fx-border-color: #dadada; -fx-border-radius: 8px;" />
+      <Label layoutX="568.0" layoutY="185.0" text="Ngày sinh" />
+      <DatePicker fx:id="ngaySinhThiSinhField" layoutX="649.0" layoutY="174.0" prefHeight="40.0" prefWidth="340.0" promptText="04/07/2004" style="-fx-background-color: transparent; -fx-border-color: #f3f4f6; -fx-border-radius: 8px;" />
+      <Label layoutX="568.0" layoutY="245.0" text="Giới tính" />
+      <ComboBox fx:id="gioiTinhThiSinhCombo" layoutX="649.0" layoutY="234.0" prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: white; -fx-border-color: #dadada; -fx-border-radius: 8px;" />
+      <TableView fx:id="khachHangTable" layoutX="14.0" layoutY="294.0" prefHeight="200.0" prefWidth="422.0" styleClass="custom-table-view">
+        <columns>
+          <TableColumn fx:id="hoTenKHColumn" prefWidth="75.0" text="Họ tên" />
+          <TableColumn fx:id="CCCDKHColumn" prefWidth="75.0" text="CCCD" />
+            <TableColumn fx:id="emailKHColumn" prefWidth="75.0" text="Email" />
+            <TableColumn fx:id="sdtKHColumn" prefWidth="75.0" text="Số điện thoại" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TableView fx:id="thiSinhTable" layoutX="568.0" layoutY="294.0" prefHeight="200.0" prefWidth="422.0" styleClass="custom-table-view">
+         <columns>
+            <TableColumn fx:id="hoTenTSColumn" prefWidth="75.0" text="Họ tên" />
+            <TableColumn fx:id="CCCDTSColumn" prefWidth="75.0" text="CCCD" />
+            <TableColumn fx:id="ngaySinhTSColumn" prefWidth="75.0" text="Ngày sinh" />
+            <TableColumn fx:id="gioiTinhTSColumn" prefWidth="75.0" text="Giới tính" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+    </AnchorPane>
+    <AnchorPane fx:id="examScheduleSection" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0" style="-fx-background-color: white;" visible="false">
+        <Label layoutX="14.0" layoutY="14.0" text="Lịch thi">
+        <font>
+            <Font name="System Bold" size="16.0" />
+        </font>
+        </Label>
+        <TableView fx:id="lichThiTable" layoutX="14.0" layoutY="102.0" prefHeight="312.0" prefWidth="483.0" styleClass="custom-table-view">
+        <columns>
+            <TableColumn fx:id="chungChiColumn" prefWidth="133.60000228881836" text="Chứng chỉ" />
+            <TableColumn fx:id="ngayGioThiColumn" prefWidth="140.80003356933594" text="Ngày giờ thi" />
+            <TableColumn fx:id="soLuongTSColumn" prefWidth="104.00006103515625" text="Số thí sinh" />
+            <TableColumn fx:id="phiColumn" prefWidth="92.79998779296875" text="Phí" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+        </TableView>
+      <TableView fx:id="lichThiDaChonTable" layoutX="523.0" layoutY="102.0" prefHeight="312.0" prefWidth="539.0" styleClass="custom-table-view">
+         <columns>
+            <TableColumn fx:id="chungChiColumn1" prefWidth="115.20001220703125" text="Chứng chỉ" />
+            <TableColumn fx:id="ngayGioThiColumn1" prefWidth="120.0" text="Ngày giờ thi" />
+            <TableColumn fx:id="phiColumn1" prefWidth="74.4000244140625" text="Phí" />
+            <TableColumn fx:id="actionColumn" text="Thao tác" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Button layoutX="224.0" layoutY="430.0" mnemonicParsing="false" onAction="#themLichThi" prefHeight="30.0" prefWidth="63.0" style="-fx-background-color: #18c27b;" text="Thêm" textFill="WHITE" />
+      <DatePicker fx:id="ngayThiDatePicker" layoutX="296.0" layoutY="66.0" promptText="Lọc ngày" style="-fx-background-color: white; -fx-border-color: #dcdcdc;" />
+      <ComboBox fx:id="cchiCombo" layoutX="14.0" layoutY="68.0" prefWidth="150.0" promptText="Lọc chứng chỉ" style="-fx-background-color: white; -fx-border-color: #dcdcdc;" />
+    </AnchorPane>
+     <AnchorPane fx:id="confirmationSection" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0" style="-fx-background-color: white;" visible="false">
+         <Label layoutX="14.0" layoutY="14.0" text="Xác nhận đăng ký">
+             <font>
+                 <Font name="System Bold" size="16.0" />
+             </font>
+         </Label>
+         <AnchorPane layoutX="14.0" layoutY="54.0" prefHeight="184.0" prefWidth="996.0" style="-fx-border-color: #f3f4f6; -fx-border-radius: 8px;">
+             <Label layoutX="10.0" layoutY="10.0" style="-fx-font-weight: bold" text="Thông tin khách hàng" />
+             <Label layoutX="10.0" layoutY="40.0" text="Họ tên:" />
+             <Label fx:id="hoTenLabel" layoutX="120.0" layoutY="40.0" text="--" />
+             <Label layoutX="10.0" layoutY="70.0" text="CCCD:" />
+             <Label fx:id="CCCDLabel" layoutX="120.0" layoutY="70.0" text="--" />
+             <Label layoutX="10.0" layoutY="100.0" text="Email:" />
+             <Label fx:id="emailLabel" layoutX="120.0" layoutY="100.0" text="--" />
+             <Label layoutX="10.0" layoutY="130.0" text="Số điện thoại:" />
+             <Label fx:id="sdtLabel" layoutX="120.0" layoutY="130.0" text="--" />
+         <Label layoutX="536.0" layoutY="10.0" style="-fx-font-weight: bold" text="Thông tin thí sinh" />
+         <Label layoutX="536.0" layoutY="40.0" text="Họ tên:" />
+         <Label fx:id="hoTenThiSinhLabel" layoutX="646.0" layoutY="40.0" text="--" />
+         <Label layoutX="536.0" layoutY="70.0" text="CCCD:" />
+         <Label fx:id="CCCDThiSinhLabel" layoutX="646.0" layoutY="70.0" text="--" />
+         <Label layoutX="536.0" layoutY="100.0" text="Ngày sinh:" />
+         <Label fx:id="ngaySinhThiSinhLabel" layoutX="646.0" layoutY="100.0" text="--" />
+         <Label layoutX="536.0" layoutY="130.0" text="Giới tính:" />
+         <Label fx:id="gioiTinhThiSinhLabel" layoutX="646.0" layoutY="130.0" text="--" />
+         </AnchorPane>
+         <Label layoutX="14.0" layoutY="244.0" style="-fx-font-weight: bold" text="Danh sách lịch thi đăng ký" />
+         <TableView fx:id="thiSinhDangKyTable" layoutX="14.0" layoutY="274.0" prefHeight="179.0" prefWidth="1026.0" styleClass="custom-table-view">
+             <columns>
+                 <TableColumn fx:id="sttColumn" prefWidth="50.0" text="STT" />
+                 <TableColumn fx:id="cfChungChiColumn" prefWidth="347.2000427246094" text="Chứng chỉ" />
+                 <TableColumn fx:id="cfNgayGioThiColumn" prefWidth="320.800048828125" text="Ngày giờ thi" />
+                 <TableColumn fx:id="cfPhiColumn" prefWidth="218.39996337890625" text="Lệ phí" />
+             </columns>
+             <columnResizePolicy>
+                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+             </columnResizePolicy>
+         </TableView>
+          <Label layoutX="661.0" layoutY="472.0" style="-fx-font-weight: bold" text="Tổng chi phí tạm tính:" />
+          <Label fx:id="tongTienLabel" layoutX="845.0" layoutY="472.0" style="-fx-font-weight: bold" text="0đ" />
+     </AnchorPane>
+    <Button fx:id="nextButton" layoutX="996.0" layoutY="625.0" mnemonicParsing="false" onAction="#btnTiepTheo" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Tiếp theo" textFill="WHITE" />
+    <Button fx:id="prevButton" layoutX="14.0" layoutY="625.0" mnemonicParsing="false" onAction="#btnQuayLai" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #18c27b; -fx-border-radius: 10; -fx-text-fill: #18c27b;" text="Quay lại" />
+    <Button layoutX="45.0" layoutY="1406.0" mnemonicParsing="false" onAction="#btnDangKyThi" prefHeight="50.0" prefWidth="966.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Đăng ký thi" textFill="WHITE" visible="false">
+        <font>
+            <Font name="System Bold" size="18.0" />
+        </font>
+    </Button>
 </AnchorPane>

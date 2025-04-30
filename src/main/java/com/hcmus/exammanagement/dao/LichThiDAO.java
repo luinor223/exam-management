@@ -17,8 +17,10 @@ public class LichThiDAO {
 
     public List<LichThiDTO> findAll() throws SQLException {
         List<LichThiDTO> lichThiList = new ArrayList<>();
-        String sql = "SELECT lt.*, cc.* FROM lich_thi lt " +
-                     "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi";
+        String sql = "SELECT lt.*, cc.*, SUM(ct.so_luong_hien_tai) AS so_luong_hien_tai, SUM(ct.so_luong_toi_da) AS so_luong_toi_da FROM lich_thi lt " +
+                     "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
+                "JOIN chi_tiet_phong_thi ct ON lt.ma_lt = ct.ma_lt " +
+                "GROUP BY (lt.ma_lt, lt.ma_cchi, lt.ngay_gio_thi, lt.thoi_luong_thi, cc.ma_cchi, cc.le_phi, cc.ten_chung_chi, cc.thoi_gian_hieu_luc, cc.mo_ta)";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -29,6 +31,30 @@ public class LichThiDAO {
             }
         } catch (SQLException e) {
             log.error("Error finding all lich thi: {}", e.getMessage());
+            throw e;
+        }
+
+        return lichThiList;
+    }
+
+    public List<LichThiDTO> findAllNew() throws SQLException {
+        List<LichThiDTO> lichThiList = new ArrayList<>();
+        String sql = "SELECT lt.*, cc.*, SUM(ct.so_luong_hien_tai) AS so_luong_hien_tai, SUM(ct.so_luong_toi_da) AS so_luong_toi_da FROM lich_thi lt " +
+                "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
+                "JOIN chi_tiet_phong_thi ct ON lt.ma_lt = ct.ma_lt " +
+                "WHERE lt.ngay_gio_thi > NOW() " +
+                "GROUP BY (lt.ma_lt, lt.ma_cchi, lt.ngay_gio_thi, lt.thoi_luong_thi, cc.ma_cchi, cc.le_phi, cc.ten_chung_chi, cc.thoi_gian_hieu_luc, cc.mo_ta)" +
+                " ORDER BY lt.ngay_gio_thi DESC";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                lichThiList.add(LichThiDTO.fromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            log.error("Error finding all new lich thi: {}", e.getMessage());
             throw e;
         }
 
@@ -81,16 +107,15 @@ public class LichThiDAO {
     }
 
     public int insert(LichThiDTO lichThi) throws SQLException {
-        String sql = "INSERT INTO lich_thi (ngay_gio_thi, thoi_luong_thi, so_luong_thi_sinh, ma_cchi) " +
-                     "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO lich_thi (ngay_gio_thi, thoi_luong_thi, ma_cchi) " +
+                     "VALUES (?, ?, ?)";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setTimestamp(1, lichThi.getNgayGioThi());
             stmt.setInt(2, lichThi.getThoiLuongThi());
-            stmt.setInt(3, lichThi.getSoLuongTS());
-            stmt.setString(4, lichThi.getChungChi().getMaChungChi());
+            stmt.setString(3, lichThi.getChungChi().getMaChungChi());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -101,16 +126,15 @@ public class LichThiDAO {
 
     public int update(LichThiDTO lichThi) throws SQLException {
         String sql = "UPDATE lich_thi SET ngay_gio_thi = ?, thoi_luong_thi = ?, " +
-                     "so_luong_thi_sinh = ?, ma_cchi = ? WHERE ma_lt = ?";
+                     "ma_cchi = ? WHERE ma_lt = ?";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setTimestamp(1, lichThi.getNgayGioThi());
             stmt.setInt(2, lichThi.getThoiLuongThi());
-            stmt.setInt(3, lichThi.getSoLuongTS());
-            stmt.setString(4, lichThi.getChungChi().getMaChungChi());
-            stmt.setString(5, lichThi.getMaLichThi());
+            stmt.setString(3, lichThi.getChungChi().getMaChungChi());
+            stmt.setString(4, lichThi.getMaLichThi());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {

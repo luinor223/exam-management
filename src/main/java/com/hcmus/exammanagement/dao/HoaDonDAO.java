@@ -23,7 +23,7 @@ public class HoaDonDAO {
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-
+            System.out.println("Query SQL = " + sql);
             while (rs.next()) {
                 listHoaDon.add(HoaDonDTO.fromResultSet(rs));
             }
@@ -43,6 +43,7 @@ public class HoaDonDAO {
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
+            System.out.println("Query SQL = " + sql);
             stmt.setString(1, maHoaDon);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -62,6 +63,7 @@ public class HoaDonDAO {
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            System.out.println("Query SQL = " + sql);
             stmt.setDouble(1, hoaDon.getTongTien());
             stmt.setString(2, hoaDon.getPtThanhToan());
             stmt.setDouble(3, hoaDon.getSoTienGiam());
@@ -84,6 +86,8 @@ public class HoaDonDAO {
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            System.out.println("Query SQL = " + sql);
+
             stmt.setDouble(1, hoaDon.getTongTien());
             stmt.setString(2, hoaDon.getPtThanhToan());
             stmt.setDouble(3, hoaDon.getSoTienGiam());
@@ -100,31 +104,41 @@ public class HoaDonDAO {
         }
     }
 
-    public void update_matt(String maHd, String maThanhToan) {
+    public boolean update_matt(String maHd, String maThanhToan) {
         String sql = "UPDATE hoa_don SET ma_thanh_toan = ? WHERE ma_hd = ?";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            System.out.println("Query SQL = " + sql);
             stmt.setString(1, maThanhToan);
             stmt.setString(2, maHd);
 
-            stmt.executeUpdate();
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
 
-    public void delete(String maHoaDon) {
+    public boolean delete(String maHoaDon) {
         String sql = "DELETE FROM hoa_don WHERE ma_hd = ?";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            System.out.println("Query SQL = " + sql);
             stmt.setString(1, maHoaDon);
-            stmt.executeUpdate();
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
+
 }
