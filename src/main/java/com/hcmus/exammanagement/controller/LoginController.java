@@ -42,7 +42,7 @@ public class LoginController {
 //            loginMessage.setText("Invalid username or password.");
 //        }
 
-        loadDashboard("Tiep nhan");
+        loadDashboard("Nhap lieu");
         Database.initialize("postgres", "sa");
     }
 

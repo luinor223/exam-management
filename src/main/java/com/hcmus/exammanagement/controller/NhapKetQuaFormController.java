@@ -1,0 +1,174 @@
+package com.hcmus.exammanagement.controller;
+
+import com.hcmus.exammanagement.bus.KetQuaBUS;
+import com.hcmus.exammanagement.dto.KetQuaDTO;
+import com.hcmus.exammanagement.dto.PhieuDuThiDTO;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
+
+import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
+/**
+ * Controller for form to input exam results
+ */
+@Slf4j
+public class NhapKetQuaFormController implements Initializable {
+    @FXML private TextField tfMaLT;
+    @FXML private TextField tfSBD;
+    @FXML private TextField tfDiem;
+    @FXML private TextField tfXepLoai;  // Changed from ComboBox to TextField
+    @FXML private TextArea taNhanXet;
+    @FXML private DatePicker dpNgayCapCC;
+    @FXML private DatePicker dpNgayHetHan;
+    @FXML private Button btnHuy;
+    @FXML private Button btnLuu;
+
+    private final PhieuDuThiDTO phieuDuThi;
+    private final KetQuaBUS ketQuaBUS;
+    private KetQuaDTO ketQua;
+
+    public NhapKetQuaFormController(PhieuDuThiDTO phieuDuThi, KetQuaBUS ketQuaBUS) {
+        this.phieuDuThi = phieuDuThi;
+        this.ketQuaBUS = ketQuaBUS;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setupForm();
+        loadKetQuaData();
+        setupEventHandlers();
+    }
+
+    private void setupForm() {
+        // Display phiếu dự thi info
+        tfMaLT.setText(phieuDuThi.getMaLT());
+        tfSBD.setText(phieuDuThi.getSbd());
+    }
+
+    private void loadKetQuaData() {
+        try {
+            // Try to load existing result
+            ketQua = ketQuaBUS.getKetQuaByMaLTAndSBD(phieuDuThi.getMaLT(), phieuDuThi.getSbd());
+
+            if (ketQua != null) {
+                // Populate form with existing data
+                tfDiem.setText(String.valueOf(ketQua.getDiem()));
+                tfXepLoai.setText(ketQua.getXepLoai());  // Set text instead of selection
+                taNhanXet.setText(ketQua.getNhanXet());
+                dpNgayCapCC.setValue(ketQua.getNgayCapChungChi());
+                dpNgayHetHan.setValue(ketQua.getNgayHetHan());
+            } else {
+                // Create new result object
+                ketQua = new KetQuaDTO();
+                ketQua.setMaLT(phieuDuThi.getMaLT());
+                ketQua.setSbd(phieuDuThi.getSbd());
+
+                // Set default values
+                dpNgayCapCC.setValue(LocalDate.now());
+                dpNgayHetHan.setValue(LocalDate.now().plusYears(2));
+            }
+        } catch (IllegalArgumentException | SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", null, "Không thể tải thông tin kết quả: " + e.getMessage());
+            log.error(e.getMessage());
+        }
+    }
+
+    private void setupEventHandlers() {
+        btnHuy.setOnAction(e -> huyNhapKetQua());
+        btnLuu.setOnAction(e -> luuKetQua());
+    }
+
+    private void huyNhapKetQua() {
+        // Just close the form
+        ((Stage) btnHuy.getScene().getWindow()).close();
+    }
+
+    private void luuKetQua() {
+        try {
+            // Validate input data
+            if (!validateForm()) {
+                return;
+            }
+
+            // Update result data from form inputs
+            ketQua.setDiem(Integer.parseInt(tfDiem.getText().trim()));
+            ketQua.setXepLoai(tfXepLoai.getText().trim());  // Get text directly
+            ketQua.setNhanXet(taNhanXet.getText());
+            ketQua.setNgayCapChungChi(dpNgayCapCC.getValue());
+            ketQua.setNgayHetHan(dpNgayHetHan.getValue());
+
+            // Save to database
+            boolean success = ketQuaBUS.saveKetQua(ketQua);
+
+            if (success) {
+                showAlert(Alert.AlertType.INFORMATION, "Thành công", null, "Kết quả thi đã được lưu thành công.");
+                ((Stage) btnLuu.getScene().getWindow()).close();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Lỗi", null, "Không thể lưu kết quả thi. Vui lòng thử lại sau.");
+            }
+
+        } catch (IllegalArgumentException | SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", null, "Không thể lưu kết quả: " + e.getMessage());
+            log.error(e.getMessage());
+        }
+    }
+
+    private boolean validateForm() {
+        // Check điểm
+        if (tfDiem.getText() == null || tfDiem.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", null, "Điểm không được để trống.");
+            return false;
+        }
+
+        try {
+            int diem = Integer.parseInt(tfDiem.getText().trim());
+            if (diem < 0) {
+                showAlert(Alert.AlertType.WARNING, "Lỗi dữ liệu", null, "Điểm không được âm.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.WARNING, "Lỗi dữ liệu", null, "Điểm phải là số nguyên.");
+            return false;
+        }
+
+        // Check xếp loại - now checking if TextField is empty
+        if (tfXepLoai.getText() == null || tfXepLoai.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", null, "Vui lòng nhập xếp loại.");
+            return false;
+        }
+
+        // Check ngày cấp chứng chỉ
+        if (dpNgayCapCC.getValue() == null) {
+            showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", null, "Ngày cấp chứng chỉ không được để trống.");
+            return false;
+        }
+
+        // Check ngày hết hạn
+        if (dpNgayHetHan.getValue() == null) {
+            showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", null, "Ngày hết hạn không được để trống.");
+            return false;
+        }
+
+        if (dpNgayHetHan.getValue().isBefore(dpNgayCapCC.getValue())) {
+            showAlert(Alert.AlertType.WARNING, "Lỗi dữ liệu", null, "Ngày hết hạn phải sau ngày cấp chứng chỉ.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+}

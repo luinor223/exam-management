@@ -44,8 +44,7 @@ public class DashboardController {
                 sidebarButtons.add(createButton("Someday", "#Someday"));
                 break;
             case "Nhap lieu":
-                sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
-                sidebarButtons.add(createButton("Someday", "#Someday"));
+                sidebarButtons.add(createButton("Nhập kết quả", "#NhapKetQua"));
                 break;
             case "Khao thi":
                 sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
@@ -96,6 +95,9 @@ public class DashboardController {
             case "#ThanhToan":
                 ThanhToan(new ActionEvent());
                 break;
+            case "#NhapKetQua":
+                NhapKetQua(new ActionEvent());
+                break;
             // Add more cases for other actions
         }
     }
@@ -130,6 +132,12 @@ public class DashboardController {
 
     void ThanhToan(ActionEvent event) throws IOException {
         Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/thanhtoan.fxml"));
+        contentArea.getChildren().clear();
+        contentArea.getChildren().add(fxml);
+    }
+
+    void NhapKetQua(ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/CapChungChi/nhap-ket-qua.fxml"));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }
