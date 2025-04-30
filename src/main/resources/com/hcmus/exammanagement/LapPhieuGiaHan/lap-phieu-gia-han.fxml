@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane stylesheets="@../style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.hcmus.exammanagement.controller.LapPhieuGiaHanController">
+    <VBox alignment="CENTER_LEFT" spacing="10" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20">
+        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Lập Phiếu Gia Hạn" />
+
+        <!-- Nhập mã thí sinh -->
+        <HBox spacing="10">
+            <Label text="Mã thí sinh:" />
+            <TextField fx:id="txtMaThiSinh" prefWidth="200" />
+            <Button onAction="#handleTraCuu" text="Tra cứu" />
+        </HBox>
+
+        <!-- Thông báo -->
+        <Label fx:id="lblThongBao" style="-fx-text-fill: red;" />
+
+        <!-- Vùng lập phiếu (ẩn ban đầu) -->
+        <VBox fx:id="vboxLapPhieu" spacing="10" visible="false">
+            <HBox spacing="10">
+                <Label text="Mã chi tiết PĐK:" />
+                <ComboBox fx:id="cbMaCTPDK" prefWidth="200" />
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Loại gia hạn:" />
+                <TextField fx:id="txtLoaiGH" prefWidth="200" />
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Phí gia hạn:" />
+                <TextField fx:id="txtPhiGH" prefWidth="200" />
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Đã thanh toán:" />
+                <CheckBox fx:id="chkDaThanhToan" />
+            </HBox>
+
+            <Button onAction="#handleLuuPhieu" text="Lưu phiếu" />
+        </VBox>
+    </VBox>
+
+</AnchorPane>
