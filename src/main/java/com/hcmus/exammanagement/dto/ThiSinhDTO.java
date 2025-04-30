@@ -19,7 +19,7 @@ public class ThiSinhDTO {
     private String gioiTinh;
 
     public static ThiSinhDTO fromResultSet(ResultSet rs) throws SQLException {
-        String maThiSinh = rs.getString("ma_thi_sinh");
+        String maThiSinh = rs.getString("ma_ts");
         String hoTen = rs.getString("ho_ten");
         String cccd = rs.getString("cccd");
         Date ngaySinh = rs.getDate("ngay_sinh");

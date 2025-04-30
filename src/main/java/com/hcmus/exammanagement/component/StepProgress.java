@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +20,14 @@ public class StepProgress extends HBox {
     private final List<Circle> stepCircles = new ArrayList<>();
     private final List<Label> stepLabels = new ArrayList<>();
     private final List<Line> connectorLines = new ArrayList<>();
+    @Getter
     private int currentStep = 1;
+    @Getter
     private int totalSteps = 0;
 
     public StepProgress() {
         this.setAlignment(javafx.geometry.Pos.CENTER);
         this.setSpacing(10);
-    }
-
-    public StepProgress(List<String> steps) {
-        this();
-        configureSteps(steps);
     }
 
     public void configureSteps(List<String> labels) {
@@ -92,11 +90,4 @@ public class StepProgress extends HBox {
         }
     }
 
-    public int getCurrentStep() {
-        return currentStep;
-    }
-
-    public int getTotalSteps() {
-        return totalSteps;
-    }
 }

@@ -47,6 +47,8 @@ public class KhachHangDAO {
             throw e;
         }
 
+        log.info("Find all khach hang by loai kh: {}", khList.size());
+
         return khList;
     }
 
