@@ -120,27 +120,15 @@ public class DashboardController {
     }
 
     @FXML
-    void TNDangKy(ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/DangKy/nvtn_dangky.fxml")));
-        contentArea.getChildren().clear();
-        contentArea.getChildren().add(fxml);
-    }
-
-    void ThanhToan(ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/thanhtoan.fxml")));
-        contentArea.getChildren().clear();
-        contentArea.getChildren().add(fxml);
-    }
-
-    @FXML
     void LapPhieuGiaHan(ActionEvent event) throws IOException {
         Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/LapPhieuGiaHan/lap-phieu-gia-han.fxml")));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }
 
+    @FXML
     void NhapKetQua(ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/com/hcmus/exammanagement/CapChungChi/nhap-ket-qua.fxml"));
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/CapChungChi/nhap-ket-qua.fxml")));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }
