@@ -44,6 +44,7 @@ public class ThanhToanController {
     @FXML private TableColumn<HoaDonDTO, String> colTongTien;
     @FXML private TableColumn<HoaDonDTO, String> colTenKH;
     @FXML private TableColumn<HoaDonDTO, Void> colAction1;
+    @FXML private ComboBox<String> filterComboBox;
 
     private final ObservableList<PhieuDangKyDTO> dsPhieu = FXCollections.observableArrayList();
     private final ObservableList<HoaDonDTO> dsHoaDon = FXCollections.observableArrayList();
@@ -59,10 +60,23 @@ public class ThanhToanController {
         setupHoaDonTable();
         addActionButtonsToTableDSPhieu();
         addActionButtonsToTableLSThanhToan();
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterPhieuDangKy(newValue);
+        });
+
+        searchField1.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterHoaDon(newValue);
+        });
+
+        filterComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            filterHoaDonList(newVal);
+        });
+
     }
 
     private void loadPhieuDangKy() throws Exception {
-        dsPhieu.setAll(phieuDangKyBUS.layDSPhieuDangKy());
+        dsPhieu.setAll(phieuDangKyBUS.layDSPhieuDangKyChoThanhToan());
         DSPhieuDK.setItems(dsPhieu);
     }
 
@@ -232,6 +246,73 @@ public class ThanhToanController {
             e.printStackTrace();
         }
     }
+
+    private void filterPhieuDangKy(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            DSPhieuDK.setItems(dsPhieu); // Hiển thị lại toàn bộ
+            return;
+        }
+
+        ObservableList<PhieuDangKyDTO> filteredList = FXCollections.observableArrayList();
+        String lowerKeyword = keyword.toLowerCase();
+
+        for (PhieuDangKyDTO pdk : dsPhieu) {
+            if (pdk.getMaPhieuDangKy().toLowerCase().contains(lowerKeyword)
+                    || pdk.getKhachHang().getHoTen().toLowerCase().contains(lowerKeyword)
+                    || pdk.getKhachHang().getLoai_kh().toLowerCase().contains(lowerKeyword)
+                    || pdk.getNgayLap().toString().contains(lowerKeyword)
+                    || pdk.getTrangThai().toLowerCase().contains(lowerKeyword)) {
+                filteredList.add(pdk);
+            }
+        }
+
+        DSPhieuDK.setItems(filteredList);
+    }
+
+    private void filterHoaDon(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            LichSuThanhToan.setItems(dsHoaDon);
+            return;
+        }
+
+        ObservableList<HoaDonDTO> filteredList = FXCollections.observableArrayList();
+        String lowerKeyword = keyword.toLowerCase();
+
+        for (HoaDonDTO hd : dsHoaDon) {
+            if (hd.getMaHd().toLowerCase().contains(lowerKeyword)
+                    || hd.getPhieuDangKy().getMaPhieuDangKy().toLowerCase().contains(lowerKeyword)
+                    || hd.getPhieuDangKy().getKhachHang().getHoTen().toLowerCase().contains(lowerKeyword)
+                    || hd.getPtThanhToan().toLowerCase().contains(lowerKeyword)
+                    || hd.getPhieuDangKy().getKhachHang().getLoai_kh().toLowerCase().contains(lowerKeyword)
+                    || String.valueOf(hd.getTongTien()).contains(lowerKeyword)) {
+                filteredList.add(hd);
+            }
+        }
+
+        LichSuThanhToan.setItems(filteredList);
+    }
+
+    private void filterHoaDonList(String filter) {
+        if (filter == null || filter.equals("Tất cả")) {
+            LichSuThanhToan.setItems(dsHoaDon);
+            return;
+        }
+
+        ObservableList<HoaDonDTO> filteredList = FXCollections.observableArrayList();
+
+        for (HoaDonDTO hoaDon : dsHoaDon) {
+            boolean isDonVi = "Đơn vị".equalsIgnoreCase(hoaDon.getPhieuDangKy().getKhachHang().getLoai_kh());
+            boolean isChuyenKhoan = "Chuyển khoản".equalsIgnoreCase(hoaDon.getPtThanhToan());
+            boolean isChuaDuyet = hoaDon.getMaTt() == null;
+
+            if (filter.equals("Chờ duyệt") && isDonVi && isChuyenKhoan && isChuaDuyet) {
+                filteredList.add(hoaDon);
+            }
+        }
+
+        LichSuThanhToan.setItems(filteredList);
+    }
+
 
     private void showPopup(Parent root, String title) {
         Stage stage = new Stage();
