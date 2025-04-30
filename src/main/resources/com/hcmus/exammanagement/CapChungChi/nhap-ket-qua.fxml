@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<AnchorPane prefHeight="704.0" prefWidth="1066.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.NhapKetQuaController">
+    <children>
+        <AnchorPane layoutX="12.0" layoutY="28.0" prefHeight="640.0" prefWidth="1035.0" styleClass="light-white-box" stylesheets="@../style.css">
+            <children>
+                <Label layoutX="15.0" layoutY="14.0" style="-fx-font-weight: bold;" text="Danh sách phiếu dự thi chờ nhập kết quả" />
+
+                <HBox layoutX="15.0" layoutY="45.0" spacing="10.0">
+                    <children>
+                        <TextField fx:id="searchField" prefHeight="29.0" prefWidth="250.0" promptText="Tìm kiếm theo SBD..." />
+
+                        <ComboBox fx:id="filterStatus" prefHeight="29.0" prefWidth="200.0" promptText="Trạng thái kết quả">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Tất cả" />
+                                    <String fx:value="Đã có kết quả" />
+                                    <String fx:value="Chưa có kết quả" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <DatePicker fx:id="filterDate" prefHeight="29.0" prefWidth="200.0" promptText="Ngày thi" />
+
+                        <Label text="đến" alignment="CENTER" prefHeight="29.0" />
+
+                        <DatePicker fx:id="filterDateEnd" prefHeight="29.0" prefWidth="200.0" promptText="Ngày kết thúc" />
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" />
+                    </padding>
+                </HBox>
+
+                <TableView fx:id="DSPhieuDuThi" layoutX="14.0" layoutY="90.0" prefHeight="530.0" prefWidth="993.0" styleClass="custom-table-view" stylesheets="@../style.css">
+                    <columns>
+                        <TableColumn fx:id="colMaLT" prefWidth="120.0" text="Mã lịch thi" />
+                        <TableColumn fx:id="colSBD" prefWidth="100.0" text="Số báo danh" />
+                        <TableColumn fx:id="colHoTen" prefWidth="180.0" text="Họ tên thí sinh" />
+                        <TableColumn fx:id="colNgayThi" prefWidth="150.0" text="Ngày thi" />
+                        <TableColumn fx:id="colTrangThai" prefWidth="120.0" text="Trạng thái" />
+                        <TableColumn fx:id="colChungChi" prefWidth="150.0" text="Chứng chỉ" />
+                        <TableColumn fx:id="colAction" prefWidth="150.0" text="Thao tác" />
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>
