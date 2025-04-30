@@ -55,4 +55,16 @@ public class PhieuDangKyBUS {
 
         phieuDangKyDAO.insert(phieuDangKy);
     }
+
+    public List<PhieuDangKyDTO> layDSPhieuDangKyChoThanhToan() throws Exception {
+        try {
+            return phieuDangKyDAO.findAllChoThanhToan();
+        } catch (SQLException e) {
+            throw new Exception("Lỗi khi lấy danh sách phiếu đăng ký: " + e.getMessage());
+        }
+    }
+
+    public void capNhatTrangThai(String maPhieu, String trangThai) {
+        phieuDangKyDAO.capNhatTrangThai(maPhieu, trangThai);
+    }
 }

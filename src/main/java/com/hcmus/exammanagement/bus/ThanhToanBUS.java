@@ -31,10 +31,19 @@ public class ThanhToanBUS {
 
     // Kiểm tra hạn thanh toán (3 ngày)
     public boolean KiemTraHanThanhToan(HoaDonDTO hoaDon) {
-        java.time.LocalDate ngayDangKy = java.time.LocalDate.parse(hoaDon.getNgayLap());
-        java.time.LocalDate hanThanhToan = ngayDangKy.plusDays(3);
+        if (hoaDon == null || hoaDon.getPhieuDangKy() == null || hoaDon.getPhieuDangKy().getNgayLap() == null) {
+            return false;
+        }
+
+        java.sql.Date ngayDangKy = (java.sql.Date) hoaDon.getPhieuDangKy().getNgayLap();
+        java.time.LocalDate localNgayDangKy = ngayDangKy.toLocalDate();
+
+        // Cộng thêm 3 ngày vào ngày đăng ký
+        java.time.LocalDate hanThanhToan = localNgayDangKy.plusDays(3);
         return java.time.LocalDate.now().isBefore(hanThanhToan);
     }
+
+
 
     public boolean xoaHoaDon(String maHd) {
         hoaDonDAO.delete(maHd);

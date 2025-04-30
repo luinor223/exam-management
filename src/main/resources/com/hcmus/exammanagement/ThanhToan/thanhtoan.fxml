@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -14,6 +15,7 @@
          <children>
             <Label layoutX="5.0" layoutY="6.0" style="-fx-font-weight: bold;" text="Danh sách phiếu đăng ký chờ thanh toán" />
             <TextField fx:id="searchField" layoutX="15.0" layoutY="31.0" prefHeight="29.0" prefWidth="397.0" promptText="Search..." />
+
             <TableView fx:id="DSPhieuDK" layoutX="14.0" layoutY="67.0" prefHeight="202.0" prefWidth="993.0" styleClass="custom-table-view" stylesheets="@../style.css">
                <columns>
                   <TableColumn fx:id="colMaPhieu2" prefWidth="124.0" text="Mã Phiếu" />
@@ -63,6 +65,14 @@
                </items>
             </TableView>
             <TextField fx:id="searchField1" layoutX="9.0" layoutY="34.0" prefHeight="29.0" prefWidth="413.0" promptText="Search..." />
+            <ComboBox fx:id="filterComboBox" layoutX="858.0" layoutY="33.0" prefHeight="29.0" prefWidth="150.0" promptText="Lọc hóa đơn" styleClass="custom-combobox" stylesheets="@../style.css">
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="Tất cả" />
+                     <String fx:value="Chờ duyệt" />
+                  </FXCollections>
+               </items>
+            </ComboBox>
          </children>
       </AnchorPane>
 

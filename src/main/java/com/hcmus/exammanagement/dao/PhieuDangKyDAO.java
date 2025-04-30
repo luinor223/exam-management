@@ -67,4 +67,40 @@ public class PhieuDangKyDAO {
             throw e;
         }
     }
+
+    public List<PhieuDangKyDTO> findAllChoThanhToan() throws SQLException {
+        List<PhieuDangKyDTO> listPDK = new ArrayList<>();
+        String sql = """
+            SELECT pdk.*, kh.*
+            FROM phieu_dang_ky pdk
+                JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh
+            WHERE pdk.trang_thai = 'Chờ xử lý';
+        """;
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                listPDK.add(PhieuDangKyDTO.fromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            log.error("Error finding all phieu dang ky cho thanh toan: {}", e.getMessage());
+            throw e;
+        }
+
+        return listPDK;
+    }
+
+    public void capNhatTrangThai(String maPhieu, String trangThai) {
+        String sql = "UPDATE phieu_dang_ky SET trang_thai = ? WHERE ma_pdk = ?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, trangThai);
+            stmt.setString(2, maPhieu);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

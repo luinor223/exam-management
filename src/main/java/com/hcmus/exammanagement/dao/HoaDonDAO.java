@@ -56,25 +56,27 @@ public class HoaDonDAO {
     }
 
     public void insert(HoaDonDTO hoaDon) {
-        String sql = "INSERT INTO hoa_don (ma_hd, tong_tien, pt_thanh_toan, so_tien_giam, ngay_lap, nhan_vien_tao, ma_pdk, ma_thanh_toan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO hoa_don ( tong_tien, pt_thanh_toan, so_tien_giam, ngay_lap, nhan_vien_tao, ma_pdk, ma_thanh_toan) " +
+                "VALUES ( ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, hoaDon.getMaHd());
-            stmt.setDouble(2, hoaDon.getTongTien());
-            stmt.setString(3, hoaDon.getPtThanhToan());
-            stmt.setDouble(4, hoaDon.getSoTienGiam());
-            stmt.setString(5, hoaDon.getNgayLap());
-            stmt.setString(6, hoaDon.getNhanVienTao());
+            stmt.setDouble(1, hoaDon.getTongTien());
+            stmt.setString(2, hoaDon.getPtThanhToan());
+            stmt.setDouble(3, hoaDon.getSoTienGiam());
+            stmt.setDate(4, hoaDon.getNgayLap());
+            stmt.setString(5, hoaDon.getNhanVienTao());
+            stmt.setString(6, hoaDon.getPhieuDangKy().getMaPhieuDangKy());
             stmt.setString(7, hoaDon.getMaTt());
-            stmt.setString(8, hoaDon.getPhieuDangKy().getMaPhieuDangKy());
 
             stmt.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public void update(HoaDonDTO hoaDon) {
         String sql = "UPDATE hoa_don SET tong_tien = ?, pt_thanh_toan = ?, so_tien_giam = ?, ngay_lap = ?, nhan_vien_tao = ?, ma_pdk = ?, ma_thanh_toan = ? WHERE ma_hd = ?";
@@ -85,7 +87,7 @@ public class HoaDonDAO {
             stmt.setDouble(1, hoaDon.getTongTien());
             stmt.setString(2, hoaDon.getPtThanhToan());
             stmt.setDouble(3, hoaDon.getSoTienGiam());
-            stmt.setString(4, hoaDon.getNgayLap());
+            stmt.setDate(4, hoaDon.getNgayLap());
             stmt.setString(5, hoaDon.getNhanVienTao());
             stmt.setString(6, hoaDon.getPhieuDangKy().getMaPhieuDangKy());
             stmt.setString(7, hoaDon.getMaTt());
