@@ -131,27 +131,30 @@ CREATE TABLE chi_tiet_phong_thi (
 
 -- Bảng Phiếu Dự Thi
 CREATE TABLE phieu_du_thi (
-    ma_pdt TEXT PRIMARY KEY DEFAULT 'PDT' || LPAD(nextval('seq_phieu_du_thi')::TEXT, 6, '0'),
+    ma_lt TEXT NOT NULL, -- Mã lịch thi
     sbd CHAR(6),
     ngay_cap DATE DEFAULT CURRENT_DATE,
     ma_ctpdk TEXT,
 
-    FOREIGN KEY (ma_ctpdk) REFERENCES chi_tiet_phieu_dk(ma_ctpdk) ON DELETE CASCADE
+    PRIMARY KEY (ma_lt, sbd),
+    FOREIGN KEY (ma_ctpdk) REFERENCES chi_tiet_phieu_dk(ma_ctpdk) ON DELETE CASCADE,
+    FOREIGN KEY (ma_lt) REFERENCES lich_thi(ma_lt) ON DELETE CASCADE
 );
 
 -- Bảng Kết Quả
 CREATE TABLE ket_qua (
-    ma_kq TEXT PRIMARY KEY DEFAULT 'KQ' || LPAD(nextval('seq_ket_qua')::TEXT, 6, '0'),
+    ma_lt TEXT,
+    sbd CHAR(6),
     ngay_gio_thi DATE,
     diem INT,
     xep_loai VARCHAR(20),
     nhan_xet TEXT,
     ngay_cap_chung_chi DATE,
     ngay_het_han DATE,
-    trang_thai VARCHAR(50),
-    ma_pdt TEXT,
-
-    FOREIGN KEY (ma_pdt) REFERENCES phieu_du_thi(ma_pdt) ON DELETE CASCADE
+    trang_thai VARCHAR(50) CHECK(trang_thai IN ('Đã cấp', 'Chưa cấp')),
+    
+    PRIMARY KEY (ma_lt, sbd),
+    FOREIGN KEY (ma_lt, sbd) REFERENCES phieu_du_thi(ma_lt, sbd) ON DELETE CASCADE
 );
 
 -- Bảng Hóa Đơn
