@@ -96,6 +96,7 @@ public class DashboardController {
                 break;
             case "Xeplichdonvi":
                 XepLichDonVi(new ActionEvent());
+                break;
             case "#PhatHanhPhieu":
                 PhatHanhPhieu(new ActionEvent());
                 break;

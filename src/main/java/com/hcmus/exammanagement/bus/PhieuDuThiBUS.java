@@ -58,7 +58,7 @@ public class PhieuDuThiBUS {
                 var phieuDuThiDTO = new PhieuDuThiDTO();
                 phieuDuThiDTO.setSbd(String.format("%06d", phieuDuThiCount));
                 phieuDuThiDTO.setMaLT(maLT);
-                phieuDuThiDTO.setMaPhong(chiTietPhongThiDTO.getPhongDTO().getMaPhong());
+                phieuDuThiDTO.setMaPhong(chiTietPhongThiDTO.getPhong().getMaPhong());
                 phieuDuThiDTO.setMaCtpdk(chiTietPDKDTO.getMaCTPDK());
                 try {
                     phieuDuThiDAO.insertPhieuDuThi(phieuDuThiDTO);

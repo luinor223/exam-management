@@ -114,23 +114,28 @@ public class PhieuDangKyDAO {
         }
     }
 
-    public static List<PhieuDangKyDTO> findAllChoThanhToan() throws SQLException {
+    public static List<PhieuDangKyDTO> findAllByTinhTrang(String trangThai) throws SQLException {
         List<PhieuDangKyDTO> listPDK = new ArrayList<>();
         String sql = """
-            SELECT pdk.*, kh.*
-            FROM phieu_dang_ky pdk
-                JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh
-            WHERE pdk.trang_thai = 'Chờ xử lý';
-        """;
+        SELECT pdk.*, kh.*
+        FROM phieu_dang_ky pdk
+            JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh
+        WHERE pdk.trang_thai = ?;
+    """;
 
         try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                listPDK.add(PhieuDangKyDTO.fromResultSet(rs));
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, trangThai);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    listPDK.add(PhieuDangKyDTO.fromResultSet(rs));
+                }
             }
+
         } catch (SQLException e) {
-            log.error("Error finding all phieu dang ky cho thanh toan: {}", e.getMessage());
+            log.error("Error finding phieu dang ky by trang thai '{}': {}", trangThai, e.getMessage());
             throw e;
         }
 

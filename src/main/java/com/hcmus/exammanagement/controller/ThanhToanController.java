@@ -55,7 +55,7 @@ public class ThanhToanController {
 
     @FXML
     public void initialize() throws Exception {
-        loadPhieuDangKy();
+        loadPhieuDangKyChoTT();
         loadHoaDon();
         setupPhieuDangKyTable();
         setupHoaDonTable();
@@ -64,7 +64,11 @@ public class ThanhToanController {
         filterComboBox.getSelectionModel().select("Tất cả");
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filterPhieuDangKy(newValue);
+            try {
+                filterPhieuDangKy(newValue);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
 
         searchField1.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -77,7 +81,7 @@ public class ThanhToanController {
 
     }
 
-    private void loadPhieuDangKy() throws Exception {
+    private void loadPhieuDangKyChoTT() throws Exception {
         dsPhieu.setAll(phieuDangKyBUS.layDSPhieuDangKyChoThanhToan());
         DSPhieuDK.setItems(dsPhieu);
     }
@@ -120,7 +124,7 @@ public class ThanhToanController {
     private void addActionButtonsToTableDSPhieu() {
         colAction.setCellFactory(param -> new TableCell<>() {
             private final Button btnLapHoaDon = new Button();
-//            private final Button btnXemChiTiet = new Button();
+//            private final Button btnXemCTHDChiTiet = new Button();
             private final HBox actionBox = new HBox(2);
 
             {
@@ -137,14 +141,14 @@ public class ThanhToanController {
                     PhieuDangKyDTO phieu = getTableView().getItems().get(getIndex());
                     String loaiKH = phieu.getKhachHang().getLoai_kh();
                     if ("Đơn vị".equalsIgnoreCase(loaiKH)) {
-                        openLapHoaDonDVPopup(phieu);
+                        btnOpenLapHoaDonDVPopup(phieu);
                     } else if ("Cá nhân".equalsIgnoreCase(loaiKH)) {
-                        openLapHoaDonCNPopup(phieu);
+                        btnOpenLapHoaDonCNPopup(phieu);
                     }
                 });
 
-//                btnXemChiTiet.setGraphic(new FontIcon("fas-eye"));
-//                btnXemChiTiet.getStyleClass().add("action-button");
+//                btnXemCTHDChiTiet.setGraphic(new FontIcon("fas-eye"));
+//                btnXemCTHDChiTiet.getStyleClass().add("action-button");
 
                 actionBox.getChildren().addAll(btnLapHoaDon);
             }
@@ -160,7 +164,7 @@ public class ThanhToanController {
     private void addActionButtonsToTableLSThanhToan() {
         colAction1.setCellFactory(param -> new TableCell<>() {
             private final Button btnDuyet = new Button();
-            private final Button btnXem = new Button();
+            private final Button btnXemCTHD = new Button();
             private final Button btnXoa = new Button();
             private final HBox actionBox = new HBox(2);
 
@@ -175,15 +179,15 @@ public class ThanhToanController {
 
                 btnDuyet.setOnAction(event -> {
                     HoaDonDTO hoaDon = getTableView().getItems().get(getIndex());
-                    openDuyetThanhToanPopup(hoaDon);
+                    btnOpenDuyetThanhToan(hoaDon);
                 });
 
-                btnXem.setGraphic(new FontIcon("fas-eye"));
-                btnXem.getStyleClass().add("action-button");
+                btnXemCTHD.setGraphic(new FontIcon("fas-eye"));
+                btnXemCTHD.getStyleClass().add("action-button");
 
-                btnXem.setOnAction(event -> {
+                btnXemCTHD.setOnAction(event -> {
                     HoaDonDTO hoaDon = getTableView().getItems().get(getIndex());
-                    openXemChiTietPopup(hoaDon);
+                    btnXemCTHD(hoaDon);
                 });
 
                 btnXoa.setGraphic(new FontIcon("fas-trash"));
@@ -216,8 +220,8 @@ public class ThanhToanController {
                     }
                 });
 
-                actionBox.getChildren().addAll(btnDuyet, btnXem, btnXoa);
-//                actionBox.getChildren().addAll(btnDuyet, btnXem);
+                actionBox.getChildren().addAll(btnDuyet, btnXemCTHD, btnXoa);
+//                actionBox.getChildren().addAll(btnDuyet, btnXemCTHD);
             }
 
             @Override
@@ -235,7 +239,7 @@ public class ThanhToanController {
                         actionBox.getChildren().add(btnDuyet);
                     }
 
-                    actionBox.getChildren().addAll(btnXem, btnXoa);
+                    actionBox.getChildren().addAll(btnXemCTHD, btnXoa);
                     setGraphic(actionBox);
                 }
 
@@ -243,7 +247,7 @@ public class ThanhToanController {
         });
     }
 
-    private void openLapHoaDonDVPopup(PhieuDangKyDTO phieu) {
+    private void btnOpenLapHoaDonDVPopup(PhieuDangKyDTO phieu) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/lap-hoa-don-donvi.fxml"));
             Parent root = loader.load();
@@ -260,7 +264,7 @@ public class ThanhToanController {
             String title = "Lập hóa đơn cho PDK mã: " + maPhieu + " - Tên KH: " + tenKH;
             showPopup(root, title);
 
-            loadPhieuDangKy();
+            loadPhieuDangKyChoTT();
             loadHoaDon();
         } catch (IOException e) {
             e.printStackTrace();
@@ -269,7 +273,7 @@ public class ThanhToanController {
         }
     }
 
-    private void openLapHoaDonCNPopup(PhieuDangKyDTO phieu) {
+    private void btnOpenLapHoaDonCNPopup(PhieuDangKyDTO phieu) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/lap-hoa-don-canhan.fxml"));
             Parent root = loader.load();
@@ -281,7 +285,7 @@ public class ThanhToanController {
 
             showPopup(root, title);
 
-            loadPhieuDangKy();
+            loadPhieuDangKyChoTT();
             loadHoaDon();
         } catch (IOException e) {
             e.printStackTrace();
@@ -290,7 +294,7 @@ public class ThanhToanController {
         }
     }
 
-    private void openDuyetThanhToanPopup(HoaDonDTO hoaDon) {
+    private void btnOpenDuyetThanhToan(HoaDonDTO hoaDon) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/duyet-thanh-toan.fxml"));
             Parent root = loader.load();
@@ -299,7 +303,7 @@ public class ThanhToanController {
 
             showPopup(root, "Duyệt Thanh Toán");
 
-            loadPhieuDangKy();
+            loadPhieuDangKyChoTT();
             loadHoaDon();
         } catch (IOException e) {
             e.printStackTrace();
@@ -308,7 +312,7 @@ public class ThanhToanController {
         }
     }
 
-    private void openXemChiTietPopup(HoaDonDTO hoaDon) {
+    private void btnXemCTHD(HoaDonDTO hoaDon) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/ThanhToan/chi-tiet-hoa-don.fxml"));
             Parent root = loader.load();
@@ -323,9 +327,9 @@ public class ThanhToanController {
         }
     }
 
-    private void filterPhieuDangKy(String keyword) {
+    private void filterPhieuDangKy(String keyword) throws Exception {
         if (keyword == null || keyword.isEmpty()) {
-            DSPhieuDK.setItems(dsPhieu);
+            loadPhieuDangKyChoTT();
             return;
         }
 
@@ -347,7 +351,7 @@ public class ThanhToanController {
 
     private void filterHoaDon(String keyword) {
         if (keyword == null || keyword.isEmpty()) {
-            LichSuThanhToan.setItems(dsHoaDon);
+            loadHoaDon();
             return;
         }
 
@@ -370,7 +374,7 @@ public class ThanhToanController {
 
     private void filterHoaDonList(String filter) {
         if (filter == null || filter.equals("Tất cả")) {
-            LichSuThanhToan.setItems(dsHoaDon);
+            loadHoaDon();
             return;
         }
 

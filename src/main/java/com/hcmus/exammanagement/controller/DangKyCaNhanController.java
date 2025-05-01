@@ -28,6 +28,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Date;
@@ -159,8 +161,11 @@ public class DangKyCaNhanController {
 
         // Add delete button column
         actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button deleteButton = new Button("Xóa");
+            private final Button deleteButton = new Button();
             {
+                deleteButton.setGraphic(new FontIcon("fas-trash"));
+                deleteButton.getStyleClass().add("action-button");
+
                 deleteButton.setOnAction(event -> {
                     LichThiDTO lichThi = getTableView().getItems().get(getIndex());
                     selectedLichThiList.remove(lichThi);
@@ -419,6 +424,7 @@ public class DangKyCaNhanController {
 
             // Save the registration form
             PhieuDangKyBUS.taoPhieuDangKy(phieuDangKy);
+            phieuDangKy = PhieuDangKyBUS.layPhieuVuaTao(khachHang.getMaKH());
 
             // Register for all selected exam schedules
             for (LichThiDTO lichThi : selectedLichThiList) {

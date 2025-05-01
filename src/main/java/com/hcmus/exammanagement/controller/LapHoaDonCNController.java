@@ -99,8 +99,8 @@ public class LapHoaDonCNController {
         danhSachLapHD = FXCollections.observableArrayList();
         tableThongTinLapHoaDon.setItems(danhSachLapHD);
 
-        btnHuy.setOnAction(e -> huyHoaDon());
-        btnThanhToan.setOnAction(e -> thanhToan());
+        btnHuy.setOnAction(e -> btnHuy());
+        btnThanhToan.setOnAction(e -> btnTaoHoaDon());
     }
 
     private void loadData() {
@@ -119,12 +119,12 @@ public class LapHoaDonCNController {
         tongTien.setText(currencyFormat.format(tongThanhToanThucTe) + "đ");
     }
 
-    private void huyHoaDon() {
+    private void btnHuy() {
         Stage stage = (Stage) btnHuy.getScene().getWindow();
         stage.close();
     }
 
-    private void thanhToan() {
+    private void btnTaoHoaDon() {
         String phuongThucTT = "Tiền mặt";
 
         HoaDonDTO hoaDon = new HoaDonDTO(

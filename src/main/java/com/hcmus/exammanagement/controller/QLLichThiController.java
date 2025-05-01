@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -70,13 +71,18 @@ public class QLLichThiController {
 
         // Add Edit and Delete buttons to actionColumn
         actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button editButton = new Button("Sửa");
-            private final Button deleteButton = new Button("Xóa");
+            private final Button editButton = new Button();
+            private final Button deleteButton = new Button();
             private final HBox pane = new HBox(5, editButton, deleteButton);
 
             {
-                editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-                deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+                editButton.setGraphic(new FontIcon("fas-pen"));
+                editButton.getStyleClass().add("action-button");
+
+                deleteButton.setGraphic(new FontIcon("fas-trash"));
+                deleteButton.getStyleClass().add("action-button");
+//                editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+//                deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
 
                 editButton.setOnAction(event -> {
                     LichThiDTO lichThi = getTableView().getItems().get(getIndex());

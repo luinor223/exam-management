@@ -53,7 +53,7 @@ public class LapHoaDonDVController {
 
     public void setPhieuDangKy(PhieuDangKyDTO phieuDangKy) {
         this.phieuDangKy = phieuDangKy;
-        loadData();
+        loadTTLapHD();
     }
 
     private ThongTinLapHDBUS thongTinLapHDBUS;
@@ -109,11 +109,11 @@ public class LapHoaDonDVController {
         phuongThuc.setItems(FXCollections.observableArrayList("Tiền mặt", "Chuyển khoản"));
         phuongThuc.getSelectionModel().select("Chuyển khoản");
 
-        btnHuy.setOnAction(e -> huyHoaDon());
-        btnThanhToan.setOnAction(e -> thanhToan());
+        btnHuy.setOnAction(e -> btnHuy());
+        btnThanhToan.setOnAction(e -> btnTaoHoaDon());
     }
 
-    private void loadData() {
+    private void loadTTLapHD() {
         danhSachLapHD.setAll(thongTinLapHDBUS.LayThongTinLapHDbyMapdk(phieuDangKy.getMaPhieuDangKy()));
         tinhToanTongTien();
     }
@@ -138,18 +138,18 @@ public class LapHoaDonDVController {
     }
 
 
-    private void huyHoaDon() {
+    private void btnHuy() {
         Stage stage = (Stage) btnHuy.getScene().getWindow();
         stage.close();
     }
 
-    private void thanhToan() {
+    private void btnTaoHoaDon() {
         String phuongThucTT = phuongThuc.getValue();
         String maTT = maThanhToan.getText();
         String email = emailGuiHoaDon.getText();
 
         if (!email.isEmpty() && !email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-            showAlert("Lỗi", "Email không hợp lệ");
+            hienThongBao("Lỗi", "Email không hợp lệ");
             return;
         }
 
@@ -168,7 +168,7 @@ public class LapHoaDonDVController {
             // Nếu chưa có mã thanh toán thì đưa vào danh sách chờ duyệt
             phieuDangKyBUS.capNhatTrangThai(phieuDangKy.getMaPhieuDangKy(), "Chờ xét duyệt");
             thanhToanBUS.taoHoaDon(hoaDon);
-            showAlert("Chờ duyệt", "Chưa có mã thanh toán.\nHóa đơn đã được đưa vào danh sách chờ duyệt.\nĐã gửi hoá đơn tới " + email);
+            hienThongBao("Chờ duyệt", "Chưa có mã thanh toán.\nHóa đơn đã được đưa vào danh sách chờ duyệt.\nĐã gửi hoá đơn tới " + email);
 
             Stage stage = (Stage) btnThanhToan.getScene().getWindow();
             stage.close();
@@ -181,13 +181,13 @@ public class LapHoaDonDVController {
         }
         phieuDangKyBUS.capNhatTrangThai(phieuDangKy.getMaPhieuDangKy(), "Đã xác nhận");
         thanhToanBUS.taoHoaDon(hoaDon);
-        showAlert("Thành công", "Xác nhận thanh toán!\nĐã gửi hoá đơn tới " + email);
+        hienThongBao("Thành công", "Xác nhận thanh toán!\nĐã gửi hoá đơn tới " + email);
 
         Stage stage = (Stage) btnThanhToan.getScene().getWindow();
         stage.close();
     }
 
-    private void showAlert(String title, String message) {
+    private void hienThongBao(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);

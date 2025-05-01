@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.Date;
 import java.util.List;
@@ -149,9 +150,11 @@ public class DangKyDonViController {
 
         // Add delete button column
         thiSinhActionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button deleteButton = new Button("Xóa");
+            private final Button deleteButton = new Button();
 
             {
+                deleteButton.setGraphic(new FontIcon("fas-trash"));
+                deleteButton.getStyleClass().add("action-button");
                 deleteButton.setOnAction(event -> {
                     ThiSinhDTO thiSinh = getTableView().getItems().get(getIndex());
                     thiSinhList.remove(thiSinh);

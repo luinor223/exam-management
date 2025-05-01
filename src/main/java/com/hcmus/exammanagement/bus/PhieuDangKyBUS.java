@@ -42,15 +42,15 @@ public class PhieuDangKyBUS {
         PhieuDangKyDAO.insert(phieuDangKy);
     }
 
-    public static List<PhieuDangKyDTO> layDSPhieuDangKyChoThanhToan() throws Exception {
+    public List<PhieuDangKyDTO> layDSPhieuDangKyChoThanhToan() throws Exception {
         try {
-            return PhieuDangKyDAO.findAllChoThanhToan();
+            return PhieuDangKyDAO.findAllByTinhTrang("Chờ xử lý");
         } catch (SQLException e) {
             throw new Exception("Lỗi khi lấy danh sách phiếu đăng ký: " + e.getMessage());
         }
     }
 
-    public static void capNhatTrangThai(String maPhieu, String trangThai) {
+    public void capNhatTrangThai(String maPhieu, String trangThai) {
         PhieuDangKyDAO.capNhatTrangThai(maPhieu, trangThai);
     }
 }
