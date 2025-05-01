@@ -18,16 +18,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.Date;
 import java.util.List;
 
 public class DangKyDonViController {
-
-    // BUS services
-    private final KhachHangBUS khachHangBUS = new KhachHangBUS();
-    private final ThiSinhBUS thiSinhBUS = new ThiSinhBUS();
-    private final PhieuDangKyBUS phieuDangKyBUS = new PhieuDangKyBUS();
 
     // Data
     private KhachHangDTO selectedDonVi;
@@ -135,7 +131,7 @@ public class DangKyDonViController {
 
     private void loadDonViData() {
         try {
-            List<KhachHangDTO> donViList = khachHangBUS.layDSKhachHangDonVi();
+            List<KhachHangDTO> donViList = KhachHangBUS.layDSKhachHangDonVi();
             donViTable.setItems(FXCollections.observableArrayList(donViList));
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải danh sách đơn vị", e.getMessage());
@@ -150,9 +146,11 @@ public class DangKyDonViController {
 
         // Add delete button column
         thiSinhActionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button deleteButton = new Button("Xóa");
+            private final Button deleteButton = new Button();
 
             {
+                deleteButton.setGraphic(new FontIcon("fas-trash"));
+                deleteButton.getStyleClass().add("action-button");
                 deleteButton.setOnAction(event -> {
                     ThiSinhDTO thiSinh = getTableView().getItems().get(getIndex());
                     thiSinhList.remove(thiSinh);
@@ -235,16 +233,7 @@ public class DangKyDonViController {
                         "Đơn vị"
                 );
 
-                khachHangBUS.taoKhachHang(khachHang);
-
-                // Reload the organization to get the generated ID
-                List<KhachHangDTO> donViList = khachHangBUS.layDSKhachHangDonVi();
-                for (KhachHangDTO dv : donViList) {
-                    if (dv.getCccd().equals(khachHang.getCccd())) {
-                        khachHang = dv;
-                        break;
-                    }
-                }
+                khachHang = KhachHangBUS.taoKhachHang(khachHang);
             }
 
             // Create PhieuDangKyDTO
@@ -257,29 +246,22 @@ public class DangKyDonViController {
                     "NV000001" // TODO: - placeholder
             );
 
-            phieuDangKyBUS.taoPhieuDangKy(phieuDangKy);
+            phieuDangKy = PhieuDangKyBUS.taoPhieuDangKy(phieuDangKy);
 
             for (ThiSinhDTO thiSinh : thiSinhList) {
-                ThiSinhDTO existingThiSinh = thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd());
-                String maThiSinh;
+                ThiSinhDTO existingThiSinh = ThiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd());
 
                 if (existingThiSinh != null) {
-                    // Update existing candidate
                     thiSinh.setMaThiSinh(existingThiSinh.getMaThiSinh());
-                    thiSinhBUS.capNhatThiSinh(thiSinh);
-                    maThiSinh = existingThiSinh.getMaThiSinh();
                 } else {
-                    // Create new candidate
-                    thiSinhBUS.taoThiSinh(thiSinh);
-                    // Get the newly created candidate ID
-                    maThiSinh = thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd()).getMaThiSinh();
+                    thiSinh = ThiSinhBUS.taoThiSinh(thiSinh);
                 }
 
                 // Create registration detail
                 ChiTietPDKBUS.themChiTietPDK(new ChiTietPDKDTO(
                         null,
                         phieuDangKy.getMaPhieuDangKy(),
-                        maThiSinh,
+                        thiSinh.getMaThiSinh(),
                         null
                 ));
             }

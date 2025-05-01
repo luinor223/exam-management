@@ -14,27 +14,6 @@ import java.util.List;
 @Slf4j
 public class ChiTietPhongThiDAO {
 
-    public static boolean checkExist(String maLichThi, String maPhong) throws SQLException {
-        String sql = "SELECT 1 FROM chi_tiet_phong_thi WHERE ma_lt = ? AND ma_phong = ?";
-
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, maLichThi);
-            stmt.setString(2, maPhong);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-
-        } catch (SQLException e) {
-            log.error("Error finding chi tiet phong thi by lich thi ID {} and phong ID {}: {}", maLichThi, maPhong, e.getMessage());
-            throw e;
-        }
-
-        return false;
-    }
-
     public static List<ChiTietPhongThiDTO> findByLichThi(String maLichThi) throws SQLException {
         List<ChiTietPhongThiDTO> chiTietPhongThiList = new ArrayList<>();
         String sql = "SELECT * " +
@@ -66,20 +45,20 @@ public class ChiTietPhongThiDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, chiTietPhongThi.getMaLichThi());
-            stmt.setString(2, chiTietPhongThi.getPhongDTO().getMaPhong());
-            stmt.setString(3, chiTietPhongThi.getGiamThiDTO().getMaGiamThi());
+            stmt.setString(2, chiTietPhongThi.getPhong().getMaPhong());
+            stmt.setString(3, chiTietPhongThi.getGiamThi().getMaGiamThi());
             stmt.setInt(4, chiTietPhongThi.getSoLuongHienTai());
             stmt.setInt(5, chiTietPhongThi.getSoLuongToiDa());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
             log.error("Error inserting chi tiet phong thi for lich thi ID {} and phong ID {}: {}", 
-                      chiTietPhongThi.getMaLichThi(), chiTietPhongThi.getPhongDTO().getMaPhong(), e.getMessage());
+                      chiTietPhongThi.getMaLichThi(), chiTietPhongThi.getPhong().getMaPhong(), e.getMessage());
             throw e;
         }
     }
 
-    public static int updateSoLuongHienTai(String maLT, String maPhong, Integer soLuongHienTai) throws SQLException {
+    public static void updateSoLuongHienTai(String maLT, String maPhong, Integer soLuongHienTai) throws SQLException {
         String sql = "UPDATE chi_tiet_phong_thi SET so_luong_hien_tai = ? WHERE ma_lt = ? AND ma_phong = ?";
 
         try (Connection conn = Database.getConnection();
@@ -89,7 +68,7 @@ public class ChiTietPhongThiDAO {
             stmt.setString(2, maLT);
             stmt.setString(3, maPhong);
 
-            return stmt.executeUpdate();
+            stmt.executeUpdate();
         } catch (SQLException e) {
             log.error("Error updating so luong for chi tiet phong thi with lich thi ID {} and phong ID {}: {}",
                       maLT, maPhong, e.getMessage());

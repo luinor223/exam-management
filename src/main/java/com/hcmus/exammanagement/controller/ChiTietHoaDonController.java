@@ -41,7 +41,6 @@ public class ChiTietHoaDonController {
 
     private HoaDonDTO hoaDon;
     private KhachHangDTO khachHang;
-    private ThongTinLapHDBUS thongTinLapHDBUS;
 
     public void setHoaDon(HoaDonDTO hoaDon) {
         this.hoaDon = hoaDon;
@@ -50,7 +49,6 @@ public class ChiTietHoaDonController {
     }
 
     public void initialize() {
-        thongTinLapHDBUS = new ThongTinLapHDBUS();
 
         colMaPhieuDangKy.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMaPhieuDangKy()));
         colMaKhachHang.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMaKhachHang()));
@@ -100,7 +98,7 @@ public class ChiTietHoaDonController {
     }
 
     private void loadData() {
-        danhSachLapHD.setAll(thongTinLapHDBUS.LayThongTinLapHDbyMapdk(hoaDon.getPhieuDangKy().getMaPhieuDangKy()));
+        danhSachLapHD.setAll(ThongTinLapHDBUS.LayThongTinLapHDbyMapdk(hoaDon.getPhieuDangKy().getMaPhieuDangKy()));
     }
 
     private void loadHoaDonDetails() {

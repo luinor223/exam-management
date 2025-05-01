@@ -14,22 +14,16 @@ import java.util.List;
  */
 
 public class ThanhToanBUS {
-    private final HoaDonDAO hoaDonDAO;
-
-    public ThanhToanBUS() {
-        this.hoaDonDAO = new HoaDonDAO();
+    public static List<HoaDonDTO> LayDsHoaDon() {
+        return HoaDonDAO.findAll();
     }
 
-    public List<HoaDonDTO> LayDsHoaDon() {
-        return hoaDonDAO.findAll();
+    public static HoaDonDTO LayHoaDonTheoId(String maHd) {
+        return  HoaDonDAO.findById(maHd);
     }
 
-    public HoaDonDTO LayHoaDonTheoId(String maHd) {
-        return  hoaDonDAO.findById(maHd);
-    }
-
-    public void taoHoaDon(HoaDonDTO hoaDonDTO) {
-        hoaDonDAO.insert(hoaDonDTO);
+    public static void taoHoaDon(HoaDonDTO hoaDonDTO) {
+        HoaDonDAO.insert(hoaDonDTO);
     }
 
     public static float KiemTraTroGia(List<ThongTinLapHDDTO> danhSachLapHD) {
@@ -97,7 +91,7 @@ public class ThanhToanBUS {
 
 
     public void xuLyHoaDonQuaHan() {
-        List<HoaDonDTO> dsHoaDon = hoaDonDAO.findAll();
+        List<HoaDonDTO> dsHoaDon = HoaDonDAO.findAll();
         PhieuDangKyDAO phieuDangKyDAO = new PhieuDangKyDAO();
 
         for (HoaDonDTO hoaDon : dsHoaDon) {
@@ -105,7 +99,7 @@ public class ThanhToanBUS {
                 String maHd = hoaDon.getMaHd();
                 String maPhieuDangKy = hoaDon.getPhieuDangKy().getMaPhieuDangKy();
 
-                boolean daXoaHoaDon = hoaDonDAO.delete(maHd);
+                boolean daXoaHoaDon = HoaDonDAO.delete(maHd);
 
                 if (daXoaHoaDon) {
                     System.out.println("Đã xóa hóa đơn quá hạn: " + maPhieuDangKy);
@@ -118,16 +112,16 @@ public class ThanhToanBUS {
         }
     }
 
-    public boolean xoaHoaDon(String maHd) {
-        return hoaDonDAO.delete(maHd);
+    public static boolean xoaHoaDon(String maHd) {
+        return HoaDonDAO.delete(maHd);
     }
 
-    public boolean duyetThanhToan(String maHd, String maThanhToan) {
+    public static boolean duyetThanhToan(String maHd, String maThanhToan) {
         if (maThanhToan == null || maThanhToan.isBlank()) {
             return false;
         }
-        HoaDonDAO hoaDonDAO = new HoaDonDAO();
-        hoaDonDAO.update_matt(maHd, maThanhToan);
+        HoaDonDAO HoaDonDAO = new HoaDonDAO();
+        HoaDonDAO.update_matt(maHd, maThanhToan);
         return true;
     }
 

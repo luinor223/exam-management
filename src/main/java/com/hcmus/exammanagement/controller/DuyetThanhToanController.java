@@ -11,6 +11,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class DuyetThanhToanController {
 
     @FXML
@@ -26,66 +29,64 @@ public class DuyetThanhToanController {
     private Button btnHuy;
 
     @FXML
-    private Button btnThanhToan;
+    private Button btnXacNhanMaTT;
 
     private HoaDonDTO hoaDon;
-    private ThanhToanBUS thanhToanBUS;
-    private PhieuDangKyBUS phieuDangKyBUS;
 
     @FXML
     public void initialize() {
-        btnThanhToan.setOnAction(e -> handleThanhToan());
-        btnHuy.setOnAction(e -> handleHuy());
-    }
-
-    public DuyetThanhToanController() {
-        thanhToanBUS = new ThanhToanBUS();
-        phieuDangKyBUS = new PhieuDangKyBUS();
+        btnXacNhanMaTT.setOnAction(e -> btnXacNhanMaTT());
+        btnHuy.setOnAction(e -> btnHuy());
     }
 
     public void setHoaDon(HoaDonDTO hoaDon) {
         this.hoaDon = hoaDon;
         if (hoaDon != null) {
             labelNgayLap.setText(hoaDon.getNgayLap().toString());
-            tongTien.setText(String.valueOf(hoaDon.getTongTien()));
+//            tongTien.setText(String.valueOf(hoaDon.getTongTien()));
+
+            NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
+            currencyFormat.setMaximumFractionDigits(0);
+
+            tongTien.setText(currencyFormat.format(hoaDon.getTongTien()) + "đ");
         }
     }
 
     @FXML
-    private void handleThanhToan() {
+    private void btnXacNhanMaTT() {
         if (hoaDon == null) {
-            showAlert(AlertType.ERROR, "Lỗi", "Không có thông tin hóa đơn để xét duyệt.");
+            hienThongBao(AlertType.ERROR, "Lỗi", "Không có thông tin hóa đơn để xét duyệt.");
             return;
         }
 
         String maThanhToanValue = maThanhToan.getText();
         if (maThanhToanValue == null || maThanhToanValue.isBlank()) {
-            showAlert(AlertType.ERROR, "Lỗi", "Mã thanh toán không hợp lệ.");
+            hienThongBao(AlertType.ERROR, "Lỗi", "Mã thanh toán không hợp lệ.");
             return;
         }
 
-        boolean success = thanhToanBUS.duyetThanhToan(hoaDon.getMaHd(), maThanhToanValue);
+        boolean success = ThanhToanBUS.duyetThanhToan(hoaDon.getMaHd(), maThanhToanValue);
         if (success) {
             if (hoaDon.getPhieuDangKy() != null) {
-                phieuDangKyBUS.capNhatTrangThai(
+                PhieuDangKyBUS.capNhatTrangThai(
                         hoaDon.getPhieuDangKy().getMaPhieuDangKy(),
                         "Đã xác nhận"
                 );
             }
 
-            showAlert(AlertType.INFORMATION, "Thành công", "Thanh toán đã được xác nhận.");
+            hienThongBao(AlertType.INFORMATION, "Thành công", "Thanh toán đã được xác nhận.");
             closePopup();
         } else {
-            showAlert(AlertType.ERROR, "Lỗi", "Xảy ra lỗi trong quá trình thanh toán.");
+            hienThongBao(AlertType.ERROR, "Lỗi", "Xảy ra lỗi trong quá trình thanh toán.");
         }
     }
 
     @FXML
-    private void handleHuy() {
+    private void btnHuy() {
         closePopup();
     }
 
-    private void showAlert(AlertType type, String title, String message) {
+    private void hienThongBao(AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);

@@ -49,14 +49,8 @@ public class LapHoaDonCNController {
         loadData();
     }
 
-    private ThongTinLapHDBUS thongTinLapHDBUS;
-    private final ThanhToanBUS thanhToanBUS = new ThanhToanBUS();
-    private final PhieuDangKyBUS phieuDangKyBUS = new PhieuDangKyBUS();
-
-
     @FXML
     public void initialize() {
-        thongTinLapHDBUS = new ThongTinLapHDBUS();
 
         colMaPhieuDangKy.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMaPhieuDangKy()));
         colMaKhachHang.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMaKhachHang()));
@@ -99,12 +93,12 @@ public class LapHoaDonCNController {
         danhSachLapHD = FXCollections.observableArrayList();
         tableThongTinLapHoaDon.setItems(danhSachLapHD);
 
-        btnHuy.setOnAction(e -> huyHoaDon());
-        btnThanhToan.setOnAction(e -> thanhToan());
+        btnHuy.setOnAction(e -> btnHuy());
+        btnThanhToan.setOnAction(e -> btnTaoHoaDon());
     }
 
     private void loadData() {
-        danhSachLapHD.setAll(thongTinLapHDBUS.LayThongTinLapHDbyMapdk(phieuDangKy.getMaPhieuDangKy()));
+        danhSachLapHD.setAll(ThongTinLapHDBUS.LayThongTinLapHDbyMapdk(phieuDangKy.getMaPhieuDangKy()));
         tinhToanTongTien();
     }
 
@@ -119,12 +113,12 @@ public class LapHoaDonCNController {
         tongTien.setText(currencyFormat.format(tongThanhToanThucTe) + "đ");
     }
 
-    private void huyHoaDon() {
+    private void btnHuy() {
         Stage stage = (Stage) btnHuy.getScene().getWindow();
         stage.close();
     }
 
-    private void thanhToan() {
+    private void btnTaoHoaDon() {
         String phuongThucTT = "Tiền mặt";
 
         HoaDonDTO hoaDon = new HoaDonDTO(
@@ -138,8 +132,8 @@ public class LapHoaDonCNController {
                 null
         );
 
-        phieuDangKyBUS.capNhatTrangThai(phieuDangKy.getMaPhieuDangKy(), "Đã xác nhận");
-        thanhToanBUS.taoHoaDon(hoaDon);
+        PhieuDangKyBUS.capNhatTrangThai(phieuDangKy.getMaPhieuDangKy(), "Đã xác nhận");
+        ThanhToanBUS.taoHoaDon(hoaDon);
         showAlert("Thành công", "Xác nhận thanh toán!");
 
         Stage stage = (Stage) btnThanhToan.getScene().getWindow();

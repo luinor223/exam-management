@@ -5,7 +5,6 @@ import com.hcmus.exammanagement.bus.LichThiBUS;
 import com.hcmus.exammanagement.dto.ChungChiDTO;
 import com.hcmus.exammanagement.dto.LichThiDTO;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -22,7 +21,7 @@ public class LichThiDialogController {
 
     @FXML private Button btnThem;
     @FXML private Button btnHuy;
-    @FXML private ComboBox<ChungChiDTO> chungChiComboBox;
+    @FXML private ComboBox<ChungChiDTO> chungChiCombo;
     @FXML private TextField gioThiField;
     @FXML private DatePicker ngayThiPicker;
     @FXML private TextField thoiLuongThiField;
@@ -38,7 +37,7 @@ public class LichThiDialogController {
             log.error("Error fetching ChungChiDTOs: {}", e.getMessage());
         }
 
-        chungChiComboBox.setConverter(new StringConverter<>() {
+        chungChiCombo.setConverter(new StringConverter<>() {
             @Override
             public String toString(ChungChiDTO chungChi) {
                 return chungChi != null ? chungChi.getTenChungChi() : "";
@@ -49,7 +48,7 @@ public class LichThiDialogController {
                 return null;
             }
         });
-        chungChiComboBox.setItems(FXCollections.observableArrayList(chungChiList));
+        chungChiCombo.setItems(FXCollections.observableArrayList(chungChiList));
     }
 
     public void setLichThi(LichThiDTO lichThiDTO) {
@@ -63,7 +62,7 @@ public class LichThiDialogController {
             // Find and select the matching ChungChiDTO
             for (ChungChiDTO chungChi : chungChiList) {
                 if (chungChi.getMaChungChi().equals(lichThiDTO.getChungChi().getMaChungChi())) {
-                    chungChiComboBox.getSelectionModel().select(chungChi);
+                    chungChiCombo.getSelectionModel().select(chungChi);
                     break;
                 }
             }
@@ -77,7 +76,7 @@ public class LichThiDialogController {
     }
 
     @FXML
-    public void btnThem(ActionEvent event) {
+    public void btnLuu(ActionEvent event) {
         try {
             // Validate input
             if (ngayThiPicker.getValue() == null) {
@@ -95,7 +94,7 @@ public class LichThiDialogController {
                 return;
             }
 
-            if (chungChiComboBox.getSelectionModel().isEmpty()) {
+            if (chungChiCombo.getSelectionModel().isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Chứng chỉ trống", "Vui lòng chọn chứng chỉ");
                 return;
             }
@@ -104,7 +103,7 @@ public class LichThiDialogController {
             LocalDate ngayThi = ngayThiPicker.getValue();
             String gioThi = gioThiField.getText().trim();
             Integer thoiLuongThi = Integer.parseInt(thoiLuongThiField.getText().trim());
-            ChungChiDTO chungChi = chungChiComboBox.getSelectionModel().getSelectedItem();
+            ChungChiDTO chungChi = chungChiCombo.getSelectionModel().getSelectedItem();
 
             // Create timestamp
             Timestamp ngayGioThi = Timestamp.valueOf(ngayThi.atTime(
