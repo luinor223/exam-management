@@ -17,12 +17,13 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 @Slf4j
-public class QuanLyLichThiController {
+public class QLLichThiController {
 
     // Data
     private final ObservableList<LichThiDTO> lichThiList = FXCollections.observableArrayList();
@@ -70,31 +71,33 @@ public class QuanLyLichThiController {
 
         // Add Edit and Delete buttons to actionColumn
         actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button editButton = new Button("Sửa");
-            private final Button deleteButton = new Button("Xóa");
+            private final Button editButton = new Button();
+            private final Button deleteButton = new Button();
             private final HBox pane = new HBox(5, editButton, deleteButton);
 
             {
-                editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-                deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+                editButton.setGraphic(new FontIcon("fas-pen"));
+                editButton.getStyleClass().add("action-button");
+
+                deleteButton.setGraphic(new FontIcon("fas-trash"));
+                deleteButton.getStyleClass().add("action-button");
+//                editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+//                deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
 
                 editButton.setOnAction(event -> {
                     LichThiDTO lichThi = getTableView().getItems().get(getIndex());
-                    handleShowSuaLichThi(lichThi);
+                    selectedLichThi = lichThi;
+                    moLichThiDialog(lichThi);
                 });
 
                 deleteButton.setOnAction(event -> {
                     LichThiDTO lichThi = getTableView().getItems().get(getIndex());
                     try {
-                        boolean success = LichThiBUS.xoaLichThi(lichThi.getMaLichThi());
-                        if (success) {
-                            showAlert(Alert.AlertType.INFORMATION, "Thành công", "Xóa lịch thi thành công", null);
-                            loadData();
-                        } else {
-                            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể xóa lịch thi", null);
-                        }
+                        LichThiBUS.xoaLichThi(lichThi.getMaLichThi());
+                        hienThongBao(Alert.AlertType.INFORMATION, "Thành công", "Xóa lịch thi thành công", null);
+                        loadData();
                     } catch (SQLException e) {
-                        showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể xóa lịch thi", e.getMessage());
+                        hienThongBao(Alert.AlertType.ERROR, "Lỗi", "Không thể xóa lịch thi", e.getMessage());
                     }
                 });
             }
@@ -107,12 +110,12 @@ public class QuanLyLichThiController {
         });
 
         // Setup Chi Tiet Phong Thi Table
-        maPhongColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPhongDTO().getMaPhong()));
-        maGiamThiColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getGiamThiDTO().getMaGiamThi()));
+        maPhongColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPhong().getMaPhong()));
+        maGiamThiColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getGiamThi().getMaGiamThi()));
         soLuongHienTaiPhongColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSoLuongHienTai().toString()));
         soLuongToiDaPhongColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSoLuongToiDa().toString()));
-        tenPhongColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPhongDTO().getTenPhong()));
-        tenGiamThiColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getGiamThiDTO().getHoTen()));
+        tenPhongColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPhong().getTenPhong()));
+        tenGiamThiColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getGiamThi().getHoTen()));
 
         // Add Delete button to actionPhongColumn
         actionPhongColumn.setCellFactory(param -> new TableCell<>() {
@@ -125,16 +128,16 @@ public class QuanLyLichThiController {
                     ChiTietPhongThiDTO chiTietPhongThi = getTableView().getItems().get(getIndex());
                     try {
                         boolean success = ChiTietPhongThiBUS.xoaChiTietPhongThi(
-                            chiTietPhongThi.getMaLichThi(), chiTietPhongThi.getPhongDTO().getMaPhong());
+                            chiTietPhongThi.getMaLichThi(), chiTietPhongThi.getPhong().getMaPhong());
                         if (success) {
-                            showAlert(Alert.AlertType.INFORMATION, "Thành công", "Hủy phân công phòng thành công", null);
+                            hienThongBao(Alert.AlertType.INFORMATION, "Thành công", "Hủy phân công phòng thành công", null);
                             loadData();
                             loadChiTietPhongThi(chiTietPhongThi.getMaLichThi());
                         } else {
-                            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể hủy phân công phòng", null);
+                            hienThongBao(Alert.AlertType.ERROR, "Lỗi", "Không thể hủy phân công phòng", null);
                         }
                     } catch (SQLException e) {
-                        showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể hủy phân công phòng", e.getMessage());
+                        hienThongBao(Alert.AlertType.ERROR, "Lỗi", "Không thể hủy phân công phòng", e.getMessage());
                     }
                 });
             }
@@ -154,7 +157,7 @@ public class QuanLyLichThiController {
             lichThiTable.setItems(lichThiList);
 
         } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải dữ liệu", e.getMessage());
+            hienThongBao(Alert.AlertType.ERROR, "Lỗi", "Không thể tải dữ liệu", e.getMessage());
         }
     }
 
@@ -170,33 +173,45 @@ public class QuanLyLichThiController {
     private void loadChiTietPhongThi(String maLichThi) {
         try {
             chiTietPhongThiList.clear();
-            chiTietPhongThiList.addAll(ChiTietPhongThiBUS.layDSChiTietPhongThiTheoLichThi(maLichThi));
+            chiTietPhongThiList.addAll(ChiTietPhongThiBUS.layDSTheoLichThi(maLichThi));
             chiTietPhongThiTable.setItems(chiTietPhongThiList);
             chiTietPhongThiSection.setVisible(selectedLichThi != null);
         } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải chi tiết phòng thi", e.getMessage());
+            hienThongBao(Alert.AlertType.ERROR, "Lỗi", "Không thể tải chi tiết phòng thi", e.getMessage());
         }
     }
 
     @FXML
-    public void handleShowThemLichThi() {
+    public void btnThemLichThi() {
         moLichThiDialog(null);
     }
 
     @FXML
-    public void handleShowSuaLichThi(LichThiDTO lichThi) {
-        selectedLichThi = lichThi;
-        moLichThiDialog(lichThi);
-    }
-
-    @FXML
-    public void handleShowPhanCong() {
+    public void btnThemPhanCong() {
         if (selectedLichThi == null) {
-            showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Chưa chọn lịch thi", "Vui lòng chọn lịch thi cần phân công");
+            hienThongBao(Alert.AlertType.WARNING, "Cảnh báo", "Chưa chọn lịch thi", "Vui lòng chọn lịch thi cần phân công");
             return;
         }
 
-        moPhanCongDialog();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/DangKy/phan-cong-dialog.fxml"));
+            Parent root = loader.load();
+
+            PhanCongDialogController controller = loader.getController();
+            controller.setLichThi(selectedLichThi);
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Phân công phòng thi");
+            dialogStage.setScene(new Scene(root));
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setResizable(false);
+            dialogStage.showAndWait();
+
+            loadData();
+            loadChiTietPhongThi(selectedLichThi.getMaLichThi());
+        } catch (IOException e) {
+            log.error("Error when loading PhanCongDialog.fxml", e);
+        }
     }
 
     private void moLichThiDialog(LichThiDTO lichThi) {
@@ -221,29 +236,7 @@ public class QuanLyLichThiController {
         }
     }
 
-    private void moPhanCongDialog() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/DangKy/phan-cong-dialog.fxml"));
-            Parent root = loader.load();
-
-            PhanCongDialogController controller = loader.getController();
-            controller.setLichThi(selectedLichThi);
-
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Phân công phòng thi");
-            dialogStage.setScene(new Scene(root));
-            dialogStage.initModality(Modality.APPLICATION_MODAL);
-            dialogStage.setResizable(false);
-            dialogStage.showAndWait();
-
-            loadData();
-            loadChiTietPhongThi(selectedLichThi.getMaLichThi());
-        } catch (IOException e) {
-            log.error("Error when loading PhanCongDialog.fxml", e);
-        }
-    }
-
-    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+    private void hienThongBao(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(header);

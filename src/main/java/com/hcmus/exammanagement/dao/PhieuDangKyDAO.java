@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 public class PhieuDangKyDAO {
-    public List<PhieuDangKyDTO> findAll() throws SQLException {
+    public static List<PhieuDangKyDTO> findAll() throws SQLException {
         List<PhieuDangKyDTO> listPDK = new ArrayList<>();
         String sql = "SELECT * " +
                 "FROM phieu_dang_ky pdk JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh";
@@ -75,8 +75,8 @@ public class PhieuDangKyDAO {
         return null;
     }
 
-    public int insert(PhieuDangKyDTO phieuDangKy) throws SQLException {
-        String sql = "INSERT INTO phieu_dang_ky (trang_thai, dia_chi_giao, ma_kh, nhan_vien_tao) VALUES (?, ?, ?, ?)";
+    public static PhieuDangKyDTO insert(PhieuDangKyDTO phieuDangKy) throws SQLException {
+        String sql = "INSERT INTO phieu_dang_ky (trang_thai, dia_chi_giao, ma_kh, nhan_vien_tao) VALUES (?, ?, ?, ?) RETURNING ma_pdk";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -85,37 +85,49 @@ public class PhieuDangKyDAO {
             stmt.setString(3, phieuDangKy.getKhachHang().getMaKH());
             stmt.setString(4, phieuDangKy.getMaNVTao());
 
-            return stmt.executeUpdate();
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String maPhieuDangKy = rs.getString("ma_pdk");
+                phieuDangKy.setMaPhieuDangKy(maPhieuDangKy);
+                return phieuDangKy;
+            } else {
+                throw new SQLException("Creating chi tiet phieu dang ky failed, no ID obtained.");
+            }
         } catch (SQLException e) {
             log.error("Error inserting phieu dang ky: {}", e.getMessage());
             throw e;
         }
     }
 
-    public List<PhieuDangKyDTO> findAllChoThanhToan() throws SQLException {
+    public static List<PhieuDangKyDTO> findAllByTinhTrang(String trangThai) throws SQLException {
         List<PhieuDangKyDTO> listPDK = new ArrayList<>();
         String sql = """
-            SELECT pdk.*, kh.*
-            FROM phieu_dang_ky pdk
-                JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh
-            WHERE pdk.trang_thai = 'Chờ xử lý';
-        """;
+        SELECT pdk.*, kh.*
+        FROM phieu_dang_ky pdk
+            JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh
+        WHERE pdk.trang_thai = ?;
+    """;
 
         try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                listPDK.add(PhieuDangKyDTO.fromResultSet(rs));
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, trangThai);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    listPDK.add(PhieuDangKyDTO.fromResultSet(rs));
+                }
             }
+
         } catch (SQLException e) {
-            log.error("Error finding all phieu dang ky cho thanh toan: {}", e.getMessage());
+            log.error("Error finding phieu dang ky by trang thai '{}': {}", trangThai, e.getMessage());
             throw e;
         }
 
         return listPDK;
     }
 
-    public void capNhatTrangThai(String maPhieu, String trangThai) {
+    public static void capNhatTrangThai(String maPhieu, String trangThai) {
         String sql = "UPDATE phieu_dang_ky SET trang_thai = ? WHERE ma_pdk = ?";
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

@@ -11,8 +11,8 @@ import java.sql.SQLException;
 @AllArgsConstructor
 public class ChiTietPhongThiDTO {
     private String maLichThi;
-    private PhongDTO phongDTO;
-    private GiamThiDTO giamThiDTO;
+    private PhongDTO phong;
+    private GiamThiDTO giamThi;
     private Integer soLuongHienTai;
     private Integer soLuongToiDa;
 

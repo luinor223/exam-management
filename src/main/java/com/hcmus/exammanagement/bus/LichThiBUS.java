@@ -26,36 +26,8 @@ public class LichThiBUS {
      * @return Danh sách lịch thi trong tương lai
      * @throws SQLException Nếu có lỗi truy vấn cơ sở dữ liệu
      */
-    public List<LichThiDTO> layDSLichThiMoi() throws SQLException {
+    public static List<LichThiDTO> layDSLichThiMoi() throws SQLException {
         return LichThiDAO.findAllNew();
-    }
-
-    /**
-     * Lấy lịch thi theo mã lịch thi
-     * @param maLichThi Mã lịch thi cần tìm
-     * @return Lịch thi tìm thấy hoặc null nếu không tìm thấy
-     * @throws IllegalArgumentException Nếu mã lịch thi không hợp lệ
-     * @throws SQLException Nếu có lỗi truy vấn cơ sở dữ liệu
-     */
-    public LichThiDTO layLichThi(String maLichThi) throws IllegalArgumentException, SQLException {
-        if (maLichThi == null || maLichThi.trim().isEmpty()) {
-            throw new IllegalArgumentException("Mã lịch thi không được để trống");
-        }
-        return LichThiDAO.findById(maLichThi);
-    }
-
-    /**
-     * Lấy danh sách lịch thi theo mã chứng chỉ
-     * @param maChungChi Mã chứng chỉ cần tìm
-     * @return Danh sách lịch thi của chứng chỉ
-     * @throws IllegalArgumentException Nếu mã chứng chỉ không hợp lệ
-     * @throws SQLException Nếu có lỗi truy vấn cơ sở dữ liệu
-     */
-    public List<LichThiDTO> layLichThiTheoChungChi(String maChungChi) throws IllegalArgumentException, SQLException {
-        if (maChungChi == null || maChungChi.trim().isEmpty()) {
-            throw new IllegalArgumentException("Mã chứng chỉ không được để trống");
-        }
-        return LichThiDAO.findByChungChi(maChungChi);
     }
 
     /**
@@ -137,12 +109,12 @@ public class LichThiBUS {
 
     /**
      * Xóa lịch thi
+     *
      * @param maLichThi Mã lịch thi cần xóa
-     * @return true nếu xóa thành công, false nếu không
      * @throws IllegalArgumentException Nếu mã lịch thi không hợp lệ
-     * @throws SQLException Nếu có lỗi truy vấn cơ sở dữ liệu
+     * @throws SQLException             Nếu có lỗi truy vấn cơ sở dữ liệu
      */
-    public static boolean xoaLichThi(String maLichThi) throws IllegalArgumentException, SQLException {
+    public static void xoaLichThi(String maLichThi) throws IllegalArgumentException, SQLException {
         if (maLichThi == null || maLichThi.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã lịch thi không được để trống");
         }
@@ -163,6 +135,6 @@ public class LichThiBUS {
             throw new IllegalArgumentException("Không thể xóa lịch thi đã có thí sinh đăng ký");
         }
 
-        return LichThiDAO.delete(maLichThi) > 0;
+        LichThiDAO.delete(maLichThi);
     }
 }

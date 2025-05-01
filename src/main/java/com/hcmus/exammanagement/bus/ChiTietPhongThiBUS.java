@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ChiTietPhongThiBUS {
 
-    public static List<ChiTietPhongThiDTO> layDSChiTietPhongThiTheoLichThi(String maLichThi) throws IllegalArgumentException, SQLException {
+    public static List<ChiTietPhongThiDTO> layDSTheoLichThi(String maLichThi) throws IllegalArgumentException, SQLException {
         if (maLichThi == null || maLichThi.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã lịch thi không được để trống");
         }
@@ -19,7 +19,7 @@ public class ChiTietPhongThiBUS {
         return ChiTietPhongThiDAO.findByLichThi(maLichThi);
     }
 
-    public boolean themChiTietPhongThi(ChiTietPhongThiDTO chiTietPhongThi) throws IllegalArgumentException, SQLException {
+    public static void themChiTietPhongThi(ChiTietPhongThiDTO chiTietPhongThi) throws IllegalArgumentException, SQLException {
         if (chiTietPhongThi == null) {
             throw new IllegalArgumentException("Chi tiết phòng thi không được để trống");
         }
@@ -29,11 +29,11 @@ public class ChiTietPhongThiBUS {
             throw new IllegalArgumentException("Mã lịch thi không được để trống");
         }
         
-        if (chiTietPhongThi.getPhongDTO() == null || chiTietPhongThi.getPhongDTO().getMaPhong().trim().isEmpty()) {
+        if (chiTietPhongThi.getPhong() == null || chiTietPhongThi.getPhong().getMaPhong().trim().isEmpty()) {
             throw new IllegalArgumentException("Mã phòng không được để trống");
         }
         
-        if (chiTietPhongThi.getGiamThiDTO() == null || chiTietPhongThi.getGiamThiDTO().getMaGiamThi().trim().isEmpty()) {
+        if (chiTietPhongThi.getGiamThi() == null || chiTietPhongThi.getGiamThi().getMaGiamThi().trim().isEmpty()) {
             throw new IllegalArgumentException("Mã giám thị không được để trống");
         }
         
@@ -41,12 +41,7 @@ public class ChiTietPhongThiBUS {
             throw new IllegalArgumentException("Số lượng tối đa phải lớn hơn 0");
         }
 
-        boolean tonTaiPhongThi = ChiTietPhongThiDAO.checkExist(chiTietPhongThi.getMaLichThi(), chiTietPhongThi.getPhongDTO().getMaPhong());
-        if (tonTaiPhongThi) {
-            throw new IllegalArgumentException("Chi tiết phòng thi đã tồn tại");
-        }
-        
-        return ChiTietPhongThiDAO.insert(chiTietPhongThi) > 0;
+        ChiTietPhongThiDAO.insert(chiTietPhongThi);
     }
 
     public static boolean xoaChiTietPhongThi(String maLichThi, String maPhong) throws IllegalArgumentException, SQLException {
@@ -56,12 +51,6 @@ public class ChiTietPhongThiBUS {
         
         if (maPhong == null || maPhong.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã phòng không được để trống");
-        }
-        
-        // Check if the exam room detail exists
-        boolean tonTaiPhongThi = ChiTietPhongThiDAO.checkExist(maLichThi, maPhong);
-        if (!tonTaiPhongThi) {
-            throw new IllegalArgumentException("Chi tiết phòng thi không tồn tại");
         }
         
         return ChiTietPhongThiDAO.delete(maLichThi, maPhong) > 0;

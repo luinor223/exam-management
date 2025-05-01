@@ -146,7 +146,7 @@ public class XepLichDonViController {
 
     private void loadPhieuDangKyData() {
         try {
-            List<PhieuDangKyDTO> phieuDangKyDTOList = phieuDangKyBUS.layDSPhieuDangKyTheoTrangThai("Chờ xếp lịch");
+            List<PhieuDangKyDTO> phieuDangKyDTOList = PhieuDangKyBUS.layDSPhieuDangKyTheoTrangThai("Chờ xếp lịch");
             // Data
             ObservableList<PhieuDangKyDTO> phieuDangKyList = FXCollections.observableArrayList(phieuDangKyDTOList);
             phieuDangKyTable.setItems(phieuDangKyList);
@@ -228,14 +228,14 @@ public class XepLichDonViController {
                 }
             }
 
-            List<ChiTietPhongThiDTO> chiTietPhongThiList = ChiTietPhongThiBUS.layDSChiTietPhongThiTheoLichThi(selectedLichThi.getMaLichThi());
+            List<ChiTietPhongThiDTO> chiTietPhongThiList = ChiTietPhongThiBUS.layDSTheoLichThi(selectedLichThi.getMaLichThi());
 
             int soLuongConLai = candidatesToSchedule;
             for (ChiTietPhongThiDTO chiTietPhongThi : chiTietPhongThiList) {
                 int soLuongHienTaiPhong = chiTietPhongThi.getSoLuongHienTai();
                 int soLuongToiDaPhong = chiTietPhongThi.getSoLuongToiDa();
 
-                ChiTietPhongThiBUS.capNhatSoLuongHienTai(selectedLichThi.getMaLichThi(), chiTietPhongThi.getPhongDTO().getMaPhong(), min(soLuongToiDaPhong, soLuongConLai + soLuongHienTaiPhong));
+                ChiTietPhongThiBUS.capNhatSoLuongHienTai(selectedLichThi.getMaLichThi(), chiTietPhongThi.getPhong().getMaPhong(), min(soLuongToiDaPhong, soLuongConLai + soLuongHienTaiPhong));
 
                 soLuongConLai -= soLuongToiDaPhong - soLuongHienTaiPhong;
             }

@@ -8,7 +8,7 @@ import java.util.*;
 
 public class PhieuGiaHanDAO {
     public static boolean insertPhieuGiaHan(PhieuGiaHanDTO pgh) {
-        String query = "INSERT INTO Nhom01.phieu_gia_han (loai_gh, phi_gh, nhan_vien_tao, da_thanh_toan, ma_ctpdk) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO phieu_gia_han (loai_gh, phi_gh, nhan_vien_tao, da_thanh_toan, ma_ctpdk) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, pgh.getLoaiGH());
@@ -25,7 +25,7 @@ public class PhieuGiaHanDAO {
 
     public static List<PhieuGiaHanDTO> getAllPhieuGiaHan() {
         List<PhieuGiaHanDTO> list = new ArrayList<>();
-        String query = "SELECT * FROM Nhom01.phieu_gia_han";
+        String query = "SELECT * FROM phieu_gia_han";
         try (Connection conn = Database.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {

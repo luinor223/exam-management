@@ -8,7 +8,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class TNDangKyController {
+public class DangKyController {
 
     @FXML
     private AnchorPane formContainer;

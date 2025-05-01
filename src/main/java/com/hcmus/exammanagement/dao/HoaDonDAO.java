@@ -13,7 +13,7 @@ import java.util.List;
 
 public class HoaDonDAO {
 
-    public List<HoaDonDTO> findAll() {
+    public static List<HoaDonDTO> findAll() {
         List<HoaDonDTO> listHoaDon = new ArrayList<>();
         String sql = "SELECT hd.*, pd.*, kh.* " +
                     "FROM hoa_don hd " +
@@ -34,7 +34,7 @@ public class HoaDonDAO {
         return listHoaDon;
     }
 
-    public HoaDonDTO findById(String maHoaDon) {
+    public static HoaDonDTO findById(String maHoaDon) {
         String sql = "SELECT hd.*, pd.*, kh.* " +
                 "FROM hoa_don hd " +
                 "JOIN phieu_dang_ky pd ON hd.ma_pdk = pd.ma_pdk " +
@@ -56,7 +56,7 @@ public class HoaDonDAO {
         return null;
     }
 
-    public void insert(HoaDonDTO hoaDon) {
+    public static void insert(HoaDonDTO hoaDon) {
         String sql = "INSERT INTO hoa_don ( tong_tien, pt_thanh_toan, so_tien_giam, ngay_lap, nhan_vien_tao, ma_pdk, ma_thanh_toan) " +
                 "VALUES ( ?, ?, ?, ?, ?, ?, ?)";
 
@@ -80,7 +80,7 @@ public class HoaDonDAO {
     }
 
 
-    public void update(HoaDonDTO hoaDon) {
+    public static void update(HoaDonDTO hoaDon) {
         String sql = "UPDATE hoa_don SET tong_tien = ?, pt_thanh_toan = ?, so_tien_giam = ?, ngay_lap = ?, nhan_vien_tao = ?, ma_pdk = ?, ma_thanh_toan = ? WHERE ma_hd = ?";
 
         try (Connection conn = Database.getConnection();
@@ -104,7 +104,7 @@ public class HoaDonDAO {
         }
     }
 
-    public boolean update_matt(String maHd, String maThanhToan) {
+    public static boolean update_matt(String maHd, String maThanhToan) {
         String sql = "UPDATE hoa_don SET ma_thanh_toan = ? WHERE ma_hd = ?";
 
         try (Connection conn = Database.getConnection();
@@ -123,7 +123,7 @@ public class HoaDonDAO {
     }
 
 
-    public boolean delete(String maHoaDon) {
+    public static boolean delete(String maHoaDon) {
         String sql = "DELETE FROM hoa_don WHERE ma_hd = ?";
 
         try (Connection conn = Database.getConnection();

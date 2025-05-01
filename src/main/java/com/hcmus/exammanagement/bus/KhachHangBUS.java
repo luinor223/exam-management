@@ -10,32 +10,23 @@ import java.util.List;
  * Business logic class for KhachHang (Customer) operations
  */
 public class KhachHangBUS {
-    private final KhachHangDAO khachHangDAO;
 
-    public KhachHangBUS() {
-        this.khachHangDAO = new KhachHangDAO();
+    public static List<KhachHangDTO> layDSKhachHangDonVi() throws SQLException {
+        return KhachHangDAO.findByLoaiKh("Đơn vị");
     }
 
-    public List<KhachHangDTO> layDSKhachHang() throws SQLException {
-        return khachHangDAO.findAll();
+    public static List<KhachHangDTO> layDSKhachHangCaNhan() throws SQLException {
+        return KhachHangDAO.findByLoaiKh("Cá nhân");
     }
 
-    public List<KhachHangDTO> layDSKhachHangDonVi() throws SQLException {
-        return khachHangDAO.findByLoaiKh("Đơn vị");
-    }
-
-    public List<KhachHangDTO> layDSKhachHangCaNhan() throws SQLException {
-        return khachHangDAO.findByLoaiKh("Cá nhân");
-    }
-
-    public KhachHangDTO layKhachHang(String maKH) throws IllegalArgumentException, SQLException {
-        if (maKH == null || maKH.trim().isEmpty()) {
-            throw new IllegalArgumentException("Mã khách hàng không được để trống");
+    public static KhachHangDTO layKhachHangBangCCCD(String cccd) throws IllegalArgumentException, SQLException {
+        if (cccd == null || cccd.trim().isEmpty()) {
+            throw new IllegalArgumentException("CCCD không được để trống");
         }
-        return khachHangDAO.findById(maKH);
+        return KhachHangDAO.findByCCCD(cccd);
     }
 
-    public void taoKhachHang(KhachHangDTO khachHang) throws IllegalArgumentException, SQLException {
+    public static KhachHangDTO taoKhachHang(KhachHangDTO khachHang) throws IllegalArgumentException, SQLException {
         if (khachHang == null) {
             throw new IllegalArgumentException("Khách hàng không được để trống");
         }
@@ -45,6 +36,6 @@ public class KhachHangBUS {
             throw new IllegalArgumentException("Tên khách hàng không được để trống");
         }
 
-        khachHangDAO.insert(khachHang);
+        return KhachHangDAO.insert(khachHang);
     }
 }

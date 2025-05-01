@@ -18,10 +18,10 @@
     <TextField fx:id="maLichThiField" editable="false" layoutX="14.0" layoutY="70.0" prefHeight="30.0" prefWidth="340.0" promptText="Tự động" style="-fx-background-color: transparent;" />
 
     <Label layoutX="14.0" layoutY="110.0" text="Phòng" />
-    <ComboBox fx:id="phongComboBox" layoutX="14.0" layoutY="130.0" prefHeight="30.0" prefWidth="202.0" style="-fx-background-color: white; -fx-border-color: #dadada;" />
+    <ComboBox fx:id="phongCombo" layoutX="14.0" layoutY="130.0" prefHeight="30.0" prefWidth="202.0" style="-fx-background-color: white; -fx-border-color: #dadada;" />
 
     <Label layoutX="14.0" layoutY="170.0" text="Giám thị" />
-    <ComboBox fx:id="giamThiComboBox" layoutX="14.0" layoutY="190.0" prefHeight="30.0" prefWidth="340.0" style="-fx-background-color: white; -fx-border-color: #dadada;" />
+    <ComboBox fx:id="giamThiCombo" layoutX="14.0" layoutY="190.0" prefHeight="30.0" prefWidth="340.0" style="-fx-background-color: white; -fx-border-color: #dadada;" />
      <Button fx:id="btnLuu" layoutX="186.0" layoutY="243.0" mnemonicParsing="false" onAction="#btnLuu" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #18c27b; -fx-background-radius: 5;" text="Lưu" textFill="WHITE" />
    <Button fx:id="btnHuy" layoutX="275.0" layoutY="243.0" mnemonicParsing="false" onAction="#btnHuy" prefHeight="30.0" prefWidth="81.0" style="-fx-background-color: white; -fx-border-color: #18c27b; -fx-border-radius: 5;" text="Hủy" textFill="#18c27b" />
    <Label layoutX="237.0" layoutY="110.0" text="Số lượng tối đa" />
