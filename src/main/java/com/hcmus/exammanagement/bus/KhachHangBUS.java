@@ -28,11 +28,11 @@ public class KhachHangBUS {
         return khachHangDAO.findByLoaiKh("Cá nhân");
     }
 
-    public KhachHangDTO layKhachHang(String maKH) throws IllegalArgumentException, SQLException {
-        if (maKH == null || maKH.trim().isEmpty()) {
-            throw new IllegalArgumentException("Mã khách hàng không được để trống");
+    public KhachHangDTO layKhachHangBangCCCD(String cccd) throws IllegalArgumentException, SQLException {
+        if (cccd == null || cccd.trim().isEmpty()) {
+            throw new IllegalArgumentException("CCCD không được để trống");
         }
-        return khachHangDAO.findById(maKH);
+        return khachHangDAO.findByCCCD(cccd);
     }
 
     public void taoKhachHang(KhachHangDTO khachHang) throws IllegalArgumentException, SQLException {

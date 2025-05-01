@@ -31,6 +31,24 @@ public class KhachHangDAO {
         return khList;
     }
 
+    public KhachHangDTO findByCCCD(String cccd) throws SQLException {
+        String sql = "SELECT * FROM khach_hang WHERE cccd = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, cccd);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return KhachHangDTO.fromResultSet(rs);
+            }
+        } catch (SQLException e) {
+            log.error("Error finding khach hang by CCCD {}: {}", cccd, e.getMessage());
+            throw e;
+        }
+
+        return null;
+    }
+
     public List<KhachHangDTO> findByLoaiKh(String loaiKh) throws SQLException {
         List<KhachHangDTO> khList = new ArrayList<>();
         String sql = "SELECT * FROM khach_hang WHERE loai_kh = ?";
@@ -52,7 +70,7 @@ public class KhachHangDAO {
         return khList;
     }
 
-    public KhachHangDTO findById(String maKH) throws SQLException {
+    public static KhachHangDTO findById(String maKH) throws SQLException {
         String sql = "SELECT * FROM khach_hang WHERE ma_kh = ?";
 
         try (Connection conn = Database.getConnection();

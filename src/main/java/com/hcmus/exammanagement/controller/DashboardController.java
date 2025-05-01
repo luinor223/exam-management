@@ -47,6 +47,7 @@ public class DashboardController {
                 sidebarButtons.add(createButton("Nhập kết quả", "#NhapKetQua"));
                 break;
             case "Khao thi":
+                sidebarButtons.add(createButton("Xếp lịch cho đơn vị", "Xeplichdonvi"));
                 sidebarButtons.add(createButton("Quản lý lịch thi", "#QLLichThi"));
                 sidebarButtons.add(createButton("Phát hành phiếu dự thi", "#PhatHanhPhieu"));
                 break;
@@ -93,6 +94,8 @@ public class DashboardController {
             case "#QLLichThi":
                 QLLichThi(new ActionEvent());
                 break;
+            case "Xeplichdonvi":
+                XepLichDonVi(new ActionEvent());
             case "#PhatHanhPhieu":
                 PhatHanhPhieu(new ActionEvent());
                 break;
@@ -120,11 +123,6 @@ public class DashboardController {
     }
 
     @FXML
-    void Someday(ActionEvent event) {
-        // Implementation
-    }
-
-    @FXML
     void LapPhieuGiaHan(ActionEvent event) throws IOException {
         Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/LapPhieuGiaHan/lap-phieu-gia-han.fxml")));
         contentArea.getChildren().clear();
@@ -140,7 +138,14 @@ public class DashboardController {
 
     @FXML
     void QLLichThi(ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/DangKy/quan-ly-lich-thi.fxml")));
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/DangKy/ql-lich-thi.fxml")));
+        contentArea.getChildren().clear();
+        contentArea.getChildren().add(fxml);
+    }
+
+    @FXML
+    void XepLichDonVi(ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/DangKy/xep-lich-don-vi.fxml")));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }

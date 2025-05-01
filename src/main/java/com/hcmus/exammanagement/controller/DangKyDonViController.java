@@ -27,7 +27,6 @@ public class DangKyDonViController {
     // BUS services
     private final KhachHangBUS khachHangBUS = new KhachHangBUS();
     private final ThiSinhBUS thiSinhBUS = new ThiSinhBUS();
-    private final PhieuDangKyBUS phieuDangKyBUS = new PhieuDangKyBUS();
 
     // Data
     private KhachHangDTO selectedDonVi;
@@ -257,7 +256,8 @@ public class DangKyDonViController {
                     "NV000001" // TODO: - placeholder
             );
 
-            phieuDangKyBUS.taoPhieuDangKy(phieuDangKy);
+            PhieuDangKyBUS.taoPhieuDangKy(phieuDangKy);
+            phieuDangKy = PhieuDangKyBUS.layPhieuVuaTao(khachHang.getMaKH());
 
             for (ThiSinhDTO thiSinh : thiSinhList) {
                 ThiSinhDTO existingThiSinh = thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd());
@@ -269,9 +269,8 @@ public class DangKyDonViController {
                     thiSinhBUS.capNhatThiSinh(thiSinh);
                     maThiSinh = existingThiSinh.getMaThiSinh();
                 } else {
-                    // Create new candidate
+                    // Create a new candidate
                     thiSinhBUS.taoThiSinh(thiSinh);
-                    // Get the newly created candidate ID
                     maThiSinh = thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd()).getMaThiSinh();
                 }
 

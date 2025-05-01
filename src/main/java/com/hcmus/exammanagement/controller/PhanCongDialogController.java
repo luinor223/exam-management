@@ -26,17 +26,16 @@ public class PhanCongDialogController {
 
     @FXML private Button btnHuy;
     @FXML private Button btnLuu;
-    @FXML private ComboBox<GiamThiDTO> giamThiComboBox;
+    @FXML private ComboBox<GiamThiDTO> giamThiCombo;
     @FXML private TextField maLichThiField;
-    @FXML private ComboBox<PhongDTO> phongComboBox;
+    @FXML private ComboBox<PhongDTO> phongCombo;
     @FXML private TextField soLuongToiDaField;
 
     private LichThiDTO lichThi;
-    private final ChiTietPhongThiBUS chiTietPhongThiBUS = new ChiTietPhongThiBUS();
 
     @FXML
     private void initialize() {
-        phongComboBox.setConverter(new StringConverter<>() {
+        phongCombo.setConverter(new StringConverter<>() {
             @Override
             public String toString(PhongDTO phong) {
                 return phong != null ? phong.getTenPhong() + " (" + phong.getSoGhe() + " chỗ)" : "";
@@ -48,7 +47,7 @@ public class PhanCongDialogController {
             }
         });
 
-        giamThiComboBox.setConverter(new StringConverter<>() {
+        giamThiCombo.setConverter(new StringConverter<>() {
             @Override
             public String toString(GiamThiDTO giamThi) {
                 return giamThi != null ? giamThi.getHoTen() + " (" + giamThi.getSdt() + ")" : "";
@@ -60,7 +59,7 @@ public class PhanCongDialogController {
             }
         });
 
-        phongComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        phongCombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 soLuongToiDaField.setText(newValue.getSoGhe().toString());
             } else {
@@ -83,7 +82,7 @@ public class PhanCongDialogController {
     private void loadPhongTrong() {
         try {
             List<PhongDTO> availableRooms = PhongBUS.layDSPhongTrong(lichThi.getNgayGioThi(), lichThi.getThoiLuongThi());
-            phongComboBox.setItems(FXCollections.observableArrayList(availableRooms));
+            phongCombo.setItems(FXCollections.observableArrayList(availableRooms));
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải danh sách phòng trống", e.getMessage());
         }
@@ -92,7 +91,7 @@ public class PhanCongDialogController {
     private void loadGiamThiRanh() {
         try {
             List<GiamThiDTO> supervisors = GiamThiBUS.layDSGiamThiRanh(this.lichThi.getNgayGioThi(), this.lichThi.getThoiLuongThi());
-            giamThiComboBox.setItems(FXCollections.observableArrayList(supervisors));
+            giamThiCombo.setItems(FXCollections.observableArrayList(supervisors));
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải danh sách giám thị", e.getMessage());
         }
@@ -108,18 +107,18 @@ public class PhanCongDialogController {
     void btnLuu(ActionEvent event) {
         try {
             // Validate selections
-            if (phongComboBox.getSelectionModel().isEmpty()) {
+            if (phongCombo.getSelectionModel().isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Chưa chọn phòng", "Vui lòng chọn phòng cần phân công");
                 return;
             }
 
-            if (giamThiComboBox.getSelectionModel().isEmpty()) {
+            if (giamThiCombo.getSelectionModel().isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Chưa chọn giám thị", "Vui lòng chọn giám thị cần phân công");
                 return;
             }
 
-            PhongDTO selectedPhong = phongComboBox.getValue();
-            GiamThiDTO selectedGiamThi = giamThiComboBox.getValue();
+            PhongDTO selectedPhong = phongCombo.getValue();
+            GiamThiDTO selectedGiamThi = giamThiCombo.getValue();
 
             if (selectedPhong.getSoGhe() < Integer.parseInt(soLuongToiDaField.getText())) {
                 showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Số ghế không hợp lệ", "Vui lòng chọn phòng có số ghế lớn hơn hoặc bằng số lượng tối đa");
@@ -134,13 +133,9 @@ public class PhanCongDialogController {
                     Integer.parseInt(soLuongToiDaField.getText()) // soLuongToiDa
             );
 
-            boolean success = chiTietPhongThiBUS.themChiTietPhongThi(chiTietPhongThi);
-            if (success) {
-                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Phân công phòng và giám thị thành công", null);
-                ((Stage) btnLuu.getScene().getWindow()).close();
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể phân công phòng và giám thị", null);
-            }
+            ChiTietPhongThiBUS.themChiTietPhongThi(chiTietPhongThi);
+            showAlert(Alert.AlertType.INFORMATION, "Thành công", "Phân công phòng và giám thị thành công", null);
+            ((Stage) btnLuu.getScene().getWindow()).close();
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể phân công phòng và giám thị", e.getMessage());
         }

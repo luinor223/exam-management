@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 public class PhieuDangKyDAO {
-    public List<PhieuDangKyDTO> findAll() throws SQLException {
+    public static List<PhieuDangKyDTO> findAll() throws SQLException {
         List<PhieuDangKyDTO> listPDK = new ArrayList<>();
         String sql = "SELECT * " +
                 "FROM phieu_dang_ky pdk JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh";
@@ -53,6 +53,28 @@ public class PhieuDangKyDAO {
         return listPDK;
     }
 
+    public static PhieuDangKyDTO findNewLyCreated(String maKH) throws SQLException {
+        String sql = "SELECT * " +
+                "FROM phieu_dang_ky pdk JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh " +
+                "WHERE pdk.ma_kh = ? AND trang_thai = 'Chờ xử lý' " +
+                "ORDER BY pdk.ma_pdk DESC LIMIT 1";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, maKH);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return PhieuDangKyDTO.fromResultSet(rs);
+            }
+
+        } catch (SQLException e) {
+            log.error("Error finding new phieu dang ky by ma kh {}: {}", maKH, e.getMessage());
+            throw e;
+        }
+
+        return null;
+    }
+
     public static PhieuDangKyDTO findById(String maPhieuDangKy) throws SQLException {
         String sql = "SELECT * " +
                 "FROM phieu_dang_ky pdk JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh " +
@@ -75,7 +97,7 @@ public class PhieuDangKyDAO {
         return null;
     }
 
-    public int insert(PhieuDangKyDTO phieuDangKy) throws SQLException {
+    public static int insert(PhieuDangKyDTO phieuDangKy) throws SQLException {
         String sql = "INSERT INTO phieu_dang_ky (trang_thai, dia_chi_giao, ma_kh, nhan_vien_tao) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = Database.getConnection();
@@ -92,7 +114,7 @@ public class PhieuDangKyDAO {
         }
     }
 
-    public List<PhieuDangKyDTO> findAllChoThanhToan() throws SQLException {
+    public static List<PhieuDangKyDTO> findAllChoThanhToan() throws SQLException {
         List<PhieuDangKyDTO> listPDK = new ArrayList<>();
         String sql = """
             SELECT pdk.*, kh.*
@@ -115,7 +137,7 @@ public class PhieuDangKyDAO {
         return listPDK;
     }
 
-    public void capNhatTrangThai(String maPhieu, String trangThai) {
+    public static void capNhatTrangThai(String maPhieu, String trangThai) {
         String sql = "UPDATE phieu_dang_ky SET trang_thai = ? WHERE ma_pdk = ?";
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
