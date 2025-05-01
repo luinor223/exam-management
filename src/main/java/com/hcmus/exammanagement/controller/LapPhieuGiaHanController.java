@@ -1,154 +1,165 @@
 package com.hcmus.exammanagement.controller;
 
-import com.hcmus.exammanagement.dao.PhieuGiaHanDAO;
 import com.hcmus.exammanagement.dto.Database;
 import com.hcmus.exammanagement.dto.PhieuGiaHanDTO;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.layout.VBox;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LapPhieuGiaHanController {
 
-    @FXML
-    private ComboBox<String> cbMaCTPDK;
+    @FXML private TextField txtMaTS;
+    @FXML private TableView<Map<String, Object>> tblLichSuGH;
+    @FXML private TableColumn<Map<String, Object>, String> colMaPGH;
+    @FXML private TableColumn<Map<String, Object>, String> colLoaiGH;
+    @FXML private TableColumn<Map<String, Object>, Double> colPhiGH;
+    @FXML private TableColumn<Map<String, Object>, String> colMaCTPDK;
+    @FXML private TableColumn<Map<String, Object>, String> colNgayThi;
+    @FXML private TableColumn<Map<String, Object>, Boolean> colThanhToan;
+    @FXML private Button btnThemGiaHan;
 
-    @FXML
-    private TextField txtLoaiGH;
+    @FXML private Label lblTieuDe;
 
-    @FXML
-    private TextField txtPhiGH;
+    @FXML private TableColumn<Map<String, Object>, String> colMaCCHI;
+    @FXML private TableColumn<Map<String, Object>, String> colSBD;
+    @FXML private TableColumn<Map<String, Object>, String> colMaPhong;
 
-    @FXML
-    private CheckBox chkDaThanhToan;
-
-    @FXML
-    private Label lblThongBao;
-
-    @FXML private TextField txtMaThiSinh;
-    @FXML private VBox vboxLapPhieu;
+    private final ObservableList<Map<String, Object>> dataList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        vboxLapPhieu.setVisible(false);
+        // Các cột cũ...
+        colMaPGH.setCellValueFactory(cell -> new SimpleStringProperty(((PhieuGiaHanDTO) cell.getValue().get("dto")).getMaPhieuGH()));
+        colLoaiGH.setCellValueFactory(cell -> new SimpleStringProperty(((PhieuGiaHanDTO) cell.getValue().get("dto")).getLoaiGH()));
+        colPhiGH.setCellValueFactory(cell -> new SimpleDoubleProperty(((PhieuGiaHanDTO) cell.getValue().get("dto")).getPhiGH()).asObject());
+        colThanhToan.setCellValueFactory(cell -> new SimpleBooleanProperty(((PhieuGiaHanDTO) cell.getValue().get("dto")).isDaThanhToan()).asObject());
+        colMaCTPDK.setCellValueFactory(cell -> new SimpleStringProperty((String) cell.getValue().get("ma_ctpdk")));
+        colNgayThi.setCellValueFactory(cell -> {
+            Timestamp ts = (Timestamp) cell.getValue().get("ngay_thi");
+            String formatted = (ts != null) ? ts.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) : "";
+            return new SimpleStringProperty(formatted);
+        });
 
-        lblThongBao.setText("");
-        lblThongBao.setStyle("-fx-text-fill: red;");
-    }
+        // Cột mới
+        colMaCCHI.setCellValueFactory(cell -> new SimpleStringProperty((String) cell.getValue().get("ma_cchi")));
+        colSBD.setCellValueFactory(cell -> new SimpleStringProperty((String) cell.getValue().get("sbd")));
+        colMaPhong.setCellValueFactory(cell -> new SimpleStringProperty((String) cell.getValue().get("ma_phong")));
 
-    private void loadMaCTPDKTheoMaPhieu(String maPhieu) {
-        ObservableList<String> list = FXCollections.observableArrayList();
-        String query = "SELECT ma_ctpdk FROM chi_tiet_phieu_dk WHERE ma_pdk = ?";
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, maPhieu);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                list.add(rs.getString("ma_ctpdk"));
-            }
-            cbMaCTPDK.setItems(list);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        tblLichSuGH.setItems(dataList);
     }
 
 
     @FXML
-    private void handleLuuPhieu() {
-        String maCTPDK = cbMaCTPDK.getValue();
-        String loaiGH = txtLoaiGH.getText();
-        String phiGHStr = txtPhiGH.getText();
-        boolean daThanhToan = chkDaThanhToan.isSelected();
+    private void handleTraCuu() {
+        String maTS = txtMaTS.getText().trim();
+        if (maTS.isEmpty()) {
+            showAlert("Lỗi", "Vui lòng nhập mã thí sinh.");
+            return;
+        }
+        loadLichSuGiaHan(maTS);
+    }
 
-        if (maCTPDK == null || loaiGH.isEmpty() || phiGHStr.isEmpty()) {
-            lblThongBao.setText("Vui lòng nhập đầy đủ thông tin!");
+    private void loadLichSuGiaHan(String maTS) {
+        dataList.clear();
+        try (Connection conn = Database.getConnection()) {
+            String sql = """
+            SELECT pgh.ma_pgh, pgh.loai_gh, pgh.phi_gh, pgh.nhan_vien_tao, pgh.da_thanh_toan,
+                   pgh.ma_ctpdk, ct.ma_ctpdk, lt.ngay_gio_thi,
+                   lt.ma_cchi, pdt.sbd, pdt.ma_phong
+            FROM phieu_gia_han pgh
+            JOIN chi_tiet_phieu_dk ct ON pgh.ma_ctpdk = ct.ma_ctpdk
+            JOIN phieu_du_thi pdt ON ct.ma_ctpdk = pdt.ma_ctpdk
+            JOIN lich_thi lt ON pdt.ma_lt = lt.ma_lt
+            WHERE ct.ma_ts = ?
+            ORDER BY lt.ngay_gio_thi DESC
+            """;
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, maTS);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                PhieuGiaHanDTO dto = new PhieuGiaHanDTO(
+                        rs.getString("ma_pgh"),
+                        rs.getString("loai_gh"),
+                        rs.getDouble("phi_gh"),
+                        rs.getString("nhan_vien_tao"),
+                        rs.getBoolean("da_thanh_toan"),
+                        rs.getString("ma_ctpdk")
+                );
+
+                Map<String, Object> row = new HashMap<>();
+                row.put("dto", dto);
+                row.put("ma_ctpdk", rs.getString("ma_ctpdk"));
+                row.put("ngay_thi", rs.getTimestamp("ngay_gio_thi"));
+                row.put("ma_cchi", rs.getString("ma_cchi"));
+                row.put("sbd", rs.getString("sbd"));
+                row.put("ma_phong", rs.getString("ma_phong"));
+
+                dataList.add(row);
+            }
+
+            lblTieuDe.setText("Lịch sử gia hạn cho thí sinh: " + maTS);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể tải dữ liệu từ cơ sở dữ liệu.");
+        }
+    }
+
+    @FXML
+    private void handleThemGiaHan() {
+        String maTS = txtMaTS.getText().trim();
+        if (maTS.isEmpty()) {
+            showAlert("Thông báo", "Vui lòng tra cứu mã thí sinh trước.");
             return;
         }
 
         try {
-            double phiGH = Double.parseDouble(phiGHStr);
-            // Giả định nhân viên tạo đang đăng nhập là mã "NV001"
-            PhieuGiaHanDTO dto = new PhieuGiaHanDTO(null, loaiGH, phiGH, null, daThanhToan, maCTPDK);
-            boolean success = PhieuGiaHanDAO.insertPhieuGiaHan(dto);
-            if (success) {
-                lblThongBao.setStyle("-fx-text-fill: green;");
-                lblThongBao.setText("Lưu phiếu thành công!");
-                txtLoaiGH.clear();
-                txtPhiGH.clear();
-                chkDaThanhToan.setSelected(false);
-            } else {
-                lblThongBao.setStyle("-fx-text-fill: red;");
-                lblThongBao.setText("Lưu phiếu thất bại!");
-            }
-        } catch (NumberFormatException e) {
-            lblThongBao.setText("Phí gia hạn phải là số!");
-        }
-    }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/LapPhieuGiaHan/dialog-them-gia-han.fxml"));
+            Parent root = loader.load();
 
-    @FXML
-    private void handleTraCuu() {
-        String maThiSinh = txtMaThiSinh.getText();
-        if (maThiSinh.isEmpty()) {
-            lblThongBao.setText("Vui lòng nhập mã thí sinh!");
-            return;
-        }
+            DialogThemGiaHanController controller = loader.getController();
+            // Lấy danh sách mã ct_pdk của thí sinh đang xem
+            List<String> maCTPDKList = dataList.stream()
+                    .map(row -> (String) row.get("ma_ctpdk"))
+                    .distinct()
+                    .toList();
 
-        try (Connection conn = Database.getConnection()) {
-            // Truy vấn phiếu dự thi
-            PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT * FROM phieu_du_thi p " +
-                            "JOIN chi_tiet_phieu_dk c ON p.ma_ctpdk = c.ma_ctpdk " +
-                            "JOIN lich_thi l ON c.ma_lt = l.ma_lt " +
-                            "WHERE c.ma_ts = ?");
-            stmt.setString(1, maThiSinh);
-            ResultSet rs = stmt.executeQuery();
+            controller.setDanhSachCTPDK(maCTPDKList);
 
-            if (!rs.next()) {
-                lblThongBao.setText("Không tìm thấy phiếu dự thi!");
-                vboxLapPhieu.setVisible(false);
-                return;
-            }
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Thêm Gia Hạn");
+            dialogStage.setScene(new Scene(root));
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.showAndWait();
 
-            String maPhieu = rs.getString("ma_pdk");
+            // Sau khi thêm, làm mới lại bảng
+            loadLichSuGiaHan(maTS);
 
-            // Lấy lịch thi và lịch sử gia hạn
-            StringBuilder info = new StringBuilder("Thông tin phiếu dự thi:\n");
-            info.append("Mã phiếu: ").append(maPhieu).append("\n");
-            info.append("Ngày thi: ").append(rs.getDate("ngay_gio_thi")).append("\n");
-
-            info.append("\nLịch sử gia hạn:\n");
-            PreparedStatement stmtGH = conn.prepareStatement(
-                    "SELECT * FROM phieu_gia_han WHERE ma_ctpdk IN " +
-                            "(SELECT ma_ctpdk FROM chi_tiet_phieu_dk WHERE ma_pdk = ?)");
-            stmtGH.setString(1, maPhieu);
-            ResultSet rsGH = stmtGH.executeQuery();
-            while (rsGH.next()) {
-                info.append("- ").append(rsGH.getString("loai_gh"))
-                        .append(", phí: ").append(rsGH.getDouble("phi_gh"))
-                        .append(", thanh toán: ").append(rsGH.getBoolean("da_thanh_toan") ? "rồi" : "chưa")
-                        .append("\n");
-            }
-
-            // Hiển thị dialog
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Thông tin dự thi");
-            alert.setHeaderText("Kết quả tra cứu cho thí sinh " + maThiSinh);
-            alert.setContentText(info.toString());
-            alert.showAndWait();
-
-            // Cho phép hiện phần lập phiếu
-            loadMaCTPDKTheoMaPhieu(maPhieu);
-            vboxLapPhieu.setVisible(true);
-            lblThongBao.setText("");
-
-        } catch (SQLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            lblThongBao.setText("Lỗi khi truy vấn dữ liệu!");
+            showAlert("Lỗi", "Không thể mở dialog.");
         }
     }
 
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

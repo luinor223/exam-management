@@ -1,52 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
-<AnchorPane stylesheets="@../style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.hcmus.exammanagement.controller.LapPhieuGiaHanController">
-    <VBox alignment="CENTER_LEFT" spacing="10" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20">
-        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Lập Phiếu Gia Hạn" />
+<AnchorPane prefHeight="612.0" prefWidth="1067.0" styleClass="custom-table-view" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.LapPhieuGiaHanController">
+    <children>
+        <Label layoutX="20" layoutY="20" text="Mã thí sinh:" />
+        <TextField fx:id="txtMaTS" layoutX="100" layoutY="16" prefWidth="200" />
+        <Button fx:id="btnTraCuu" layoutX="320" layoutY="15" onAction="#handleTraCuu" text="Tra cứu" />
 
-        <!-- Nhập mã thí sinh -->
-        <HBox spacing="10">
-            <Label text="Mã thí sinh:" />
-            <TextField fx:id="txtMaThiSinh" prefWidth="200" />
-            <Button onAction="#handleTraCuu" text="Tra cứu" />
-        </HBox>
+        <!-- Tiêu đề động -->
+        <Label fx:id="lblTieuDe" layoutX="20" layoutY="50" style="-fx-font-weight: bold;" text="Lịch sử gia hạn cho thí sinh:" />
 
-        <!-- Thông báo -->
-        <Label fx:id="lblThongBao" style="-fx-text-fill: red;" />
+        <TableView fx:id="tblLichSuGH" layoutX="20" layoutY="80" prefHeight="380.0" prefWidth="1054.0">
+            <columns>
+                <TableColumn fx:id="colMaPGH" prefWidth="90" text="Mã PGH" />
+                <TableColumn fx:id="colLoaiGH" prefWidth="158.3999786376953" text="Loại GH" />
+                <TableColumn fx:id="colPhiGH" prefWidth="95.20001220703125" text="Phí GH" />
+                <TableColumn fx:id="colMaCTPDK" prefWidth="80.7999267578125" text="Mã CTPĐK" />
+                <TableColumn fx:id="colNgayThi" prefWidth="222.39996337890625" text="Ngày Giờ Thi" />
+                <TableColumn fx:id="colMaCCHI" prefWidth="108.0" text="Mã CCHI" />
+                <TableColumn fx:id="colSBD" prefWidth="83.199951171875" text="SBD" />
+                <TableColumn fx:id="colMaPhong" prefWidth="102.4000244140625" text="Phòng Thi" />
+                <TableColumn fx:id="colThanhToan" prefWidth="114.4000244140625" text="Thanh Toán" />
+            </columns>
+        </TableView>
 
-        <!-- Vùng lập phiếu (ẩn ban đầu) -->
-        <VBox fx:id="vboxLapPhieu" spacing="10" visible="false">
-            <HBox spacing="10">
-                <Label text="Mã chi tiết PĐK:" />
-                <ComboBox fx:id="cbMaCTPDK" prefWidth="200" />
-            </HBox>
-
-            <HBox spacing="10">
-                <Label text="Loại gia hạn:" />
-                <TextField fx:id="txtLoaiGH" prefWidth="200" />
-            </HBox>
-
-            <HBox spacing="10">
-                <Label text="Phí gia hạn:" />
-                <TextField fx:id="txtPhiGH" prefWidth="200" />
-            </HBox>
-
-            <HBox spacing="10">
-                <Label text="Đã thanh toán:" />
-                <CheckBox fx:id="chkDaThanhToan" />
-            </HBox>
-
-            <Button onAction="#handleLuuPhieu" text="Lưu phiếu" />
-        </VBox>
-    </VBox>
-
+        <Button fx:id="btnThemGiaHan" layoutX="958.0" layoutY="476.0" onAction="#handleThemGiaHan" text="Thêm gia hạn" />
+    </children>
 </AnchorPane>
