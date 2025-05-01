@@ -38,6 +38,7 @@ public class DashboardController {
         switch (employeeType) {
             case "Tiep nhan":
                 sidebarButtons.add(createButton("Đăng ký", "#TNDangKy"));
+                sidebarButtons.add(createButton("Cấp chứng chỉ", "#CapChungChi"));
                 break;
             case "Ke toan":
                 sidebarButtons.add(createButton("Lập phiếu gia hạn", "#LapPhieuGiaHan"));
@@ -96,6 +97,9 @@ public class DashboardController {
             case "#PhatHanhPhieu":
                 PhatHanhPhieu(new ActionEvent());
                 break;
+            case "#CapChungChi":
+                CapChungChi(new ActionEvent());
+                break;
         }
     }
 
@@ -148,6 +152,13 @@ public class DashboardController {
     @FXML
     void PhatHanhPhieu(ActionEvent event) throws IOException {
         Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/PhatHanhPhieu/phat-hanh-phieu.fxml")));
+        contentArea.getChildren().clear();
+        contentArea.getChildren().add(fxml);
+    }
+
+    @FXML
+    void CapChungChi(ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/CapChungChi/cap-chung-chi.fxml")));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }

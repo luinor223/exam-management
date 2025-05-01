@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.net.URL;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
+@Slf4j
 public class PhatHanhPhieuController implements Initializable {
 
     // Tab 1 - Lịch thi components
@@ -373,7 +375,7 @@ public class PhatHanhPhieuController implements Initializable {
         try {
             return phieuDuThiDAO.countByLichThi(maLichThi) > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return false;
         }
     }
@@ -396,7 +398,7 @@ public class PhatHanhPhieuController implements Initializable {
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể phát hành phiếu dự thi",
                     "Đã xảy ra lỗi: " + e.getMessage());
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 

@@ -55,7 +55,7 @@ public class NhapKetQuaFormController implements Initializable {
     private void loadKetQuaData() {
         try {
             // Try to load existing result
-            ketQua = ketQuaBUS.getKetQuaByMaLTAndSBD(phieuDuThi.getMaLT(), phieuDuThi.getSbd());
+            ketQua = ketQuaBUS.layKetQuaByMaLTAndSBD(phieuDuThi.getMaLT(), phieuDuThi.getSbd());
 
             if (ketQua != null) {
                 // Populate form with existing data
@@ -92,20 +92,24 @@ public class NhapKetQuaFormController implements Initializable {
 
     private void luuKetQua() {
         try {
-            // Validate input data
+            // Validate input data - this now contains most validation logic
             if (!validateForm()) {
                 return;
             }
 
             // Update result data from form inputs
             ketQua.setDiem(Integer.parseInt(tfDiem.getText().trim()));
-            ketQua.setXepLoai(tfXepLoai.getText().trim());  // Get text directly
+            ketQua.setXepLoai(tfXepLoai.getText().trim());
             ketQua.setNhanXet(taNhanXet.getText());
             ketQua.setNgayCapChungChi(dpNgayCapCC.getValue());
             ketQua.setNgayHetHan(dpNgayHetHan.getValue());
 
-            // Save to database
-            boolean success = ketQuaBUS.saveKetQua(ketQua);
+            // Default status if empty
+            if (ketQua.getTrangThai() == null || ketQua.getTrangThai().trim().isEmpty()) {
+                ketQua.setTrangThai("Chưa cấp");
+            }
+
+            boolean success = ketQuaBUS.luuKetQua(ketQua);
 
             if (success) {
                 showAlert(Alert.AlertType.INFORMATION, "Thành công", null, "Kết quả thi đã được lưu thành công.");
@@ -114,16 +118,32 @@ public class NhapKetQuaFormController implements Initializable {
                 showAlert(Alert.AlertType.ERROR, "Lỗi", null, "Không thể lưu kết quả thi. Vui lòng thử lại sau.");
             }
 
-        } catch (IllegalArgumentException | SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", null, "Không thể lưu kết quả: " + e.getMessage());
+        } catch (Exception e) {
+            // This will catch any remaining validation errors from the BUS layer
+            showAlert(Alert.AlertType.ERROR, "Lỗi ", null, e.getMessage());
             log.error(e.getMessage());
         }
     }
 
     private boolean validateForm() {
+        // Check mã lịch thi
+        if (ketQua.getMaLT() == null || ketQua.getMaLT().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", null, "Mã lịch thi không được để trống.");
+            tfMaLT.requestFocus();
+            return false;
+        }
+
+        // Check số báo danh
+        if (ketQua.getSbd() == null || ketQua.getSbd().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", null, "Số báo danh không được để trống.");
+            tfSBD.requestFocus();
+            return false;
+        }
+
         // Check điểm
         if (tfDiem.getText() == null || tfDiem.getText().trim().isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", null, "Điểm không được để trống.");
+            tfDiem.requestFocus();
             return false;
         }
 
@@ -131,33 +151,39 @@ public class NhapKetQuaFormController implements Initializable {
             int diem = Integer.parseInt(tfDiem.getText().trim());
             if (diem < 0) {
                 showAlert(Alert.AlertType.WARNING, "Lỗi dữ liệu", null, "Điểm không được âm.");
+                tfDiem.requestFocus();
                 return false;
             }
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.WARNING, "Lỗi dữ liệu", null, "Điểm phải là số nguyên.");
+            tfDiem.requestFocus();
             return false;
         }
 
-        // Check xếp loại - now checking if TextField is empty
+        // Check xếp loại
         if (tfXepLoai.getText() == null || tfXepLoai.getText().trim().isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", null, "Vui lòng nhập xếp loại.");
+            tfXepLoai.requestFocus();
             return false;
         }
 
         // Check ngày cấp chứng chỉ
         if (dpNgayCapCC.getValue() == null) {
             showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", null, "Ngày cấp chứng chỉ không được để trống.");
+            dpNgayCapCC.requestFocus();
             return false;
         }
 
         // Check ngày hết hạn
         if (dpNgayHetHan.getValue() == null) {
             showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", null, "Ngày hết hạn không được để trống.");
+            dpNgayHetHan.requestFocus();
             return false;
         }
 
         if (dpNgayHetHan.getValue().isBefore(dpNgayCapCC.getValue())) {
             showAlert(Alert.AlertType.WARNING, "Lỗi dữ liệu", null, "Ngày hết hạn phải sau ngày cấp chứng chỉ.");
+            dpNgayHetHan.requestFocus();
             return false;
         }
 

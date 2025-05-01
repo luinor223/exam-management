@@ -3,6 +3,7 @@ package com.hcmus.exammanagement.dao;
 import com.hcmus.exammanagement.dto.Database;
 import com.hcmus.exammanagement.dto.HoaDonDTO;
 import com.hcmus.exammanagement.dto.KetQuaDTO;
+import com.hcmus.exammanagement.dto.KetQuaDayDuDTO;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
@@ -60,9 +61,10 @@ public class KetQuaDAO {
 
             stmt.setString(1, ketQua.getMaLT());
             stmt.setString(2, ketQua.getSbd());
-            stmt.setInt(4, ketQua.getDiem());
-            stmt.setString(5, ketQua.getXepLoai());
-            stmt.setString(6, ketQua.getNhanXet());
+            stmt.setInt(3, ketQua.getDiem());
+            stmt.setString(4, ketQua.getXepLoai());
+            stmt.setString(5, ketQua.getNhanXet());
+            stmt.setDate(6, Date.valueOf(ketQua.getNgayCapChungChi()));
 
             if (ketQua.getNgayHetHan() != null) {
                 stmt.setDate(7, Date.valueOf(ketQua.getNgayHetHan()));
@@ -70,9 +72,10 @@ public class KetQuaDAO {
                 stmt.setNull(7, Types.DATE);
             }
 
-            stmt.setString(8, ketQua.getTrangThai());
+            stmt.setString(8, "Chưa cấp");
+            stmt.executeUpdate();
 
-            return stmt.executeUpdate() > 0;
+            return true;
         } catch (SQLException e) {
             log.error(e.getMessage());
             return false;
@@ -112,5 +115,33 @@ public class KetQuaDAO {
             log.error(e.getMessage());
             return false;
         }
+    }
+
+    public List<KetQuaDayDuDTO> findAllWithExtra() {
+        List<KetQuaDayDuDTO> listKetQua = new ArrayList<>();
+
+        String sql = "SELECT kq.*, ts.ma_ts, ts.ho_ten, ts.cccd, " +
+                "cc.ma_cchi, cc.ten_chung_chi, cc.thoi_gian_hieu_luc, " +
+                "lt.ngay_gio_thi " +
+                "FROM ket_qua kq " +
+                "JOIN phieu_du_thi pdt ON kq.ma_lt = pdt.ma_lt AND kq.sbd = pdt.sbd " +
+                "JOIN chi_tiet_phieu_dk ctpdk ON pdt.ma_ctpdk = ctpdk.ma_ctpdk " +
+                "JOIN thi_sinh ts ON ctpdk.ma_ts = ts.ma_ts " +
+                "JOIN lich_thi lt ON kq.ma_lt = lt.ma_lt " +
+                "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi ";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                listKetQua.add(KetQuaDayDuDTO.fromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+
+        return listKetQua;
     }
 }
