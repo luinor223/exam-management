@@ -43,8 +43,8 @@ public class LoginController {
 //            loginMessage.setText("Invalid username or password.");
 //        }
 
-        loadDashboard("Ke toan");
-        Database.initialize("postgres", "123");
+        loadDashboard("Khao thi");
+        Database.initialize("postgres", "sa");
 
         // Khởi động AutoTaskScheduler để kiểm tra hóa đơn quá hạn mỗi ngày
         AutoTaskScheduler autoTaskScheduler = new AutoTaskScheduler();

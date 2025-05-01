@@ -48,6 +48,7 @@ public class DashboardController {
                 break;
             case "Khao thi":
                 sidebarButtons.add(createButton("Quản lý lịch thi", "#QLLichThi"));
+                sidebarButtons.add(createButton("Phát hành phiếu dự thi", "#PhatHanhPhieu"));
                 break;
             case "Quan tri":
                 break;
@@ -91,6 +92,9 @@ public class DashboardController {
                 break;
             case "#QLLichThi":
                 QLLichThi(new ActionEvent());
+                break;
+            case "#PhatHanhPhieu":
+                PhatHanhPhieu(new ActionEvent());
                 break;
         }
     }
@@ -137,6 +141,13 @@ public class DashboardController {
     @FXML
     void QLLichThi(ActionEvent event) throws IOException {
         Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/DangKy/quan-ly-lich-thi.fxml")));
+        contentArea.getChildren().clear();
+        contentArea.getChildren().add(fxml);
+    }
+
+    @FXML
+    void PhatHanhPhieu(ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/PhatHanhPhieu/phat-hanh-phieu.fxml")));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
     }

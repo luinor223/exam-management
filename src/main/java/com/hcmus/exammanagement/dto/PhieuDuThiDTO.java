@@ -14,6 +14,7 @@ import java.time.LocalDate;
 public class PhieuDuThiDTO {
     private String maLT;
     private String sbd;
+    private String maPhong;
     private LocalDate ngayCap;
     private String maCtpdk;
 
@@ -26,6 +27,7 @@ public class PhieuDuThiDTO {
         PhieuDuThiDTO dto = new PhieuDuThiDTO();
         dto.setMaLT(rs.getString("ma_lt"));
         dto.setSbd(rs.getString("sbd"));
+        dto.setMaPhong(rs.getString("ma_phong"));
 
         java.sql.Date ngayCap = rs.getDate("ngay_cap");
         if (ngayCap != null) {

@@ -1,14 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<AnchorPane prefHeight="704.0" prefWidth="1066.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.PhatHanhPhieuController">
+    <children>
+        <TabPane layoutX="10.0" layoutY="10.0" prefHeight="680.0" prefWidth="1046.0">
+            <tabs>
+                <Tab closable="false" text="Lịch thi">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Label layoutX="14.0" layoutY="6.0" style="-fx-font-weight: bold;" text="Danh sách lịch thi" />
+                                <TextField fx:id="searchFieldLichThi" layoutX="14.0" layoutY="34.0" prefHeight="29.0" prefWidth="250.0" promptText="Tìm kiếm theo mã lịch thi..." />
 
+                                <HBox layoutX="280.0" layoutY="34.0" spacing="10.0">
+                                    <children>
+                                        <ComboBox fx:id="filterStatus" prefWidth="200.0" promptText="Tình trạng phát phiếu" styleClass="custom-combobox" stylesheets="@../style.css">
+                                            <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                    <String fx:value="Tất cả" />
+                                                    <String fx:value="Đã phát phiếu" />
+                                                    <String fx:value="Chưa phát phiếu" />
+                                                </FXCollections>
+                                            </items>
+                                        </ComboBox>
+                                        <DatePicker fx:id="filterDateStart" prefWidth="150.0" promptText="Từ ngày" />
+                                        <DatePicker fx:id="filterDateEnd" prefWidth="150.0" promptText="Đến ngày" />
+                                    </children>
+                                </HBox>
+
+                                <TableView fx:id="DSLichThi" layoutX="14.0" layoutY="75.0" prefHeight="550.0" prefWidth="1005.0" styleClass="custom-table-view" stylesheets="@../style.css">
+                                    <columns>
+                                        <TableColumn fx:id="colMaLT" prefWidth="150.0" text="Mã lịch thi" />
+                                        <TableColumn fx:id="colNgayGioThi" prefWidth="250.0" text="Ngày giờ thi" />
+                                        <TableColumn fx:id="colThoiLuong" prefWidth="200.0" text="Thời lượng (phút)" />
+                                        <TableColumn fx:id="colTinhTrang" prefWidth="250.0" text="Tình trạng" />
+                                        <TableColumn fx:id="colAction" prefWidth="150.0" text="Thao tác" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab closable="false" text="Phiếu dự thi đã cấp">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Label layoutX="14.0" layoutY="6.0" style="-fx-font-weight: bold;" text="Danh sách phiếu dự thi đã cấp" />
+                                <TextField fx:id="searchFieldPhieuDuThi" layoutX="14.0" layoutY="34.0" prefHeight="29.0" prefWidth="250.0" promptText="Tìm kiếm theo SBD..." />
+
+                                <HBox layoutX="280.0" layoutY="34.0" spacing="10.0">
+                                    <children>
+                                        <DatePicker fx:id="filterDateStartPDT" prefWidth="150.0" promptText="Từ ngày" />
+                                        <DatePicker fx:id="filterDateEndPDT" prefWidth="150.0" promptText="Đến ngày" />
+                                    </children>
+                                </HBox>
+
+                                <TableView fx:id="DSPhieuDuThi" layoutX="14.0" layoutY="75.0" prefHeight="550.0" prefWidth="1005.0" styleClass="custom-table-view" stylesheets="@../style.css">
+                                    <columns>
+                                        <TableColumn fx:id="colMaLTPDT" prefWidth="150.0" text="Mã lịch thi" />
+                                        <TableColumn fx:id="colSBD" prefWidth="150.0" text="SBD" />
+                                        <TableColumn fx:id="colMaPhong" prefWidth="150.0" text="Mã phòng" />
+                                        <TableColumn fx:id="colMaCTPDK" prefWidth="150.0" text="Mã CT phiếu ĐK" />
+                                        <TableColumn fx:id="colNgayCapPDT" prefWidth="150.0" text="Ngày cấp" />
+                                        <TableColumn fx:id="colNgayThiPDT" prefWidth="150.0" text="Ngày thi" />
+                                        <TableColumn fx:id="colActionPDT" prefWidth="100.0" text="Thao tác" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
 </AnchorPane>
