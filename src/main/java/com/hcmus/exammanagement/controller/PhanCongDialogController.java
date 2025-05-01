@@ -29,10 +29,10 @@ public class PhanCongDialogController {
     @FXML private ComboBox<GiamThiDTO> giamThiComboBox;
     @FXML private TextField maLichThiField;
     @FXML private ComboBox<PhongDTO> phongComboBox;
+    @FXML private TextField soLuongToiDaField;
 
     private LichThiDTO lichThi;
     private final ChiTietPhongThiBUS chiTietPhongThiBUS = new ChiTietPhongThiBUS();
-    private final GiamThiBUS giamThiBUS = new GiamThiBUS();
 
     @FXML
     private void initialize() {
@@ -57,6 +57,14 @@ public class PhanCongDialogController {
             @Override
             public GiamThiDTO fromString(String string) {
                 return null;
+            }
+        });
+
+        phongComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                soLuongToiDaField.setText(newValue.getSoGhe().toString());
+            } else {
+                soLuongToiDaField.clear();
             }
         });
     }
@@ -113,12 +121,17 @@ public class PhanCongDialogController {
             PhongDTO selectedPhong = phongComboBox.getValue();
             GiamThiDTO selectedGiamThi = giamThiComboBox.getValue();
 
+            if (selectedPhong.getSoGhe() < Integer.parseInt(soLuongToiDaField.getText())) {
+                showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Số ghế không hợp lệ", "Vui lòng chọn phòng có số ghế lớn hơn hoặc bằng số lượng tối đa");
+                return;
+            }
+
             ChiTietPhongThiDTO chiTietPhongThi = new ChiTietPhongThiDTO(
                     lichThi.getMaLichThi(),
                     selectedPhong,
                     selectedGiamThi,
                     0, // soLuongHienTai
-                    Integer.parseInt(selectedPhong.getSoGhe()) // soLuongToiDa
+                    Integer.parseInt(soLuongToiDaField.getText()) // soLuongToiDa
             );
 
             boolean success = chiTietPhongThiBUS.themChiTietPhongThi(chiTietPhongThi);

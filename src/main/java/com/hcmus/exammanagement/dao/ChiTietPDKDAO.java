@@ -115,7 +115,7 @@ public class ChiTietPDKDAO {
         return chiTietPDKList;
     }
 
-    public int insert(ChiTietPDKDTO chiTietPDK) throws SQLException {
+    public static int insert(ChiTietPDKDTO chiTietPDK) throws SQLException {
         String sql = "INSERT INTO chi_tiet_phieu_dk (ma_pdk, ma_ts, ma_lt) VALUES (?, ?, ?)";
 
         try (Connection conn = Database.getConnection();

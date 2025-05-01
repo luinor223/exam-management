@@ -15,7 +15,8 @@ import java.util.List;
 public class PhieuDangKyDAO {
     public List<PhieuDangKyDTO> findAll() throws SQLException {
         List<PhieuDangKyDTO> listPDK = new ArrayList<>();
-        String sql = "SELECT * FROM phieu_dang_ky";
+        String sql = "SELECT * " +
+                "FROM phieu_dang_ky pdk JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -31,8 +32,31 @@ public class PhieuDangKyDAO {
         return listPDK;
     }
 
-    public PhieuDangKyDTO findById(String maPhieuDangKy) throws SQLException {
-        String sql = "SELECT * FROM phieu_dang_ky WHERE ma_pdk = ?";
+    public static List<PhieuDangKyDTO> findByTrangThai(String trangThai) throws SQLException {
+        List<PhieuDangKyDTO> listPDK = new ArrayList<>();
+        String sql = "SELECT * " +
+                "FROM phieu_dang_ky pdk JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh " +
+                "WHERE trang_thai = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, trangThai);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                listPDK.add(PhieuDangKyDTO.fromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            log.error("Error finding phieu dang ky by trang thai {}: {}", trangThai, e.getMessage());
+            throw e;
+        }
+
+        return listPDK;
+    }
+
+    public static PhieuDangKyDTO findById(String maPhieuDangKy) throws SQLException {
+        String sql = "SELECT * " +
+                "FROM phieu_dang_ky pdk JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh " +
+                "WHERE ma_pdk = ?";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -56,12 +80,12 @@ public class PhieuDangKyDAO {
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setString(1, phieuDangKy.getTrangThai());
-                stmt.setString(2, phieuDangKy.getDiaChiGiao());
-                stmt.setString(3, phieuDangKy.getKhachHang().getMaKH());
-                stmt.setString(4, phieuDangKy.getMaNVTao());
+            stmt.setString(1, phieuDangKy.getTrangThai());
+            stmt.setString(2, phieuDangKy.getDiaChiGiao());
+            stmt.setString(3, phieuDangKy.getKhachHang().getMaKH());
+            stmt.setString(4, phieuDangKy.getMaNVTao());
 
-                return stmt.executeUpdate();
+            return stmt.executeUpdate();
         } catch (SQLException e) {
             log.error("Error inserting phieu dang ky: {}", e.getMessage());
             throw e;

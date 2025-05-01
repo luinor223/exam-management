@@ -98,7 +98,7 @@ CREATE TABLE chi_tiet_phieu_dk (
     ma_ctpdk TEXT PRIMARY KEY DEFAULT 'CTPDK' || LPAD(nextval('seq_chi_tiet_phieu_dk')::TEXT, 6, '0'),
     ma_pdk TEXT NOT NULL,
     ma_ts TEXT NOT NULL,
-    ma_lt TEXT NOT NULL,
+    ma_lt TEXT,
 
     FOREIGN KEY (ma_pdk) REFERENCES phieu_dang_ky(ma_pdk) ON DELETE CASCADE,
     FOREIGN KEY (ma_ts) REFERENCES thi_sinh(ma_ts) ON DELETE CASCADE,

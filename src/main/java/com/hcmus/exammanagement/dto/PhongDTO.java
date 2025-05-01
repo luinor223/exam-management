@@ -10,12 +10,12 @@ import lombok.Setter;
 public class PhongDTO {
     private String maPhong;
     private String tenPhong;
-    private String soGhe;
+    private Integer soGhe;
 
     public static PhongDTO fromResultSet(java.sql.ResultSet rs) throws java.sql.SQLException {
         String maPhong = rs.getString("ma_phong");
         String tenPhong = rs.getString("ten_phong");
-        String soGhe = rs.getString("so_ghe");
+        Integer soGhe = rs.getInt("so_ghe");
 
         return new PhongDTO(maPhong, tenPhong, soGhe);
     }

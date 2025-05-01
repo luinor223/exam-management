@@ -1,13 +1,7 @@
 package com.hcmus.exammanagement.bus;
 
 import com.hcmus.exammanagement.dao.ChiTietPhongThiDAO;
-import com.hcmus.exammanagement.dao.GiamThiDAO;
-import com.hcmus.exammanagement.dao.LichThiDAO;
-import com.hcmus.exammanagement.dao.PhongDAO;
 import com.hcmus.exammanagement.dto.ChiTietPhongThiDTO;
-import com.hcmus.exammanagement.dto.GiamThiDTO;
-import com.hcmus.exammanagement.dto.LichThiDTO;
-import com.hcmus.exammanagement.dto.PhongDTO;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -71,5 +65,14 @@ public class ChiTietPhongThiBUS {
         }
         
         return ChiTietPhongThiDAO.delete(maLichThi, maPhong) > 0;
+    }
+
+    public static void capNhatSoLuongHienTai(String maLT, String maPhong, int soLuong) throws IllegalArgumentException, SQLException {
+
+        if (soLuong < 0) {
+            throw new IllegalArgumentException("Số lượng hiện tại không hợp lệ");
+        }
+
+        ChiTietPhongThiDAO.updateSoLuongHienTai(maLT, maPhong, soLuong);
     }
 }

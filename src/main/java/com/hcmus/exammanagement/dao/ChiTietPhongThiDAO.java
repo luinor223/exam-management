@@ -79,22 +79,20 @@ public class ChiTietPhongThiDAO {
         }
     }
 
-    public static int update(ChiTietPhongThiDTO chiTietPhongThi) throws SQLException {
-        String sql = "UPDATE chi_tiet_phong_thi SET ma_gt = ?, so_luong_hien_tai = ?, so_luong_toi_da = ? WHERE ma_lt = ? AND ma_phong = ?";
+    public static int updateSoLuongHienTai(String maLT, String maPhong, Integer soLuongHienTai) throws SQLException {
+        String sql = "UPDATE chi_tiet_phong_thi SET so_luong_hien_tai = ? WHERE ma_lt = ? AND ma_phong = ?";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, chiTietPhongThi.getGiamThiDTO().getMaGiamThi());
-            stmt.setInt(2, chiTietPhongThi.getSoLuongHienTai());
-            stmt.setInt(3, chiTietPhongThi.getSoLuongToiDa());
-            stmt.setString(4, chiTietPhongThi.getMaLichThi());
-            stmt.setString(5, chiTietPhongThi.getPhongDTO().getMaPhong());
+            stmt.setInt(1, soLuongHienTai);
+            stmt.setString(2, maLT);
+            stmt.setString(3, maPhong);
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
-            log.error("Error updating chi tiet phong thi with lich thi ID {} and phong ID {}: {}", 
-                      chiTietPhongThi.getMaLichThi(), chiTietPhongThi.getPhongDTO().getMaPhong(), e.getMessage());
+            log.error("Error updating so luong for chi tiet phong thi with lich thi ID {} and phong ID {}: {}",
+                      maLT, maPhong, e.getMessage());
             throw e;
         }
     }

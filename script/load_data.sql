@@ -111,7 +111,10 @@ INSERT INTO lich_thi (ngay_gio_thi, thoi_luong_thi, ma_cchi) VALUES
 ('2025-06-19 08:00:00', 120, 'CC000009'),  -- TOPIK
 ('2025-06-19 13:00:00', 180, 'CC000010'),  -- Goethe
 ('2025-06-20 08:00:00', 150, 'CC000011'),  -- CILS
-('2025-06-20 13:00:00', 180, 'CC000012');  -- TRKI
+('2025-06-20 13:00:00', 180, 'CC000012'),  -- TRKI
+('2025-07-15 08:00:00', 120, 'CC000001'),  -- TOEIC
+('2025-07-15 13:00:00', 180, 'CC000002'),  -- IELTS
+('2025-07-16 08:00:00', 240, 'CC000003');  -- TOEFL
 
 INSERT INTO phieu_dang_ky (trang_thai, ngay_lap, dia_chi_giao, ma_kh, nhan_vien_tao) VALUES
 -- Past registrations
@@ -140,7 +143,11 @@ INSERT INTO phieu_dang_ky (trang_thai, ngay_lap, dia_chi_giao, ma_kh, nhan_vien_
 ('Chờ xử lý', '2025-04-29', 'Quận 9, TP.HCM', 'KH000009', 'NV000005'),
 ('Chờ xử lý', '2025-04-30', 'Quận 10, TP.HCM', 'KH000010', 'NV000005'),
 ('Chờ xử lý', '2025-04-29', 'Quận 11, TP.HCM', 'KH000011', 'NV000006'),
-('Chờ xử lý', '2025-04-30', 'Quận 12, TP.HCM', 'KH000012', 'NV000006');
+('Chờ xử lý', '2025-04-30', 'Quận 12, TP.HCM', 'KH000012', 'NV000006'),
+('Chờ xếp lịch', CURRENT_DATE, 'Quận 3, TP.HCM', 'KH000003', 'NV000001'),
+('Chờ xếp lịch', CURRENT_DATE, 'Quận 5, TP.HCM', 'KH000005', 'NV000001'),
+('Chờ xếp lịch', CURRENT_DATE, 'Quận 7, TP.HCM', 'KH000007', 'NV000001'),
+('Chờ xếp lịch', CURRENT_DATE, 'Quận 9, TP.HCM', 'KH000009', 'NV000001');
 
 INSERT INTO chi_tiet_phieu_dk (ma_pdk, ma_ts, ma_lt) VALUES
 -- Past registrations
@@ -173,7 +180,21 @@ INSERT INTO chi_tiet_phieu_dk (ma_pdk, ma_ts, ma_lt) VALUES
 ('PDK000022', 'TS000010', 'LT000022'),
 ('PDK000022', 'TS000010', 'LT000021'),
 ('PDK000023', 'TS000011', 'LT000023'),
-('PDK000024', 'TS000012', 'LT000024');
+('PDK000024', 'TS000012', 'LT000024'),
+('PDK000025', 'TS000001', NULL),
+('PDK000025', 'TS000002', NULL),
+('PDK000025', 'TS000003', NULL),
+('PDK000026', 'TS000004', NULL),
+('PDK000026', 'TS000005', NULL),
+('PDK000026', 'TS000006', NULL),
+('PDK000026', 'TS000007', NULL),
+('PDK000026', 'TS000008', NULL),
+('PDK000027', 'TS000009', NULL),
+('PDK000027', 'TS000010', NULL),
+('PDK000028', 'TS000001', NULL),
+('PDK000028', 'TS000003', NULL),
+('PDK000028', 'TS000005', NULL),
+('PDK000028', 'TS000007', NULL);
 
 INSERT INTO chi_tiet_phong_thi (ma_phong, ma_lt, ma_gt, so_luong_hien_tai, so_luong_toi_da) VALUES
 -- Past exam room allocations
@@ -191,7 +212,7 @@ INSERT INTO chi_tiet_phong_thi (ma_phong, ma_lt, ma_gt, so_luong_hien_tai, so_lu
 ('P000012', 'LT000012', 'GT000011', 15, 35),
 
 -- Future exam room allocations
-('P000001', 'LT000013', 'GT000001', 0, 30),  -- Room is empty for future exams
+('P000001', 'LT000013', 'GT000001', 0, 30),
 ('P000002', 'LT000014', 'GT000003', 0, 25),
 ('P000003', 'LT000015', 'GT000005', 0, 35),
 ('P000004', 'LT000016', 'GT000007', 0, 40),
@@ -202,7 +223,10 @@ INSERT INTO chi_tiet_phong_thi (ma_phong, ma_lt, ma_gt, so_luong_hien_tai, so_lu
 ('P000009', 'LT000021', 'GT000005', 0, 40),
 ('P000010', 'LT000022', 'GT000007', 0, 30),
 ('P000011', 'LT000023', 'GT000009', 0, 25),
-('P000012', 'LT000024', 'GT000011', 0, 35);
+('P000012', 'LT000024', 'GT000011', 0, 35),
+('P000001', 'LT000025', 'GT000001', 0, 3),
+('P000002', 'LT000026', 'GT000003', 0, 10),
+('P000003', 'LT000027', 'GT000005', 2, 5);
 
 INSERT INTO phieu_du_thi (ma_lt, sbd, ngay_cap, ma_ctpdk) VALUES
 -- Past exam tickets

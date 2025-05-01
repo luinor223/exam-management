@@ -31,7 +31,11 @@ public class PhieuDangKyBUS {
         if (maPhieuDangKy == null || maPhieuDangKy.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã phiếu đăng ký không được để trống");
         }
-        return phieuDangKyDAO.findById(maPhieuDangKy);
+        return PhieuDangKyDAO.findById(maPhieuDangKy);
+    }
+
+    public List<PhieuDangKyDTO> layDSPhieuDangKyTheoTrangThai(String trangThai) throws SQLException {
+        return PhieuDangKyDAO.findByTrangThai(trangThai);
     }
 
     public void taoPhieuDangKy(PhieuDangKyDTO phieuDangKy) throws IllegalArgumentException, SQLException {
