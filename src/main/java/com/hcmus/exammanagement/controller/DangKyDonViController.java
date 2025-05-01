@@ -25,10 +25,6 @@ import java.util.List;
 
 public class DangKyDonViController {
 
-    // BUS services
-    private final KhachHangBUS khachHangBUS = new KhachHangBUS();
-    private final ThiSinhBUS thiSinhBUS = new ThiSinhBUS();
-
     // Data
     private KhachHangDTO selectedDonVi;
     private final ObservableList<ThiSinhDTO> thiSinhList = FXCollections.observableArrayList();
@@ -135,7 +131,7 @@ public class DangKyDonViController {
 
     private void loadDonViData() {
         try {
-            List<KhachHangDTO> donViList = khachHangBUS.layDSKhachHangDonVi();
+            List<KhachHangDTO> donViList = KhachHangBUS.layDSKhachHangDonVi();
             donViTable.setItems(FXCollections.observableArrayList(donViList));
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải danh sách đơn vị", e.getMessage());
@@ -237,16 +233,7 @@ public class DangKyDonViController {
                         "Đơn vị"
                 );
 
-                khachHangBUS.taoKhachHang(khachHang);
-
-                // Reload the organization to get the generated ID
-                List<KhachHangDTO> donViList = khachHangBUS.layDSKhachHangDonVi();
-                for (KhachHangDTO dv : donViList) {
-                    if (dv.getCccd().equals(khachHang.getCccd())) {
-                        khachHang = dv;
-                        break;
-                    }
-                }
+                khachHang = KhachHangBUS.taoKhachHang(khachHang);
             }
 
             // Create PhieuDangKyDTO
@@ -259,29 +246,22 @@ public class DangKyDonViController {
                     "NV000001" // TODO: - placeholder
             );
 
-            PhieuDangKyBUS.taoPhieuDangKy(phieuDangKy);
-            phieuDangKy = PhieuDangKyBUS.layPhieuVuaTao(khachHang.getMaKH());
+            phieuDangKy = PhieuDangKyBUS.taoPhieuDangKy(phieuDangKy);
 
             for (ThiSinhDTO thiSinh : thiSinhList) {
-                ThiSinhDTO existingThiSinh = thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd());
-                String maThiSinh;
+                ThiSinhDTO existingThiSinh = ThiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd());
 
                 if (existingThiSinh != null) {
-                    // Update existing candidate
                     thiSinh.setMaThiSinh(existingThiSinh.getMaThiSinh());
-                    thiSinhBUS.capNhatThiSinh(thiSinh);
-                    maThiSinh = existingThiSinh.getMaThiSinh();
                 } else {
-                    // Create a new candidate
-                    thiSinhBUS.taoThiSinh(thiSinh);
-                    maThiSinh = thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd()).getMaThiSinh();
+                    thiSinh = ThiSinhBUS.taoThiSinh(thiSinh);
                 }
 
                 // Create registration detail
                 ChiTietPDKBUS.themChiTietPDK(new ChiTietPDKDTO(
                         null,
                         phieuDangKy.getMaPhieuDangKy(),
-                        maThiSinh,
+                        thiSinh.getMaThiSinh(),
                         null
                 ));
             }

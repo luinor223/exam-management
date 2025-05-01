@@ -31,7 +31,7 @@ public class KhachHangDAO {
         return khList;
     }
 
-    public KhachHangDTO findByCCCD(String cccd) throws SQLException {
+    public static KhachHangDTO findByCCCD(String cccd) throws SQLException {
         String sql = "SELECT * FROM khach_hang WHERE cccd = ?";
 
         try (Connection conn = Database.getConnection();
@@ -49,7 +49,7 @@ public class KhachHangDAO {
         return null;
     }
 
-    public List<KhachHangDTO> findByLoaiKh(String loaiKh) throws SQLException {
+    public static List<KhachHangDTO> findByLoaiKh(String loaiKh) throws SQLException {
         List<KhachHangDTO> khList = new ArrayList<>();
         String sql = "SELECT * FROM khach_hang WHERE loai_kh = ?";
 
@@ -64,8 +64,6 @@ public class KhachHangDAO {
             log.error("Error finding all khach hang by loai kh: {}", e.getMessage());
             throw e;
         }
-
-        log.info("Find all khach hang by loai kh: {}", khList.size());
 
         return khList;
     }
@@ -88,8 +86,8 @@ public class KhachHangDAO {
         return null;
     }
 
-    public void insert(KhachHangDTO khachHang) throws SQLException {
-        String sql = "INSERT INTO khach_hang (ho_ten, cccd, email, sdt, dia_chi, loai_kh) VALUES (?, ?, ?, ?, ?, ?)";
+    public static KhachHangDTO insert(KhachHangDTO khachHang) throws SQLException {
+        String sql = "INSERT INTO khach_hang (ho_ten, cccd, email, sdt, dia_chi, loai_kh) VALUES (?, ?, ?, ?, ?, ?) RETURNING ma_kh";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -100,7 +98,14 @@ public class KhachHangDAO {
             stmt.setString(5, khachHang.getDiaChi());
             stmt.setString(6, khachHang.getLoai_kh());
 
-            stmt.executeUpdate();
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String maKH = rs.getString("ma_kh");
+                khachHang.setMaKH(maKH);
+                return khachHang;
+            } else {
+                throw new SQLException("Failed to insert khach hang, no ID obtained.");
+            }
         } catch (SQLException e) {
             log.error("Error inserting khach hang: {}", e.getMessage());
             throw e;

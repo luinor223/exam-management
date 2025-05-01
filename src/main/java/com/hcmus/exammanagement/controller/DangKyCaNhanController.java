@@ -405,12 +405,11 @@ public class DangKyCaNhanController {
             );
 
             // Save the candidate
-            if (thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd()) == null) {
-                thiSinhBUS.taoThiSinh(thiSinh);
+            if (thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd()) != null) {
+                thiSinh = thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd());
+            } else {
+                thiSinh = ThiSinhBUS.taoThiSinh(thiSinh);
             }
-
-            // Reload the candidate to get the generated ID
-            thiSinh = thiSinhBUS.layThiSinhBangCCCD(thiSinh.getCccd());
 
             // Create PhieuDangKyDTO
             PhieuDangKyDTO phieuDangKy = new PhieuDangKyDTO(
@@ -423,8 +422,7 @@ public class DangKyCaNhanController {
             );
 
             // Save the registration form
-            PhieuDangKyBUS.taoPhieuDangKy(phieuDangKy);
-            phieuDangKy = PhieuDangKyBUS.layPhieuVuaTao(khachHang.getMaKH());
+            phieuDangKy = PhieuDangKyBUS.taoPhieuDangKy(phieuDangKy);
 
             // Register for all selected exam schedules
             for (LichThiDTO lichThi : selectedLichThiList) {

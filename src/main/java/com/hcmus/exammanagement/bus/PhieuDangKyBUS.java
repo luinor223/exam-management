@@ -16,11 +16,7 @@ public class PhieuDangKyBUS {
         return PhieuDangKyDAO.findByTrangThai(trangThai);
     }
 
-    public static PhieuDangKyDTO layPhieuVuaTao(String maKH) throws SQLException {
-        return PhieuDangKyDAO.findNewLyCreated(maKH);
-    }
-
-    public static void taoPhieuDangKy(PhieuDangKyDTO phieuDangKy) throws IllegalArgumentException, SQLException {
+    public static PhieuDangKyDTO taoPhieuDangKy(PhieuDangKyDTO phieuDangKy) throws IllegalArgumentException, SQLException {
         if (phieuDangKy == null) {
             throw new IllegalArgumentException("Phiếu đăng ký không được để trống");
         }
@@ -39,7 +35,7 @@ public class PhieuDangKyBUS {
             phieuDangKy.setTrangThai("Chờ xử lý");
         }
 
-        PhieuDangKyDAO.insert(phieuDangKy);
+        return PhieuDangKyDAO.insert(phieuDangKy);
     }
 
     public List<PhieuDangKyDTO> layDSPhieuDangKyChoThanhToan() throws Exception {

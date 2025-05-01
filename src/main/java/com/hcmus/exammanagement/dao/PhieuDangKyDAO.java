@@ -53,28 +53,6 @@ public class PhieuDangKyDAO {
         return listPDK;
     }
 
-    public static PhieuDangKyDTO findNewLyCreated(String maKH) throws SQLException {
-        String sql = "SELECT * " +
-                "FROM phieu_dang_ky pdk JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh " +
-                "WHERE pdk.ma_kh = ? AND trang_thai = 'Chờ xử lý' " +
-                "ORDER BY pdk.ma_pdk DESC LIMIT 1";
-
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, maKH);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return PhieuDangKyDTO.fromResultSet(rs);
-            }
-
-        } catch (SQLException e) {
-            log.error("Error finding new phieu dang ky by ma kh {}: {}", maKH, e.getMessage());
-            throw e;
-        }
-
-        return null;
-    }
-
     public static PhieuDangKyDTO findById(String maPhieuDangKy) throws SQLException {
         String sql = "SELECT * " +
                 "FROM phieu_dang_ky pdk JOIN khach_hang kh ON pdk.ma_kh = kh.ma_kh " +
@@ -97,8 +75,8 @@ public class PhieuDangKyDAO {
         return null;
     }
 
-    public static int insert(PhieuDangKyDTO phieuDangKy) throws SQLException {
-        String sql = "INSERT INTO phieu_dang_ky (trang_thai, dia_chi_giao, ma_kh, nhan_vien_tao) VALUES (?, ?, ?, ?)";
+    public static PhieuDangKyDTO insert(PhieuDangKyDTO phieuDangKy) throws SQLException {
+        String sql = "INSERT INTO phieu_dang_ky (trang_thai, dia_chi_giao, ma_kh, nhan_vien_tao) VALUES (?, ?, ?, ?) RETURNING ma_pdk";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -107,7 +85,14 @@ public class PhieuDangKyDAO {
             stmt.setString(3, phieuDangKy.getKhachHang().getMaKH());
             stmt.setString(4, phieuDangKy.getMaNVTao());
 
-            return stmt.executeUpdate();
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String maPhieuDangKy = rs.getString("ma_pdk");
+                phieuDangKy.setMaPhieuDangKy(maPhieuDangKy);
+                return phieuDangKy;
+            } else {
+                throw new SQLException("Creating chi tiet phieu dang ky failed, no ID obtained.");
+            }
         } catch (SQLException e) {
             log.error("Error inserting phieu dang ky: {}", e.getMessage());
             throw e;

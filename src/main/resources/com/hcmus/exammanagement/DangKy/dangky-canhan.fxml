@@ -13,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1090.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.DangKyCaNhanController">
     <VBox fx:id="progressContainer" alignment="CENTER" layoutX="47.0" layoutY="14.0" prefHeight="80.0" prefWidth="996.0" />
-    <AnchorPane fx:id="infoSection" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0" style="-fx-background-color: white;">
+    <AnchorPane fx:id="infoSection" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0" style="-fx-background-color: white;" visible="false">
         <Label layoutX="14.0" layoutY="14.0" text="Thông tin khách hàng">
             <font>
                 <Font name="System Bold" size="16.0" />
@@ -95,7 +95,7 @@
       <DatePicker fx:id="ngayThiDatePicker" layoutX="296.0" layoutY="66.0" promptText="Lọc ngày" style="-fx-background-color: white; -fx-border-color: #dcdcdc;" />
       <ComboBox fx:id="cchiCombo" layoutX="14.0" layoutY="68.0" prefWidth="150.0" promptText="Lọc chứng chỉ" style="-fx-background-color: white; -fx-border-color: #dcdcdc;" />
     </AnchorPane>
-     <AnchorPane fx:id="confirmationSection" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0" style="-fx-background-color: white;" visible="false">
+     <AnchorPane fx:id="confirmationSection" layoutX="10.0" layoutY="110.0" prefHeight="500.0" prefWidth="1070.0" style="-fx-background-color: white;">
          <Label layoutX="14.0" layoutY="14.0" text="Xác nhận đăng ký">
              <font>
                  <Font name="System Bold" size="16.0" />
@@ -134,7 +134,7 @@
              </columnResizePolicy>
          </TableView>
           <Label layoutX="661.0" layoutY="472.0" style="-fx-font-weight: bold" text="Tổng chi phí tạm tính:" />
-          <Label fx:id="tongTienLabel" layoutX="845.0" layoutY="472.0" style="-fx-font-weight: bold" text="0đ" />
+          <Label fx:id="tongTienLabel" layoutX="810.0" layoutY="472.0" style="-fx-font-weight: bold" text="0đ" />
      </AnchorPane>
     <Button fx:id="nextButton" layoutX="996.0" layoutY="625.0" mnemonicParsing="false" onAction="#btnTiepTheo" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #18c27b; -fx-background-radius: 10;" text="Tiếp theo" textFill="WHITE" />
     <Button fx:id="prevButton" layoutX="14.0" layoutY="625.0" mnemonicParsing="false" onAction="#btnQuayLai" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #18c27b; -fx-border-radius: 10; -fx-text-fill: #18c27b;" text="Quay lại" />
