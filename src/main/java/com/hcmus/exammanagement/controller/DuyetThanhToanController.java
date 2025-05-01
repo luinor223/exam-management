@@ -32,18 +32,11 @@ public class DuyetThanhToanController {
     private Button btnXacNhanMaTT;
 
     private HoaDonDTO hoaDon;
-    private ThanhToanBUS thanhToanBUS;
-    private PhieuDangKyBUS phieuDangKyBUS;
 
     @FXML
     public void initialize() {
         btnXacNhanMaTT.setOnAction(e -> btnXacNhanMaTT());
         btnHuy.setOnAction(e -> btnHuy());
-    }
-
-    public DuyetThanhToanController() {
-        thanhToanBUS = new ThanhToanBUS();
-        phieuDangKyBUS = new PhieuDangKyBUS();
     }
 
     public void setHoaDon(HoaDonDTO hoaDon) {
@@ -72,10 +65,10 @@ public class DuyetThanhToanController {
             return;
         }
 
-        boolean success = thanhToanBUS.duyetThanhToan(hoaDon.getMaHd(), maThanhToanValue);
+        boolean success = ThanhToanBUS.duyetThanhToan(hoaDon.getMaHd(), maThanhToanValue);
         if (success) {
             if (hoaDon.getPhieuDangKy() != null) {
-                phieuDangKyBUS.capNhatTrangThai(
+                PhieuDangKyBUS.capNhatTrangThai(
                         hoaDon.getPhieuDangKy().getMaPhieuDangKy(),
                         "Đã xác nhận"
                 );

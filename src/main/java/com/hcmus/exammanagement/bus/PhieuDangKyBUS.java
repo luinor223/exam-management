@@ -38,7 +38,7 @@ public class PhieuDangKyBUS {
         return PhieuDangKyDAO.insert(phieuDangKy);
     }
 
-    public List<PhieuDangKyDTO> layDSPhieuDangKyChoThanhToan() throws Exception {
+    public static List<PhieuDangKyDTO> layDSPhieuDangKyChoThanhToan() throws Exception {
         try {
             return PhieuDangKyDAO.findAllByTinhTrang("Chờ xử lý");
         } catch (SQLException e) {
@@ -46,7 +46,7 @@ public class PhieuDangKyBUS {
         }
     }
 
-    public void capNhatTrangThai(String maPhieu, String trangThai) {
+    public static void capNhatTrangThai(String maPhieu, String trangThai) {
         PhieuDangKyDAO.capNhatTrangThai(maPhieu, trangThai);
     }
 }

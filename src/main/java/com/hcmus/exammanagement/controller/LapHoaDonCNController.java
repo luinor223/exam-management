@@ -49,14 +49,8 @@ public class LapHoaDonCNController {
         loadData();
     }
 
-    private ThongTinLapHDBUS thongTinLapHDBUS;
-    private final ThanhToanBUS thanhToanBUS = new ThanhToanBUS();
-    private final PhieuDangKyBUS phieuDangKyBUS = new PhieuDangKyBUS();
-
-
     @FXML
     public void initialize() {
-        thongTinLapHDBUS = new ThongTinLapHDBUS();
 
         colMaPhieuDangKy.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMaPhieuDangKy()));
         colMaKhachHang.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMaKhachHang()));
@@ -104,7 +98,7 @@ public class LapHoaDonCNController {
     }
 
     private void loadData() {
-        danhSachLapHD.setAll(thongTinLapHDBUS.LayThongTinLapHDbyMapdk(phieuDangKy.getMaPhieuDangKy()));
+        danhSachLapHD.setAll(ThongTinLapHDBUS.LayThongTinLapHDbyMapdk(phieuDangKy.getMaPhieuDangKy()));
         tinhToanTongTien();
     }
 
@@ -138,8 +132,8 @@ public class LapHoaDonCNController {
                 null
         );
 
-        phieuDangKyBUS.capNhatTrangThai(phieuDangKy.getMaPhieuDangKy(), "Đã xác nhận");
-        thanhToanBUS.taoHoaDon(hoaDon);
+        PhieuDangKyBUS.capNhatTrangThai(phieuDangKy.getMaPhieuDangKy(), "Đã xác nhận");
+        ThanhToanBUS.taoHoaDon(hoaDon);
         showAlert("Thành công", "Xác nhận thanh toán!");
 
         Stage stage = (Stage) btnThanhToan.getScene().getWindow();

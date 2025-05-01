@@ -48,7 +48,7 @@ public class ThongTinLapHDDAO {
         GROUP BY pdk.ma_pdk, kh.ma_kh, cc.ten_chung_chi, lt.ngay_gio_thi, cc.le_phi, kh.loai_kh
     """;
 
-    public List<ThongTinLapHDDTO> getAllThongTinLapHD() {
+    public static List<ThongTinLapHDDTO> getAllThongTinLapHD() {
         List<ThongTinLapHDDTO> result = new ArrayList<>();
 
         try (Connection conn = Database.getConnection();
@@ -67,7 +67,7 @@ public class ThongTinLapHDDAO {
         return result;
     }
 
-    public List<ThongTinLapHDDTO> getAllThongTinLapHDbyMapdk(String maPdk) {
+    public static List<ThongTinLapHDDTO> getAllThongTinLapHDbyMapdk(String maPdk) {
         List<ThongTinLapHDDTO> result = new ArrayList<>();
 
         String queryWithFilter = QUERY1;

@@ -50,9 +50,6 @@ public class ThanhToanController {
     private final ObservableList<PhieuDangKyDTO> dsPhieu = FXCollections.observableArrayList();
     private final ObservableList<HoaDonDTO> dsHoaDon = FXCollections.observableArrayList();
 
-    private final ThanhToanBUS thanhToanBUS = new ThanhToanBUS();
-    private final PhieuDangKyBUS phieuDangKyBUS = new PhieuDangKyBUS();
-
     @FXML
     public void initialize() throws Exception {
         loadPhieuDangKyChoTT();
@@ -82,12 +79,12 @@ public class ThanhToanController {
     }
 
     private void loadPhieuDangKyChoTT() throws Exception {
-        dsPhieu.setAll(phieuDangKyBUS.layDSPhieuDangKyChoThanhToan());
+        dsPhieu.setAll(PhieuDangKyBUS.layDSPhieuDangKyChoThanhToan());
         DSPhieuDK.setItems(dsPhieu);
     }
 
     private void loadHoaDon() {
-        dsHoaDon.setAll(thanhToanBUS.LayDsHoaDon());
+        dsHoaDon.setAll(ThanhToanBUS.LayDsHoaDon());
         LichSuThanhToan.setItems(dsHoaDon);
     }
 
@@ -202,7 +199,7 @@ public class ThanhToanController {
 
                     Optional<ButtonType> result = confirmAlert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
-                        if (thanhToanBUS.xoaHoaDon(hoaDon.getMaHd())) {
+                        if (ThanhToanBUS.xoaHoaDon(hoaDon.getMaHd())) {
                             dsHoaDon.remove(hoaDon);
 
                             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);

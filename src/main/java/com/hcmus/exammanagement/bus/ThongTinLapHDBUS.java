@@ -6,19 +6,12 @@ import com.hcmus.exammanagement.dto.ThongTinLapHDDTO;
 import java.util.List;
 
 public class ThongTinLapHDBUS {
-
-    private final ThongTinLapHDDAO thongTinLapHDDAO;
-
-    public ThongTinLapHDBUS() {
-        thongTinLapHDDAO = new ThongTinLapHDDAO();
+    public static List<ThongTinLapHDDTO> getAllThongTinLapHD() {
+        return ThongTinLapHDDAO.getAllThongTinLapHD();
     }
 
-    public List<ThongTinLapHDDTO> getAllThongTinLapHD() {
-        return thongTinLapHDDAO.getAllThongTinLapHD();
-    }
-
-    public List<ThongTinLapHDDTO> LayThongTinLapHDbyMapdk(String maPdk) {
-        return thongTinLapHDDAO.getAllThongTinLapHDbyMapdk(maPdk);
+    public static List<ThongTinLapHDDTO> LayThongTinLapHDbyMapdk(String maPdk) {
+        return ThongTinLapHDDAO.getAllThongTinLapHDbyMapdk(maPdk);
     }
 }
 
