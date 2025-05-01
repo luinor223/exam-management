@@ -104,7 +104,7 @@ public class LapHoaDonCNController {
     }
 
     private void loadData() {
-        danhSachLapHD.setAll(thongTinLapHDBUS.getAllThongTinLapHDbyMapdk(phieuDangKy.getMaPhieuDangKy()));
+        danhSachLapHD.setAll(thongTinLapHDBUS.LayThongTinLapHDbyMapdk(phieuDangKy.getMaPhieuDangKy()));
         tinhToanTongTien();
     }
 

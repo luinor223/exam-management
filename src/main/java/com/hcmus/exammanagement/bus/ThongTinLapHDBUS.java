@@ -17,7 +17,7 @@ public class ThongTinLapHDBUS {
         return thongTinLapHDDAO.getAllThongTinLapHD();
     }
 
-    public List<ThongTinLapHDDTO> getAllThongTinLapHDbyMapdk(String maPdk) {
+    public List<ThongTinLapHDDTO> LayThongTinLapHDbyMapdk(String maPdk) {
         return thongTinLapHDDAO.getAllThongTinLapHDbyMapdk(maPdk);
     }
 }

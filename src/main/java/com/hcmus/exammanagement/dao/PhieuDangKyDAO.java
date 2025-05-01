@@ -104,18 +104,38 @@ public class PhieuDangKyDAO {
     }
 
     public boolean huyPhieuDangKy(String maPhieuDangKy) {
-        String sql = "UPDATE phieu_dang_ky SET trang_thai = 'Đã hủy' WHERE ma_pdk = ?";
+        String deleteChiTietSQL = "DELETE FROM chi_tiet_phieu_dk WHERE ma_pdk = ?";
+        String updatePhieuSQL = "UPDATE phieu_dang_ky SET trang_thai = 'Đã hủy' WHERE ma_pdk = ?";
 
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, maPhieuDangKy);
-            int affectedRows = stmt.executeUpdate();
-            return affectedRows > 0;
+
+        try (Connection conn = Database.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (
+                    PreparedStatement deleteStmt = conn.prepareStatement(deleteChiTietSQL);
+                    PreparedStatement updateStmt = conn.prepareStatement(updatePhieuSQL)
+            ) {
+                deleteStmt.setString(1, maPhieuDangKy);
+                deleteStmt.executeUpdate();
+
+                updateStmt.setString(1, maPhieuDangKy);
+                int affectedRows = updateStmt.executeUpdate();
+
+                System.out.println(updatePhieuSQL);
+                System.out.println(deleteChiTietSQL);
+
+                conn.commit();
+                return affectedRows > 0;
+            } catch (SQLException e) {
+                conn.rollback();
+                e.printStackTrace();
+                return false;
+            } finally {
+                conn.setAutoCommit(true);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
-
-
 }

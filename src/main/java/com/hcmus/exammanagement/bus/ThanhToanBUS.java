@@ -4,6 +4,7 @@ import com.hcmus.exammanagement.dao.HoaDonDAO;
 import com.hcmus.exammanagement.dao.PhieuDangKyDAO;
 import com.hcmus.exammanagement.dto.HoaDonDTO;
 import com.hcmus.exammanagement.dto.PhieuDangKyDTO;
+import com.hcmus.exammanagement.dto.ThongTinLapHDDTO;
 
 
 import java.util.List;
@@ -31,6 +32,45 @@ public class ThanhToanBUS {
         hoaDonDAO.insert(hoaDonDTO);
     }
 
+    public static float KiemTraTroGia(List<ThongTinLapHDDTO> danhSachLapHD) {
+        float tongTamTinhThucTe = 0;
+        int tongSoLuongThiSinh = 0;
+        boolean laDonVi = false;
+
+        for (ThongTinLapHDDTO item : danhSachLapHD) {
+            tongTamTinhThucTe += item.getTongTien();
+            tongSoLuongThiSinh += item.getSoLuongThiSinh();
+            if ("Đơn vị".equalsIgnoreCase(item.getLoaiKhachHang())) {
+                laDonVi = true;
+            }
+        }
+
+        if (!laDonVi) return 0;
+
+        float troGia = 0.10f * tongTamTinhThucTe;
+        if (tongSoLuongThiSinh > 20) {
+            troGia = Math.min(troGia, 0.15f * tongTamTinhThucTe);
+        }
+
+        return Math.max(troGia, 0);
+    }
+
+    public static String getMoTaTroGia(List<ThongTinLapHDDTO> danhSachLapHD) {
+        int tongSoLuongThiSinh = 0;
+        boolean laDonVi = false;
+
+        for (ThongTinLapHDDTO item : danhSachLapHD) {
+            tongSoLuongThiSinh += item.getSoLuongThiSinh();
+            if ("Đơn vị".equalsIgnoreCase(item.getLoaiKhachHang())) {
+                laDonVi = true;
+            }
+        }
+
+        if (!laDonVi) return "";
+
+        return (tongSoLuongThiSinh > 20) ? "Trợ giá 15%" : "Trợ giá 10%";
+    }
+
     // Kiểm tra hạn thanh toán (3 ngày)
     public boolean KiemTraHanThanhToan(HoaDonDTO hoaDon) {
         if (hoaDon == null || hoaDon.getPhieuDangKy() == null || hoaDon.getPhieuDangKy().getNgayLap() == null) {
@@ -44,12 +84,13 @@ public class ThanhToanBUS {
             return true;
         }
 
-        java.sql.Date ngayDangKy = (java.sql.Date) phieuDangKy.getNgayLap();
+        java.sql.Date ngayDangKy = (java.sql.Date) hoaDon.getPhieuDangKy().getNgayLap();
         java.time.LocalDate localNgayDangKy = ngayDangKy.toLocalDate();
 
         java.time.LocalDate hanThanhToan = localNgayDangKy.plusDays(3);
 
         System.out.println("Han thanh toan cua ma pdk " + phieuDangKy.getMaPhieuDangKy() + " : " + hanThanhToan);
+        System.out.println("ngay lap phieu " + hoaDon.getPhieuDangKy().getNgayLap());
 
         return java.time.LocalDate.now().isBefore(hanThanhToan);
     }
@@ -76,8 +117,6 @@ public class ThanhToanBUS {
             }
         }
     }
-
-
 
     public boolean xoaHoaDon(String maHd) {
         return hoaDonDAO.delete(maHd);

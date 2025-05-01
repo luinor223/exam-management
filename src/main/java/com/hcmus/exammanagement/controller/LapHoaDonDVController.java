@@ -107,51 +107,26 @@ public class LapHoaDonDVController {
         tableThongTinLapHoaDon.setItems(danhSachLapHD);
 
         phuongThuc.setItems(FXCollections.observableArrayList("Tiền mặt", "Chuyển khoản"));
-        phuongThuc.getSelectionModel().selectFirst();
+        phuongThuc.getSelectionModel().select("Chuyển khoản");
 
         btnHuy.setOnAction(e -> huyHoaDon());
         btnThanhToan.setOnAction(e -> thanhToan());
     }
 
     private void loadData() {
-        danhSachLapHD.setAll(thongTinLapHDBUS.getAllThongTinLapHDbyMapdk(phieuDangKy.getMaPhieuDangKy()));
+        danhSachLapHD.setAll(thongTinLapHDBUS.LayThongTinLapHDbyMapdk(phieuDangKy.getMaPhieuDangKy()));
         tinhToanTongTien();
     }
 
     private void tinhToanTongTien() {
         tongTamTinhThucTe = 0;
-        int tongSoLuongThiSinh = 0;
-        boolean laDonVi = false;
-
         for (ThongTinLapHDDTO item : danhSachLapHD) {
             tongTamTinhThucTe += item.getTongTien();
-            tongSoLuongThiSinh += item.getSoLuongThiSinh();
-
-            if ("Đơn vị".equalsIgnoreCase(item.getLoaiKhachHang())) {
-                laDonVi = true;
-            }
         }
 
-        // Khách hàng là đơn vị sẽ được trợ giá 10%, nếu số thí sinh dự thi trên 20 sẽ được giảm tối đa 15%.
-        troGiaThucTe = 0;
-        String troGiaMessage = "";
-
-        if (laDonVi) {
-            troGiaThucTe = 0.10f * tongTamTinhThucTe;
-
-            if (tongSoLuongThiSinh > 20) {
-                float tongGiamToiDa = 0.15f * tongTamTinhThucTe;
-                if (troGiaThucTe > tongGiamToiDa) {
-                    troGiaThucTe = tongGiamToiDa;
-                    if (troGiaThucTe < 0) troGiaThucTe = 0;
-                }
-                troGiaMessage = "Trợ giá 15%";
-            } else {
-                troGiaMessage = "Trợ giá 10%";
-            }
-        }
-
+        troGiaThucTe = ThanhToanBUS.KiemTraTroGia(danhSachLapHD);
         tongThanhToanThucTe = Math.max(tongTamTinhThucTe - troGiaThucTe, 0);
+        String troGiaMessage = ThanhToanBUS.getMoTaTroGia(danhSachLapHD);
 
         NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
         currencyFormat.setMaximumFractionDigits(0);
@@ -161,6 +136,7 @@ public class LapHoaDonDVController {
         tongTien.setText(currencyFormat.format(tongThanhToanThucTe) + "đ");
         labelTroGia.setText(troGiaMessage);
     }
+
 
     private void huyHoaDon() {
         Stage stage = (Stage) btnHuy.getScene().getWindow();
@@ -172,8 +148,8 @@ public class LapHoaDonDVController {
         String maTT = maThanhToan.getText();
         String email = emailGuiHoaDon.getText();
 
-        if (email == null || email.isBlank()) {
-            showAlert("Lỗi", "Vui lòng nhập email để gửi hóa đơn.");
+        if (!email.isEmpty() && !email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            showAlert("Lỗi", "Email không hợp lệ");
             return;
         }
 
@@ -188,7 +164,7 @@ public class LapHoaDonDVController {
                 null
         );
 
-        if (maTT == null || maTT.isBlank()) {
+        if ((maTT == null || maTT.isBlank()) && phuongThucTT.equals("Chuyển khoản")) {
             // Nếu chưa có mã thanh toán thì đưa vào danh sách chờ duyệt
             phieuDangKyBUS.capNhatTrangThai(phieuDangKy.getMaPhieuDangKy(), "Chờ xét duyệt");
             thanhToanBUS.taoHoaDon(hoaDon);
@@ -200,7 +176,9 @@ public class LapHoaDonDVController {
         }
 
         // Nếu có mã thanh toán
-        hoaDon.setMaTt(maTT);
+        if (!(maTT == null || maTT.isBlank())) {
+            hoaDon.setMaTt(maTT);
+        }
         phieuDangKyBUS.capNhatTrangThai(phieuDangKy.getMaPhieuDangKy(), "Đã xác nhận");
         thanhToanBUS.taoHoaDon(hoaDon);
         showAlert("Thành công", "Xác nhận thanh toán!\nĐã gửi hoá đơn tới " + email);

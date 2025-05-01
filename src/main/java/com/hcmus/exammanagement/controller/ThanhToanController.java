@@ -61,6 +61,7 @@ public class ThanhToanController {
         setupHoaDonTable();
         addActionButtonsToTableDSPhieu();
         addActionButtonsToTableLSThanhToan();
+        filterComboBox.getSelectionModel().select("Tất cả");
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterPhieuDangKy(newValue);
@@ -125,6 +126,13 @@ public class ThanhToanController {
             {
                 btnLapHoaDon.setGraphic(new FontIcon("fas-print"));
                 btnLapHoaDon.getStyleClass().add("action-button");
+
+                Tooltip tooltip = new Tooltip("Click để lập hóa đơn");
+                Tooltip.install(btnLapHoaDon, tooltip);
+
+                tooltip.setShowDelay(Duration.millis(10));
+                tooltip.setHideDelay(Duration.millis(300));
+
                 btnLapHoaDon.setOnAction(event -> {
                     PhieuDangKyDTO phieu = getTableView().getItems().get(getIndex());
                     String loaiKH = phieu.getKhachHang().getLoai_kh();
@@ -251,9 +259,13 @@ public class ThanhToanController {
             String tenKH = phieu.getKhachHang().getHoTen();
             String title = "Lập hóa đơn cho PDK mã: " + maPhieu + " - Tên KH: " + tenKH;
             showPopup(root, title);
+
+            loadPhieuDangKy();
             loadHoaDon();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -268,9 +280,13 @@ public class ThanhToanController {
             String title = "Lập hóa đơn cho PDK mã: " + maPhieu + " - Tên KH: " + tenKH;
 
             showPopup(root, title);
+
+            loadPhieuDangKy();
             loadHoaDon();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -282,9 +298,13 @@ public class ThanhToanController {
             controller.setHoaDon(hoaDon);
 
             showPopup(root, "Duyệt Thanh Toán");
+
+            loadPhieuDangKy();
             loadHoaDon();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

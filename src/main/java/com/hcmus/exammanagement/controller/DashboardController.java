@@ -38,20 +38,18 @@ public class DashboardController {
         switch (employeeType) {
             case "Tiep nhan":
                 sidebarButtons.add(createButton("Đăng ký", "#TNDangKy"));
-                sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
                 break;
             case "Ke toan":
                 sidebarButtons.add(createButton("Lập phiếu gia hạn", "#LapPhieuGiaHan"));
+                sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
                 break;
             case "Nhap lieu":
                 sidebarButtons.add(createButton("Nhập kết quả", "#NhapKetQua"));
                 break;
             case "Khao thi":
-                sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
                 sidebarButtons.add(createButton("Quản lý lịch thi", "#QLLichThi"));
                 break;
             case "Quan tri":
-                sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
                 break;
         }
         sidebarContainer.getChildren().addAll(sidebarButtons);

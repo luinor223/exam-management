@@ -23,7 +23,7 @@
         <TextField fx:id="tamTinh" editable="false" layoutX="248.0" layoutY="219.0" prefHeight="34.0" prefWidth="400.0" promptText="Tạm tính" styleClass="text-field" />
         <TextField fx:id="giamGia" editable="false" layoutX="248.0" layoutY="265.0" prefHeight="34.0" prefWidth="400.0" promptText="Giảm giá" styleClass="text-field" /> <Label fx:id="labelTroGia" layoutX="568.0" layoutY="268.0" prefHeight="25.0" prefWidth="120.0" text="" />
         <TextField fx:id="tongTien" editable="false" layoutX="248.0" layoutY="310.0" prefHeight="34.0" prefWidth="400.0" promptText="Tổng tiền" styleClass="text-field" />
-        <ComboBox fx:id="phuongThuc" layoutX="248.0" layoutY="360.0" prefHeight="34.0" prefWidth="400.0" promptText="Tiền mặt" styleClass="custom-combobox" stylesheets="@../style.css" />
+        <ComboBox fx:id="phuongThuc" layoutX="248.0" layoutY="360.0" prefHeight="34.0" prefWidth="400.0" promptText="Chuyển khoản" styleClass="custom-combobox" stylesheets="@../style.css" />
         <TextField fx:id="emailGuiHoaDon" layoutX="248.0" layoutY="412.0" prefHeight="34.0" prefWidth="400.0" promptText="Email" styleClass="text-field" />
         <TextField fx:id="maThanhToan" layoutX="248.0" layoutY="462.0" prefHeight="34.0" prefWidth="400.0" promptText="Mã thanh toán" styleClass="text-field" />
 

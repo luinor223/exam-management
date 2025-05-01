@@ -1,5 +1,6 @@
 package com.hcmus.exammanagement.controller;
 
+import com.hcmus.exammanagement.AutoTaskScheduler;
 import com.hcmus.exammanagement.dto.Database;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,8 +43,12 @@ public class LoginController {
 //            loginMessage.setText("Invalid username or password.");
 //        }
 
-        loadDashboard("Nhap lieu");
-        Database.initialize("postgres", "sa");
+        loadDashboard("Ke toan");
+        Database.initialize("postgres", "123");
+
+        // Khởi động AutoTaskScheduler để kiểm tra hóa đơn quá hạn mỗi ngày
+        AutoTaskScheduler autoTaskScheduler = new AutoTaskScheduler();
+        autoTaskScheduler.start();
     }
 
     private boolean isValidCredentials(String username, String password) {
