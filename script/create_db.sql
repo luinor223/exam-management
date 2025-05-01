@@ -132,12 +132,14 @@ CREATE TABLE chi_tiet_phong_thi (
 CREATE TABLE phieu_du_thi (
     ma_lt TEXT NOT NULL, -- Mã lịch thi
     sbd CHAR(6),
+    ma_phong TEXT NOT NULL,
     ngay_cap DATE DEFAULT CURRENT_DATE,
     ma_ctpdk TEXT,
 
     PRIMARY KEY (ma_lt, sbd),
     FOREIGN KEY (ma_ctpdk) REFERENCES chi_tiet_phieu_dk(ma_ctpdk) ON DELETE CASCADE,
-    FOREIGN KEY (ma_lt) REFERENCES lich_thi(ma_lt) ON DELETE CASCADE
+    FOREIGN KEY (ma_lt) REFERENCES lich_thi(ma_lt) ON DELETE CASCADE,
+    FOREIGN KEY (ma_lt, ma_phong) REFERENCES chi_tiet_phong_thi(ma_lt, ma_phong) ON DELETE CASCADE
 );
 
 -- Bảng Kết Quả
