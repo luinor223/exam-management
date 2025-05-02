@@ -45,6 +45,7 @@ public class LoginController {
             String loaiNV = NhanVienBUS.layLoaiNV(username);
             if (loaiNV == null) {
                 loginMessage.setText("Không tìm thấy loại nhân viên.");
+                loginMessage.setStyle("-fx-text-fill: red;");
                 return;
             }
 
@@ -57,6 +58,7 @@ public class LoginController {
 
         } catch (Exception e) {
             loginMessage.setText("Tên đăng nhập hoặc mật khẩu sai.");
+            loginMessage.setStyle("-fx-text-fill: red;");
         }
     }
 

@@ -34,7 +34,7 @@ public class LapHoaDonDVController {
     @FXML private TextField giamGia;
     @FXML private TextField tongTien;
     @FXML private ComboBox<String> phuongThuc;
-    @FXML private TextField emailGuiHoaDon;
+//    @FXML private TextField emailGuiHoaDon;
     @FXML private TextField maThanhToan;
     @FXML private Label labelTroGia;
     @FXML private Label labelNgayLap;
@@ -141,17 +141,17 @@ public class LapHoaDonDVController {
     private void btnTaoHoaDon() {
         String phuongThucTT = phuongThuc.getValue();
         String maTT = maThanhToan.getText();
-        String email = emailGuiHoaDon.getText();
+        String email = phieuDangKy.getKhachHang().getEmail();
 
-        if (email == null || email.trim().isEmpty()) {
-            hienThongBao("Lỗi", "Vui lòng nhập email");
-            return;
-        }
-
-        if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-            hienThongBao("Lỗi", "Email không hợp lệ");
-            return;
-        }
+//        if (email == null || email.trim().isEmpty()) {
+//            hienThongBao("Lỗi", "Vui lòng nhập email");
+//            return;
+//        }
+//
+//        if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+//            hienThongBao("Lỗi", "Email không hợp lệ");
+//            return;
+//        }
 
         HoaDonDTO hoaDon = new HoaDonDTO(
                 null,
