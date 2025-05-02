@@ -5,9 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +25,9 @@ public class DashboardController {
 
     @FXML
     private StackPane contentArea;
+
+    @FXML
+    private JFXButton btnDangXuat;
 
     private final List<JFXButton> sidebarButtons = new ArrayList<>();
 
@@ -36,23 +44,23 @@ public class DashboardController {
         sidebarContainer.getChildren().clear();
         sidebarButtons.clear();
         switch (employeeType) {
-            case "Tiep nhan":
+            case "tiếp nhận":
                 sidebarButtons.add(createButton("Đăng ký", "#TNDangKy"));
                 sidebarButtons.add(createButton("Cấp chứng chỉ", "#CapChungChi"));
                 break;
-            case "Ke toan":
+            case "kế toán":
                 sidebarButtons.add(createButton("Lập phiếu gia hạn", "#LapPhieuGiaHan"));
                 sidebarButtons.add(createButton("Thanh toán", "#ThanhToan"));
                 break;
-            case "Nhap lieu":
+            case "nhập liệu":
                 sidebarButtons.add(createButton("Nhập kết quả", "#NhapKetQua"));
                 break;
-            case "Khao thi":
+            case "khảo thí":
                 sidebarButtons.add(createButton("Xếp lịch cho đơn vị", "Xeplichdonvi"));
                 sidebarButtons.add(createButton("Quản lý lịch thi", "#QLLichThi"));
                 sidebarButtons.add(createButton("Phát hành phiếu dự thi", "#PhatHanhPhieu"));
                 break;
-            case "Quan tri":
+            case "quản trị":
                 break;
         }
         sidebarContainer.getChildren().addAll(sidebarButtons);
@@ -167,5 +175,39 @@ public class DashboardController {
         Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/CapChungChi/cap-chung-chi.fxml")));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(fxml);
+    }
+
+    @FXML
+    void DangXuat(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận đăng xuất");
+        alert.setHeaderText(null);
+        alert.setContentText("Bạn có chắc chắn muốn đăng xuất không?");
+
+        ButtonType yesButton = new ButtonType("Đồng ý");
+        ButtonType cancelButton = new ButtonType("Hủy", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(yesButton, cancelButton);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == yesButton) {
+                try {
+                    // Tải giao diện login
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/login.fxml"));
+                    Parent root = loader.load();
+
+                    // Lấy stage hiện tại và cập nhật lại root
+                    Stage stage = (Stage) btnDangXuat.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+
+                    // Cập nhật kích thước về mặc định login
+                    stage.setWidth(960);
+                    stage.setHeight(540);
+                    stage.centerOnScreen(); // Canh giữa cửa sổ
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

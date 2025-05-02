@@ -1,6 +1,6 @@
 package com.hcmus.exammanagement.controller;
 
-import com.hcmus.exammanagement.dao.PhieuGiaHanDAO;
+import com.hcmus.exammanagement.bus.PhieuGiaHanBUS;
 import com.hcmus.exammanagement.dto.PhieuGiaHanDTO;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -17,10 +17,7 @@ public class DialogThemGiaHanController {
     @FXML private TextField txtNhanVienTao;
     @FXML private CheckBox chkDaThanhToan;
 
-    private List<String> danhSachCTPDK;
-
     public void setDanhSachCTPDK(List<String> maCTPDKList) {
-        this.danhSachCTPDK = maCTPDKList;
         cbMaCTPDK.setItems(FXCollections.observableArrayList(maCTPDKList));
     }
 
@@ -47,7 +44,7 @@ public class DialogThemGiaHanController {
                 null, loaiGH, phiGH, nhanVienTao, chkDaThanhToan.isSelected(), maCTPDK
         );
 
-        if (PhieuGiaHanDAO.insertPhieuGiaHan(newPGH)) {
+        if (PhieuGiaHanBUS.taoPhieuGiaHan(newPGH)) {
             showAlert("Thành công", "Thêm phiếu gia hạn thành công.");
             closeDialog();
         } else {

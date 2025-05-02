@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhieuDuThiDAO {
-    public List<PhieuDuThiDTO> findAll() {
+    public static List<PhieuDuThiDTO> findAll() {
         List<PhieuDuThiDTO> result = new ArrayList<>();
 
         String sql = "SELECT pdt.ma_lt, pdt.sbd, pdt.ma_phong, pdt.ngay_cap, pdt.ma_ctpdk, " +
@@ -35,7 +35,7 @@ public class PhieuDuThiDAO {
         return result;
     }
 
-    public PhieuDuThiDTO findById(String maLT, String sbd) {
+    public static PhieuDuThiDTO findById(String maLT, String sbd) {
         String sql = "SELECT pdt.ma_lt, pdt.sbd, pdt.ma_phong, pdt.ngay_cap, pdt.ma_ctpdk, " +
                 "lt.ngay_gio_thi::date, " +
                 "(CASE WHEN EXISTS (SELECT 1 FROM ket_qua kq WHERE kq.ma_lt = pdt.ma_lt AND kq.sbd = pdt.sbd) " +
@@ -62,7 +62,7 @@ public class PhieuDuThiDAO {
         return null;
     }
 
-    public int insert(PhieuDuThiDTO pdt) throws SQLException {
+    public static int insert(PhieuDuThiDTO pdt) throws SQLException {
         String sql = "INSERT INTO phieu_du_thi (ma_lt, sbd, ma_phong, ma_ctpdk) VALUES (?, ?, ?, ?);";
 
         try (Connection conn = Database.getConnection();

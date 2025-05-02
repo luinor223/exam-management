@@ -14,28 +14,9 @@ import java.util.List;
  * Business logic class for PhieuDuThi (Exam Ticket) operations
  */
 public class PhieuDuThiBUS {
-    private final PhieuDuThiDAO phieuDuThiDAO;
-    private final ChiTietPDKDAO chiTietPDKDAO;
-
-    public PhieuDuThiBUS() {
-        this.phieuDuThiDAO = new PhieuDuThiDAO();
-        this.chiTietPDKDAO = new ChiTietPDKDAO();
-    }
 
     public List<PhieuDuThiDTO> layDSPhieuDuThi() {
-        return phieuDuThiDAO.findAll();
-    }
-
-    public PhieuDuThiDTO getPhieuDuThi(String maLT, String sbd) throws IllegalArgumentException {
-        if (maLT == null || maLT.trim().isEmpty()) {
-            throw new IllegalArgumentException("Mã lịch thi không được để trống");
-        }
-
-        if (sbd == null || sbd.trim().isEmpty()) {
-            throw new IllegalArgumentException("Số báo danh không được để trống");
-        }
-
-        return phieuDuThiDAO.findById(maLT, sbd);
+        return PhieuDuThiDAO.findAll();
     }
 
     public int phatPhieuDuThi(String maLT) throws SQLException {
@@ -44,7 +25,7 @@ public class PhieuDuThiBUS {
         }
 
         List<ChiTietPhongThiDTO> dsChiTietPhongThi = ChiTietPhongThiDAO.findByLichThi(maLT);
-        List<ChiTietPDKDTO> dsChiTietPDK = chiTietPDKDAO.findByLichThi(maLT);
+        List<ChiTietPDKDTO> dsChiTietPDK = ChiTietPDKDAO.findByLichThi(maLT);
 
         int phieuDuThiCount = 0;
         // Voi moi phong, them phieu du thi cho den khi day thi chuyen sang phong khac
@@ -61,7 +42,7 @@ public class PhieuDuThiBUS {
                 phieuDuThiDTO.setMaPhong(chiTietPhongThiDTO.getPhong().getMaPhong());
                 phieuDuThiDTO.setMaCtpdk(chiTietPDKDTO.getMaCTPDK());
                 try {
-                    phieuDuThiDAO.insert(phieuDuThiDTO);
+                    PhieuDuThiDAO.insert(phieuDuThiDTO);
                     phieuDuThiCount++;
                     soLuongHienTai++;
                 }

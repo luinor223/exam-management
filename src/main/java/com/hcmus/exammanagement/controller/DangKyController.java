@@ -5,9 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.Objects;
 
+@Slf4j
 public class DangKyController {
 
     @FXML
@@ -46,11 +49,11 @@ public class DangKyController {
 
     private void loadForm(String fxmlPath) {
         try {
-            Parent form = FXMLLoader.load(getClass().getResource(fxmlPath));
+            Parent form = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath)));
             formContainer.getChildren().clear();
             formContainer.getChildren().add(form);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load form: {}", fxmlPath, e);
         }
     }
 }

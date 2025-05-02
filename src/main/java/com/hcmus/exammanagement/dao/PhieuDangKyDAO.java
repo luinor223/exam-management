@@ -76,14 +76,13 @@ public class PhieuDangKyDAO {
     }
 
     public static PhieuDangKyDTO insert(PhieuDangKyDTO phieuDangKy) throws SQLException {
-        String sql = "INSERT INTO phieu_dang_ky (trang_thai, dia_chi_giao, ma_kh, nhan_vien_tao) VALUES (?, ?, ?, ?) RETURNING ma_pdk";
+        String sql = "INSERT INTO phieu_dang_ky (trang_thai, dia_chi_giao, ma_kh) VALUES (?, ?, ?) RETURNING ma_pdk";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, phieuDangKy.getTrangThai());
             stmt.setString(2, phieuDangKy.getDiaChiGiao());
             stmt.setString(3, phieuDangKy.getKhachHang().getMaKH());
-            stmt.setString(4, phieuDangKy.getMaNVTao());
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -135,7 +134,7 @@ public class PhieuDangKyDAO {
             stmt.setString(2, maPhieu);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Error updating phieu dang ky with ID {}: {}", maPhieu, e.getMessage());
         }
     }
 
@@ -164,13 +163,13 @@ public class PhieuDangKyDAO {
                 return affectedRows > 0;
             } catch (SQLException e) {
                 conn.rollback();
-                e.printStackTrace();
+                log.error("Error deleting phieu dang ky with ID {}: {}", maPhieuDangKy, e.getMessage());
                 return false;
             } finally {
                 conn.setAutoCommit(true);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Error connecting to database: {}", e.getMessage());
             return false;
         }
     }
