@@ -62,7 +62,7 @@ public class PhieuDuThiDAO {
         return null;
     }
 
-    public int insertPhieuDuThi(PhieuDuThiDTO pdt) throws SQLException {
+    public int insert(PhieuDuThiDTO pdt) throws SQLException {
         String sql = "INSERT INTO phieu_du_thi (ma_lt, sbd, ma_phong, ma_ctpdk) VALUES (?, ?, ?, ?);";
 
         try (Connection conn = Database.getConnection();

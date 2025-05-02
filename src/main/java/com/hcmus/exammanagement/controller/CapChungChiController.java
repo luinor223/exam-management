@@ -29,11 +29,11 @@ public class CapChungChiController implements Initializable {
 
     @FXML private TextField searchField;
     @FXML private ComboBox<String> filterStatus;
-    @FXML private DatePicker filterDateStart;
-    @FXML private DatePicker filterDateEnd;
+    @FXML private DatePicker filterNgayBD;
+    @FXML private DatePicker filterNgayKT;
     @FXML private Button btnClear;
 
-    @FXML private TableView<KetQuaDayDuDTO> tableKetQua;
+    @FXML private TableView<KetQuaDayDuDTO> DSKetQua;
     @FXML private TableColumn<KetQuaDayDuDTO, String> colMaLT;
     @FXML private TableColumn<KetQuaDayDuDTO, String> colSBD;
     @FXML private TableColumn<KetQuaDayDuDTO, String> colHoTen;
@@ -164,15 +164,15 @@ public class CapChungChiController implements Initializable {
             }
         };
 
-        filterDateStart.setConverter(dateConverter);
-        filterDateEnd.setConverter(dateConverter);
+        filterNgayBD.setConverter(dateConverter);
+        filterNgayKT.setConverter(dateConverter);
 
         // Set up clear filter button
         btnClear.setOnAction(e -> {
             searchField.clear();
             filterStatus.getSelectionModel().selectFirst();
-            filterDateStart.setValue(null);
-            filterDateEnd.setValue(null);
+            filterNgayBD.setValue(null);
+            filterNgayKT.setValue(null);
             applyFilters();
         });
     }
@@ -180,9 +180,9 @@ public class CapChungChiController implements Initializable {
     private void loadData() {
         try {
             // Load all results with joined data using KetQuaDayDuDTO
-            ketQuaList = FXCollections.observableArrayList(ketQuaBUS.getAllKetQuaWithDetails());
+            ketQuaList = FXCollections.observableArrayList(ketQuaBUS.layTatCaKetQuaChiTiet());
             filteredKetQuaList = new FilteredList<>(ketQuaList, p -> true);
-            tableKetQua.setItems(filteredKetQuaList);
+            DSKetQua.setItems(filteredKetQuaList);
         } catch (Exception e) {
             log.error("Error loading data", e);
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải dữ liệu",
@@ -198,8 +198,8 @@ public class CapChungChiController implements Initializable {
         filterStatus.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> applyFilters());
 
         // Date range filter listeners
-        filterDateStart.valueProperty().addListener((obs, oldVal, newVal) -> applyFilters());
-        filterDateEnd.valueProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        filterNgayBD.valueProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        filterNgayKT.valueProperty().addListener((obs, oldVal, newVal) -> applyFilters());
     }
 
     private void applyFilters() {
@@ -232,8 +232,8 @@ public class CapChungChiController implements Initializable {
             }
 
             // Filter by date range
-            LocalDate startDate = filterDateStart.getValue();
-            LocalDate endDate = filterDateEnd.getValue();
+            LocalDate startDate = filterNgayBD.getValue();
+            LocalDate endDate = filterNgayKT.getValue();
 
             if (startDate != null || endDate != null) {
                 if (ketQua.getNgayGioThi() != null) {
@@ -327,7 +327,7 @@ public class CapChungChiController implements Initializable {
 
                 // Update in-memory data and refresh table
                 ketQua.setTrangThai("Đã cấp");
-                tableKetQua.refresh();
+                DSKetQua.refresh();
             } else {
                 showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể cấp chứng chỉ",
                         "Đã xảy ra lỗi khi cập nhật trạng thái.");

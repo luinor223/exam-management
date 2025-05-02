@@ -36,13 +36,13 @@
                                 </FXCollections>
                             </items>
                         </ComboBox>
-                        <DatePicker fx:id="filterDateStart" prefWidth="150.0" promptText="Từ ngày" />
-                        <DatePicker fx:id="filterDateEnd" prefWidth="150.0" promptText="Đến ngày" />
+                        <DatePicker fx:id="filterNgayBD" prefWidth="150.0" promptText="Từ ngày" />
+                        <DatePicker fx:id="filterNgayKT" prefWidth="150.0" promptText="Đến ngày" />
                         <Button fx:id="btnClear" mnemonicParsing="false" text="Xóa bộ lọc" />
                     </children>
                 </HBox>
 
-                <TableView fx:id="tableKetQua" layoutX="14.0" layoutY="85.0" prefHeight="540.0" prefWidth="1005.0" styleClass="custom-table-view" stylesheets="@../style.css">
+                <TableView fx:id="DSKetQua" layoutX="14.0" layoutY="85.0" prefHeight="540.0" prefWidth="1005.0" styleClass="custom-table-view" stylesheets="@../style.css">
                     <columns>
                         <TableColumn fx:id="colMaLT" prefWidth="100.0" text="Mã lịch thi" />
                         <TableColumn fx:id="colSBD" prefWidth="80.0" text="SBD" />

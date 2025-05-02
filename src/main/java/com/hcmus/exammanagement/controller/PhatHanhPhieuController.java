@@ -1,7 +1,7 @@
 package com.hcmus.exammanagement.controller;
 
+import com.hcmus.exammanagement.bus.LichThiBUS;
 import com.hcmus.exammanagement.bus.PhieuDuThiBUS;
-import com.hcmus.exammanagement.dao.LichThiDAO;
 import com.hcmus.exammanagement.dao.PhieuDuThiDAO;
 import com.hcmus.exammanagement.dto.LichThiDTO;
 import com.hcmus.exammanagement.dto.PhieuDuThiDTO;
@@ -41,9 +41,9 @@ public class PhatHanhPhieuController implements Initializable {
     @FXML private TableColumn<LichThiDTO, Void> colAction;
 
     @FXML private TextField searchFieldLichThi;
-    @FXML private ComboBox<String> filterStatus;
-    @FXML private DatePicker filterDateStart;
-    @FXML private DatePicker filterDateEnd;
+    @FXML private ComboBox<String> filterTrangThai;
+    @FXML private DatePicker filterNgayBD;
+    @FXML private DatePicker filterNgayKT;
 
     // Tab 2 - Phiếu dự thi components
     @FXML private TableView<PhieuDuThiDTO> DSPhieuDuThi;
@@ -56,19 +56,18 @@ public class PhatHanhPhieuController implements Initializable {
     @FXML private TableColumn<PhieuDuThiDTO, Void> colActionPDT;
 
     @FXML private TextField searchFieldPhieuDuThi;
-    @FXML private DatePicker filterDateStartPDT;
-    @FXML private DatePicker filterDateEndPDT;
+    @FXML private DatePicker filterNgayBdPDT;
+    @FXML private DatePicker filterNgayKtPDT;
 
     // Data collections
     private ObservableList<LichThiDTO> lichThiList;
     private FilteredList<LichThiDTO> filteredLichThiList;
 
     private ObservableList<PhieuDuThiDTO> phieuDuThiList;
-    private FilteredList<PhieuDuThiDTO> filteredPhieuDuThiList;
+    private FilteredList<PhieuDuThiDTO> filteredDSPhieuDuThi;
 
     // Business logic
     private final PhieuDuThiBUS phieuDuThiBUS = new PhieuDuThiBUS();
-    private final LichThiDAO lichThiDAO = new LichThiDAO();
     private final PhieuDuThiDAO phieuDuThiDAO = new PhieuDuThiDAO();
 
     @Override
@@ -226,33 +225,33 @@ public class PhatHanhPhieuController implements Initializable {
             }
         };
 
-        filterDateStart.setConverter(dateConverter);
-        filterDateEnd.setConverter(dateConverter);
-        filterDateStartPDT.setConverter(dateConverter);
-        filterDateEndPDT.setConverter(dateConverter);
+        filterNgayBD.setConverter(dateConverter);
+        filterNgayKT.setConverter(dateConverter);
+        filterNgayBdPDT.setConverter(dateConverter);
+        filterNgayKtPDT.setConverter(dateConverter);
 
         // Set default selection for status filter
-        filterStatus.getSelectionModel().selectFirst();
+        filterTrangThai.getSelectionModel().selectFirst();
     }
 
     private void loadData() {
         try {
             // Load exam schedules
-            List<LichThiDTO> lichThis = lichThiDAO.findAll();
+            List<LichThiDTO> lichThis = LichThiBUS.layDSLichThi();
             lichThiList = FXCollections.observableArrayList(lichThis);
             filteredLichThiList = new FilteredList<>(lichThiList, p -> true);
             DSLichThi.setItems(filteredLichThiList);
 
             // Load exam tickets
-            List<PhieuDuThiDTO> phieuDuThis = phieuDuThiBUS.getAllPhieuDuThi();
-            phieuDuThiList = FXCollections.observableArrayList(phieuDuThis);
-            filteredPhieuDuThiList = new FilteredList<>(phieuDuThiList, p -> true);
-            DSPhieuDuThi.setItems(filteredPhieuDuThiList);
+            List<PhieuDuThiDTO> dsPhieuDuThi = phieuDuThiBUS.layDSPhieuDuThi();
+            phieuDuThiList = FXCollections.observableArrayList(dsPhieuDuThi);
+            filteredDSPhieuDuThi = new FilteredList<>(phieuDuThiList, p -> true);
+            DSPhieuDuThi.setItems(filteredDSPhieuDuThi);
 
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải dữ liệu",
                     "Đã xảy ra lỗi khi tải dữ liệu: " + e.getMessage());
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
@@ -261,23 +260,23 @@ public class PhatHanhPhieuController implements Initializable {
         searchFieldLichThi.textProperty().addListener((obs, oldVal, newVal) ->
                 applyLichThiFilters());
 
-        filterStatus.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) ->
+        filterTrangThai.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) ->
                 applyLichThiFilters());
 
-        filterDateStart.valueProperty().addListener((obs, oldVal, newVal) ->
+        filterNgayBD.valueProperty().addListener((obs, oldVal, newVal) ->
                 applyLichThiFilters());
 
-        filterDateEnd.valueProperty().addListener((obs, oldVal, newVal) ->
+        filterNgayKT.valueProperty().addListener((obs, oldVal, newVal) ->
                 applyLichThiFilters());
 
         // Listeners for phiếu dự thi tab
         searchFieldPhieuDuThi.textProperty().addListener((obs, oldVal, newVal) ->
                 applyPhieuDuThiFilters());
 
-        filterDateStartPDT.valueProperty().addListener((obs, oldVal, newVal) ->
+        filterNgayBdPDT.valueProperty().addListener((obs, oldVal, newVal) ->
                 applyPhieuDuThiFilters());
 
-        filterDateEndPDT.valueProperty().addListener((obs, oldVal, newVal) ->
+        filterNgayKtPDT.valueProperty().addListener((obs, oldVal, newVal) ->
                 applyPhieuDuThiFilters());
     }
 
@@ -286,7 +285,7 @@ public class PhatHanhPhieuController implements Initializable {
     }
 
     private void applyPhieuDuThiFilters() {
-        filteredPhieuDuThiList.setPredicate(createPhieuDuThiFilterPredicate());
+        filteredDSPhieuDuThi.setPredicate(createPhieuDuThiFilterPredicate());
     }
 
     private Predicate<LichThiDTO> createLichThiFilterPredicate() {
@@ -303,7 +302,7 @@ public class PhatHanhPhieuController implements Initializable {
             }
 
             // Filter by status
-            String selectedStatus = filterStatus.getSelectionModel().getSelectedItem();
+            String selectedStatus = filterTrangThai.getSelectionModel().getSelectedItem();
             if (!"Tất cả".equals(selectedStatus)) {
                 boolean daCoPhieu = checkDaCoPhieuDuThi(lichThi.getMaLichThi());
                 if ("Đã phát phiếu".equals(selectedStatus)) {
@@ -314,8 +313,8 @@ public class PhatHanhPhieuController implements Initializable {
             }
 
             // Filter by date range
-            LocalDate startDate = filterDateStart.getValue();
-            LocalDate endDate = filterDateEnd.getValue();
+            LocalDate startDate = filterNgayBD.getValue();
+            LocalDate endDate = filterNgayKT.getValue();
 
             if (startDate != null || endDate != null) {
                 LocalDate examDate = lichThi.getNgayGioThi().toLocalDateTime().toLocalDate();
@@ -347,8 +346,8 @@ public class PhatHanhPhieuController implements Initializable {
             }
 
             // Filter by date range
-            LocalDate startDate = filterDateStartPDT.getValue();
-            LocalDate endDate = filterDateEndPDT.getValue();
+            LocalDate startDate = filterNgayBdPDT.getValue();
+            LocalDate endDate = filterNgayKtPDT.getValue();
 
             if (startDate != null || endDate != null) {
                 LocalDate examDate = phieuDuThi.getNgayThi();

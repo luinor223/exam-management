@@ -22,7 +22,7 @@ public class PhieuDuThiBUS {
         this.chiTietPDKDAO = new ChiTietPDKDAO();
     }
 
-    public List<PhieuDuThiDTO> getAllPhieuDuThi() {
+    public List<PhieuDuThiDTO> layDSPhieuDuThi() {
         return phieuDuThiDAO.findAll();
     }
 
@@ -61,7 +61,7 @@ public class PhieuDuThiBUS {
                 phieuDuThiDTO.setMaPhong(chiTietPhongThiDTO.getPhong().getMaPhong());
                 phieuDuThiDTO.setMaCtpdk(chiTietPDKDTO.getMaCTPDK());
                 try {
-                    phieuDuThiDAO.insertPhieuDuThi(phieuDuThiDTO);
+                    phieuDuThiDAO.insert(phieuDuThiDTO);
                     phieuDuThiCount++;
                     soLuongHienTai++;
                 }
