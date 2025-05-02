@@ -1,7 +1,6 @@
 package com.hcmus.exammanagement.bus;
 
 import com.hcmus.exammanagement.dao.KetQuaDAO;
-import com.hcmus.exammanagement.dao.PhieuDuThiDAO;
 import com.hcmus.exammanagement.dto.KetQuaDTO;
 import com.hcmus.exammanagement.dto.KetQuaDayDuDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -24,11 +23,11 @@ public class KetQuaBUS {
         return ketQuaDAO.findAll();
     }
 
-    public List<KetQuaDayDuDTO> getAllKetQuaWithDetails() {
+    public List<KetQuaDayDuDTO> layTatCaKetQuaChiTiet() {
         return ketQuaDAO.findAllWithExtra();
     }
 
-    public KetQuaDTO layKetQuaByMaLTAndSBD(String maLT, String sbd) throws IllegalArgumentException, SQLException {
+    public KetQuaDTO layKetQua(String maLT, String sbd) throws IllegalArgumentException, SQLException {
         if (maLT == null || maLT.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã lịch thi không được để trống");
         }

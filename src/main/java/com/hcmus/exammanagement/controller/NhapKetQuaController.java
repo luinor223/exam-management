@@ -2,7 +2,6 @@ package com.hcmus.exammanagement.controller;
 
 import com.hcmus.exammanagement.bus.KetQuaBUS;
 import com.hcmus.exammanagement.bus.PhieuDuThiBUS;
-import com.hcmus.exammanagement.dto.KetQuaDTO;
 import com.hcmus.exammanagement.dto.PhieuDuThiDTO;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -41,9 +40,9 @@ public class NhapKetQuaController implements Initializable {
     @FXML private TableColumn<PhieuDuThiDTO, String> colTrangThai;
     @FXML private TableColumn<PhieuDuThiDTO, Void> colAction;
 
-    @FXML private DatePicker filterDate;
-    @FXML private DatePicker filterDateEnd;
-    @FXML private ComboBox<String> filterStatus;
+    @FXML private DatePicker filterNgayBD;
+    @FXML private DatePicker filterNgayKT;
+    @FXML private ComboBox<String> filterTinhTrang;
     @FXML private TextField searchField;
 
     // Data collections
@@ -146,17 +145,17 @@ public class NhapKetQuaController implements Initializable {
             }
         };
 
-        filterDate.setConverter(dateConverter);
-        filterDateEnd.setConverter(dateConverter);
+        filterNgayBD.setConverter(dateConverter);
+        filterNgayKT.setConverter(dateConverter);
 
         // Set default selection for status filter
-        filterStatus.getSelectionModel().selectFirst();
+        filterTinhTrang.getSelectionModel().selectFirst();
     }
 
     private void loadData() {
         try {
             // Load all exam tickets
-            phieuDuThiList = FXCollections.observableArrayList(phieuDuThiBUS.getAllPhieuDuThi());
+            phieuDuThiList = FXCollections.observableArrayList(phieuDuThiBUS.layDSPhieuDuThi());
 
             // Create a filtered list wrapper
             filteredPhieuDuThiList = new FilteredList<>(phieuDuThiList, p -> true);
@@ -165,7 +164,7 @@ public class NhapKetQuaController implements Initializable {
             DSPhieuDuThi.setItems(filteredPhieuDuThiList);
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", null, "Không thể tải dữ liệu: " + e.getMessage());
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
@@ -174,11 +173,11 @@ public class NhapKetQuaController implements Initializable {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
 
         // Filter by status
-        filterStatus.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        filterTinhTrang.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> applyFilters());
 
         // Filter by date range
-        filterDate.valueProperty().addListener((observable, oldValue, newValue) -> applyFilters());
-        filterDateEnd.valueProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        filterNgayBD.valueProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        filterNgayKT.valueProperty().addListener((observable, oldValue, newValue) -> applyFilters());
     }
 
     private void applyFilters() {
@@ -200,14 +199,14 @@ public class NhapKetQuaController implements Initializable {
             }
 
             // Filter by status
-            String selectedStatus = filterStatus.getSelectionModel().getSelectedItem();
+            String selectedStatus = filterTinhTrang.getSelectionModel().getSelectedItem();
             if (!"Tất cả".equals(selectedStatus)) {
                 matchesStatus = selectedStatus.equals(phieuDuThi.getTrangThai());
             }
 
             // Filter by date range
-            LocalDate startDate = filterDate.getValue();
-            LocalDate endDate = filterDateEnd.getValue();
+            LocalDate startDate = filterNgayBD.getValue();
+            LocalDate endDate = filterNgayKT.getValue();
 
             if (startDate != null && endDate != null) {
                 if (phieuDuThi.getNgayThi() != null) {

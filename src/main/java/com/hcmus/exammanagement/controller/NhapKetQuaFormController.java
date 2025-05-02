@@ -42,7 +42,7 @@ public class NhapKetQuaFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupForm();
-        loadKetQuaData();
+        layKetQuaData();
         setupEventHandlers();
     }
 
@@ -52,10 +52,10 @@ public class NhapKetQuaFormController implements Initializable {
         tfSBD.setText(phieuDuThi.getSbd());
     }
 
-    private void loadKetQuaData() {
+    private void layKetQuaData() {
         try {
             // Try to load existing result
-            ketQua = ketQuaBUS.layKetQuaByMaLTAndSBD(phieuDuThi.getMaLT(), phieuDuThi.getSbd());
+            ketQua = ketQuaBUS.layKetQua(phieuDuThi.getMaLT(), phieuDuThi.getSbd());
 
             if (ketQua != null) {
                 // Populate form with existing data

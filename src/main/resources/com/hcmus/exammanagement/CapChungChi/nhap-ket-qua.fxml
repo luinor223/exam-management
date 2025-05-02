@@ -20,7 +20,7 @@
 
                 <HBox layoutX="280.0" layoutY="34.0" spacing="10.0">
                     <children>
-                        <ComboBox fx:id="filterStatus" prefWidth="150.0" promptText="Trạng thái" styleClass="custom-combobox" stylesheets="@../style.css">
+                        <ComboBox fx:id="filterTinhTrang" prefWidth="150.0" promptText="Trạng thái" styleClass="custom-combobox" stylesheets="@../style.css">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:value="Tất cả" />
@@ -29,8 +29,8 @@
                                 </FXCollections>
                             </items>
                         </ComboBox>
-                        <DatePicker fx:id="filterDate" prefWidth="150.0" promptText="Từ ngày" />
-                        <DatePicker fx:id="filterDateEnd" prefWidth="150.0" promptText="Đến ngày" />
+                        <DatePicker fx:id="filterNgayBD" prefWidth="150.0" promptText="Từ ngày" />
+                        <DatePicker fx:id="filterNgayKT" prefWidth="150.0" promptText="Đến ngày" />
                     </children>
                 </HBox>
 
