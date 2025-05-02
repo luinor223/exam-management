@@ -104,14 +104,14 @@ public class CapChungChiController implements Initializable {
                 btnXem.getStyleClass().add("action-button");
                 btnXem.setOnAction(event -> {
                     KetQuaDayDuDTO ketQua = getTableView().getItems().get(getIndex());
-                    xemChiTietKetQua(ketQua);
+                    btnXemCTKetQua(ketQua);
                 });
 
                 btnCapCC.setGraphic(new FontIcon("fas-certificate"));
                 btnCapCC.getStyleClass().add("action-button");
                 btnCapCC.setOnAction(event -> {
                     KetQuaDayDuDTO ketQua = getTableView().getItems().get(getIndex());
-                    capChungChi(ketQua);
+                    btnCapChungChi(ketQua);
                 });
 
                 actionBox.getChildren().addAll(btnXem, btnCapCC);
@@ -138,7 +138,6 @@ public class CapChungChiController implements Initializable {
 
     private void setupFilters() {
         // Set up status filter
-        filterStatus.getItems().addAll("Tất cả", "Đã cấp", "Chưa cấp");
         filterStatus.getSelectionModel().selectFirst();
 
         // Set up date pickers
@@ -255,7 +254,7 @@ public class CapChungChiController implements Initializable {
         };
     }
 
-    private void xemChiTietKetQua(KetQuaDayDuDTO ketQua) {
+    private void btnXemCTKetQua(KetQuaDayDuDTO ketQua) {
         // Create dialog for detailed view
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Chi tiết kết quả thi");
@@ -316,7 +315,7 @@ public class CapChungChiController implements Initializable {
         dialog.showAndWait();
     }
 
-    private void capChungChi(KetQuaDayDuDTO ketQua) {
+    private void btnCapChungChi(KetQuaDayDuDTO ketQua) {
         try {
             // Update status to "Đã cấp" without confirmation
             boolean success = ketQuaBUS.capChungChi(ketQua.getMaLT(), ketQua.getSbd());

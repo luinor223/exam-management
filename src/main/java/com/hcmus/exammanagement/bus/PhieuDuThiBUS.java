@@ -38,7 +38,7 @@ public class PhieuDuThiBUS {
         return phieuDuThiDAO.findById(maLT, sbd);
     }
 
-    public int PhatPhieuDuThi(String maLT) throws SQLException {
+    public int phatPhieuDuThi(String maLT) throws SQLException {
         if (maLT == null || maLT.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã lịch thi không được để trống");
         }

@@ -108,14 +108,14 @@ public class PhatHanhPhieuController implements Initializable {
                 btnPhatPhieu.getStyleClass().add("action-button");
                 btnPhatPhieu.setOnAction(event -> {
                     LichThiDTO lichThi = getTableView().getItems().get(getIndex());
-                    phatHanhPhieuDuThi(lichThi);
+                    btnPhatPhieu(lichThi);
                 });
 
                 btnXemDS.setGraphic(new FontIcon("fas-list"));
                 btnXemDS.getStyleClass().add("action-button");
                 btnXemDS.setOnAction(event -> {
                     LichThiDTO lichThi = getTableView().getItems().get(getIndex());
-                    xemDanhSachPhieuDuThi(lichThi);
+                    btnXemDS(lichThi);
                 });
 
                 actionBox.getChildren().addAll(btnPhatPhieu, btnXemDS);
@@ -189,7 +189,7 @@ public class PhatHanhPhieuController implements Initializable {
                 btnXem.getStyleClass().add("action-button");
                 btnXem.setOnAction(event -> {
                     PhieuDuThiDTO phieuDuThi = getTableView().getItems().get(getIndex());
-                    xemChiTietPhieuDuThi(phieuDuThi);
+                    btnXemChiTiet(phieuDuThi);
                 });
             }
 
@@ -249,7 +249,7 @@ public class PhatHanhPhieuController implements Initializable {
             DSPhieuDuThi.setItems(filteredDSPhieuDuThi);
 
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải dữ liệu",
+            thongBao(Alert.AlertType.ERROR, "Lỗi", "Không thể tải dữ liệu",
                     "Đã xảy ra lỗi khi tải dữ liệu: " + e.getMessage());
             log.error(e.getMessage());
         }
@@ -380,29 +380,29 @@ public class PhatHanhPhieuController implements Initializable {
     }
 
     // Method to issue exam tickets
-    private void phatHanhPhieuDuThi(LichThiDTO lichThi) {
+    private void btnPhatPhieu(LichThiDTO lichThi) {
         try {
-            int count = phieuDuThiBUS.PhatPhieuDuThi(lichThi.getMaLichThi());
+            int count = phieuDuThiBUS.phatPhieuDuThi(lichThi.getMaLichThi());
 
             if (count > 0) {
-                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Phát hành phiếu dự thi thành công",
+                thongBao(Alert.AlertType.INFORMATION, "Thành công", "Phát hành phiếu dự thi thành công",
                         "Đã phát hành " + count + " phiếu dự thi cho lịch thi " + lichThi.getMaLichThi());
 
                 // Refresh data
                 loadData();
             } else {
-                showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Không có phiếu để phát hành",
+                thongBao(Alert.AlertType.WARNING, "Cảnh báo", "Không có phiếu để phát hành",
                         "Không có phiếu đăng ký nào cho lịch thi này hoặc tất cả đã được phát hành.");
             }
         } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể phát hành phiếu dự thi",
+            thongBao(Alert.AlertType.ERROR, "Lỗi", "Không thể phát hành phiếu dự thi",
                     "Đã xảy ra lỗi: " + e.getMessage());
             log.error(e.getMessage());
         }
     }
 
     // Method to view list of issued tickets for a schedule
-    private void xemDanhSachPhieuDuThi(LichThiDTO lichThi) {
+    private void btnXemDS(LichThiDTO lichThi) {
         // Switch to tab 2
         TabPane tabPane = (TabPane) DSLichThi.getScene().lookup(".tab-pane");
         tabPane.getSelectionModel().select(1);
@@ -413,7 +413,7 @@ public class PhatHanhPhieuController implements Initializable {
     }
 
     // Method to view ticket details
-    private void xemChiTietPhieuDuThi(PhieuDuThiDTO phieuDuThi) {
+    private void btnXemChiTiet(PhieuDuThiDTO phieuDuThi) {
         String details = "Chi tiết phiếu dự thi:\n\n" +
                 "Mã lịch thi: " + phieuDuThi.getMaLT() + "\n" +
                 "Số báo danh: " + phieuDuThi.getSbd() + "\n" +
@@ -423,7 +423,7 @@ public class PhatHanhPhieuController implements Initializable {
                 "Ngày thi: " + formatDate(phieuDuThi.getNgayThi()) + "\n" +
                 "Trạng thái: " + phieuDuThi.getTrangThai();
 
-        showAlert(Alert.AlertType.INFORMATION, "Chi tiết phiếu dự thi",
+        thongBao(Alert.AlertType.INFORMATION, "Chi tiết phiếu dự thi",
                 "Thông tin phiếu dự thi " + phieuDuThi.getSbd(), details);
     }
 
@@ -432,7 +432,7 @@ public class PhatHanhPhieuController implements Initializable {
         return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
-    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+    private void thongBao(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(header);
