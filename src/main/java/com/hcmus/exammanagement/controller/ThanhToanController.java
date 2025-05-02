@@ -91,7 +91,7 @@ public class ThanhToanController {
     private void setupPhieuDangKyTable() {
         colMaPhieu2.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMaPhieuDangKy()));
         colTen.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getKhachHang().getHoTen()));
-        colLoaiKH.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getKhachHang().getLoai_kh()));
+        colLoaiKH.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getKhachHang().getLoaiKh()));
         colNgayDangKy.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getNgayLap()));
         colTrangThai.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTrangThai()));
     }
@@ -102,7 +102,7 @@ public class ThanhToanController {
         colTenKH.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPhieuDangKy().getKhachHang().getHoTen()));
         colGiamGia.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getSoTienGiam()));
         colPTTT.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPtThanhToan()));
-        colLoaiKH1.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPhieuDangKy().getKhachHang().getLoai_kh()));
+        colLoaiKH1.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPhieuDangKy().getKhachHang().getLoaiKh()));
         colTongTien.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getTongTien()));
 
         NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
@@ -136,7 +136,7 @@ public class ThanhToanController {
 
                 btnLapHoaDon.setOnAction(event -> {
                     PhieuDangKyDTO phieu = getTableView().getItems().get(getIndex());
-                    String loaiKH = phieu.getKhachHang().getLoai_kh();
+                    String loaiKH = phieu.getKhachHang().getLoaiKh();
                     if ("Đơn vị".equalsIgnoreCase(loaiKH)) {
                         btnOpenLapHoaDonDVPopup(phieu);
                     } else if ("Cá nhân".equalsIgnoreCase(loaiKH)) {
@@ -231,7 +231,7 @@ public class ThanhToanController {
                     actionBox.getChildren().clear();
 
                     if (hoaDon.getMaTt() == null &&
-                            "Đơn vị".equalsIgnoreCase(hoaDon.getPhieuDangKy().getKhachHang().getLoai_kh()) &&
+                            "Đơn vị".equalsIgnoreCase(hoaDon.getPhieuDangKy().getKhachHang().getLoaiKh()) &&
                             "Chuyển khoản".equalsIgnoreCase(hoaDon.getPtThanhToan())) {
                         actionBox.getChildren().add(btnDuyet);
                     }
@@ -336,7 +336,7 @@ public class ThanhToanController {
         for (PhieuDangKyDTO pdk : dsPhieu) {
             if (pdk.getMaPhieuDangKy().toLowerCase().contains(lowerKeyword)
                     || pdk.getKhachHang().getHoTen().toLowerCase().contains(lowerKeyword)
-                    || pdk.getKhachHang().getLoai_kh().toLowerCase().contains(lowerKeyword)
+                    || pdk.getKhachHang().getLoaiKh().toLowerCase().contains(lowerKeyword)
                     || pdk.getNgayLap().toString().contains(lowerKeyword)
                     || pdk.getTrangThai().toLowerCase().contains(lowerKeyword)) {
                 filteredList.add(pdk);
@@ -360,7 +360,7 @@ public class ThanhToanController {
                     || hd.getPhieuDangKy().getMaPhieuDangKy().toLowerCase().contains(lowerKeyword)
                     || hd.getPhieuDangKy().getKhachHang().getHoTen().toLowerCase().contains(lowerKeyword)
                     || hd.getPtThanhToan().toLowerCase().contains(lowerKeyword)
-                    || hd.getPhieuDangKy().getKhachHang().getLoai_kh().toLowerCase().contains(lowerKeyword)
+                    || hd.getPhieuDangKy().getKhachHang().getLoaiKh().toLowerCase().contains(lowerKeyword)
                     || String.valueOf(hd.getTongTien()).contains(lowerKeyword)) {
                 filteredList.add(hd);
             }
@@ -378,7 +378,7 @@ public class ThanhToanController {
         ObservableList<HoaDonDTO> filteredList = FXCollections.observableArrayList();
 
         for (HoaDonDTO hoaDon : dsHoaDon) {
-            boolean isDonVi = "Đơn vị".equalsIgnoreCase(hoaDon.getPhieuDangKy().getKhachHang().getLoai_kh());
+            boolean isDonVi = "Đơn vị".equalsIgnoreCase(hoaDon.getPhieuDangKy().getKhachHang().getLoaiKh());
             boolean isChuyenKhoan = "Chuyển khoản".equalsIgnoreCase(hoaDon.getPtThanhToan());
             boolean isChuaDuyet = hoaDon.getMaTt() == null;
 

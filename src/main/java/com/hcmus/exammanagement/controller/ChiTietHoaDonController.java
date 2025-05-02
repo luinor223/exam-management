@@ -113,7 +113,7 @@ public class ChiTietHoaDonController {
 
     private void loadKhachHangDetails() {
         labelTenKH.setText(khachHang.getHoTen());
-        labelLoaiKH.setText(khachHang.getLoai_kh());
+        labelLoaiKH.setText(khachHang.getLoaiKh());
         labelSDT.setText(khachHang.getSdt());
         labelMaPDK.setText(hoaDon.getPhieuDangKy().getMaPhieuDangKy());
         labelNgayDK.setText(hoaDon.getPhieuDangKy().getNgayLap().toString());
