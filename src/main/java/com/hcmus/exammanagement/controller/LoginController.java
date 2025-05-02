@@ -1,6 +1,7 @@
 package com.hcmus.exammanagement.controller;
 
 import com.hcmus.exammanagement.AutoTaskScheduler;
+import com.hcmus.exammanagement.dao.NhanVienDAO;
 import com.hcmus.exammanagement.dto.Database;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,28 +34,32 @@ public class LoginController {
 
     @FXML
     private void handleLoginButtonAction(ActionEvent event) {
-//        String username = usernameField.getText();
-//        String password = passwordField.getText();
-//
-//        if (isValidCredentials(username, password)) {
-//            loginMessage.setText("Login successful!");
-//            loadDashboard("Tiep nhan");
-//        } else {
-//            loginMessage.setText("Invalid username or password.");
-//        }
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
-        loadDashboard("Tiep nhan");
-        Database.initialize("postgres", "sa");
+        try {
+            // Thử khởi tạo kết nối — nếu sai tài khoản sẽ ném lỗi
+            Database.initialize(username, password);
 
-        // Khởi động AutoTaskScheduler để kiểm tra hóa đơn quá hạn mỗi ngày
-        AutoTaskScheduler autoTaskScheduler = new AutoTaskScheduler();
-        autoTaskScheduler.start();
+            // Lấy loại nhân viên từ DB
+            String loaiNV = NhanVienDAO.getLoaiNV(username);
+            if (loaiNV == null) {
+                loginMessage.setText("Không tìm thấy loại nhân viên.");
+                return;
+            }
+
+            loginMessage.setText("Đăng nhập thành công!");
+            loadDashboard(loaiNV); // truyền loai_nv như "Tiep nhan", "Ke toan" v.v.
+
+            // Khởi động AutoTaskScheduler nếu cần
+            AutoTaskScheduler autoTaskScheduler = new AutoTaskScheduler();
+            autoTaskScheduler.start();
+
+        } catch (Exception e) {
+            loginMessage.setText("Tên đăng nhập hoặc mật khẩu sai.");
+        }
     }
 
-    private boolean isValidCredentials(String username, String password) {
-        // Replace with actual authentication logic
-        return ("admin".equals(username) && "password".equals(password)) || ("1".equals(username) && "1".equals(password));
-    }
 
     private void loadDashboard(String role) {
         try {
