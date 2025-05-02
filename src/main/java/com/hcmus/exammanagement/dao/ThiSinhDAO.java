@@ -33,6 +33,27 @@ public class ThiSinhDAO {
         return thiSinhList;
     }
 
+    public static List<ThiSinhDTO> findByPDK(String maPDK) throws SQLException {
+        List<ThiSinhDTO> thiSinhList = new ArrayList<>();
+        String sql = "SELECT * " +
+                "FROM thi_sinh ts JOIN chi_tiet_phieu_dk ct ON ts.ma_ts = ct.ma_ts " +
+                "WHERE ct.ma_pdk = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, maPDK);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                thiSinhList.add(ThiSinhDTO.fromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            log.error("Error finding thi sinh by ma_pdk {}: {}", maPDK, e.getMessage());
+            throw e;
+        }
+
+        return thiSinhList;
+    }
+
     public static ThiSinhDTO findById(String maThiSinh) throws SQLException {
         String sql = "SELECT * FROM thi_sinh WHERE ma_ts = ?";
 

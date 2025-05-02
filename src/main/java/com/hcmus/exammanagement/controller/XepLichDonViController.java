@@ -1,10 +1,6 @@
 package com.hcmus.exammanagement.controller;
 
-import com.hcmus.exammanagement.bus.ChiTietPDKBUS;
-import com.hcmus.exammanagement.bus.ChiTietPhongThiBUS;
-import com.hcmus.exammanagement.bus.PhieuDangKyBUS;
-import com.hcmus.exammanagement.bus.ThiSinhBUS;
-import com.hcmus.exammanagement.dao.LichThiDAO;
+import com.hcmus.exammanagement.bus.*;
 import com.hcmus.exammanagement.dto.*;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -22,11 +18,6 @@ import java.util.List;
 import static java.lang.Math.min;
 
 public class XepLichDonViController {
-
-    // BUS services
-    private final PhieuDangKyBUS phieuDangKyBUS = new PhieuDangKyBUS();
-    private final ThiSinhBUS thiSinhBUS = new ThiSinhBUS();
-    private final ChiTietPDKBUS chiTietPDKBUS = new ChiTietPDKBUS();
 
     private final ObservableList<ThiSinhDTO> thiSinhList = FXCollections.observableArrayList();
 
@@ -83,7 +74,7 @@ public class XepLichDonViController {
         ngayLapColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNgayLap()));
         soLuongTSColumn.setCellValueFactory(data -> {
             try {
-                List<ChiTietPDKDTO> chiTietList = chiTietPDKBUS.layDSChiTietPDKTheoPhieuDangKy(data.getValue().getMaPhieuDangKy());
+                List<ChiTietPDKDTO> chiTietList = ChiTietPDKBUS.layDSChiTietPDKTheoPhieuDangKy(data.getValue().getMaPhieuDangKy());
                 return new SimpleIntegerProperty(chiTietList.size()).asObject();
             } catch (Exception e) {
                 return new SimpleIntegerProperty(0).asObject();
@@ -157,16 +148,8 @@ public class XepLichDonViController {
 
     private void loadThiSinhData(String maPDK) {
         try {
-            List<ChiTietPDKDTO> chiTietList = chiTietPDKBUS.layDSChiTietPDKTheoPhieuDangKy(maPDK);
             thiSinhList.clear();
-
-            for (ChiTietPDKDTO chiTiet : chiTietList) {
-                ThiSinhDTO thiSinh = thiSinhBUS.layThiSinhBangMaTS(chiTiet.getMaThiSinh());
-                if (thiSinh != null) {
-                    thiSinhList.add(thiSinh);
-                }
-            }
-
+            thiSinhList.addAll(ThiSinhBUS.layDSThiSinhBangPDK(maPDK));
             thiSinhTable.setItems(thiSinhList);
 
         } catch (Exception e) {
@@ -176,7 +159,7 @@ public class XepLichDonViController {
 
     private void loadLichThiData() {
         try {
-            List<LichThiDTO> lichThiDTOList = LichThiDAO.findAllNew();
+            List<LichThiDTO> lichThiDTOList = LichThiBUS.layDSLichThiMoi();
             ObservableList<LichThiDTO> lichThiList = FXCollections.observableArrayList(lichThiDTOList);
             lichThiTable.setItems(lichThiList);
         } catch (Exception e) {
@@ -193,7 +176,7 @@ public class XepLichDonViController {
         }
 
         try {
-            List<ChiTietPDKDTO> chiTietList = chiTietPDKBUS.layDSChiTietPDKTheoPhieuDangKy(selectedPhieuDangKy.getMaPhieuDangKy());
+            List<ChiTietPDKDTO> chiTietList = ChiTietPDKBUS.layDSChiTietPDKTheoPhieuDangKy(selectedPhieuDangKy.getMaPhieuDangKy());
 
             int candidatesToSchedule = 0;
             for (ChiTietPDKDTO chiTiet : chiTietList) {
@@ -223,7 +206,7 @@ public class XepLichDonViController {
             for (ChiTietPDKDTO chiTiet : chiTietList) {
                 if (chiTiet.getMaLichThi() == null) {
                     chiTiet.setMaLichThi(selectedLichThi.getMaLichThi());
-                    chiTietPDKBUS.capNhatChiTietPDK(chiTiet);
+                    ChiTietPDKBUS.capNhatChiTietPDK(chiTiet);
                     scheduledCount++;
                 }
             }
@@ -240,7 +223,7 @@ public class XepLichDonViController {
                 soLuongConLai -= soLuongToiDaPhong - soLuongHienTaiPhong;
             }
 
-            phieuDangKyBUS.capNhatTrangThai(selectedPhieuDangKy.getMaPhieuDangKy(), "Chờ xử lý");
+            PhieuDangKyBUS.capNhatTrangThai(selectedPhieuDangKy.getMaPhieuDangKy(), "Chờ xử lý");
 
             loadPhieuDangKyData();
             loadLichThiData();

@@ -16,6 +16,13 @@ public class ThiSinhBUS {
         return ThiSinhDAO.findAll();
     }
 
+    public static List<ThiSinhDTO> layDSThiSinhBangPDK(String maPDK) throws IllegalArgumentException, SQLException {
+        if (maPDK == null || maPDK.trim().isEmpty()) {
+            throw new IllegalArgumentException("Mã phiếu đăng ký không được để trống");
+        }
+        return ThiSinhDAO.findByPDK(maPDK);
+    }
+
     public static ThiSinhDTO layThiSinhBangMaTS(String maThiSinh) throws IllegalArgumentException, SQLException {
         if (maThiSinh == null || maThiSinh.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã thí sinh không được để trống");

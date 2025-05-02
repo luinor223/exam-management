@@ -17,7 +17,7 @@ public class KhachHangDTO {
     private String cccd;
     private String sdt;
     private String diaChi;
-    private String loai_kh;
+    private String loaiKh;
 
     public static KhachHangDTO fromResultSet(ResultSet rs) throws SQLException {
         String maKH = rs.getString("ma_kh");

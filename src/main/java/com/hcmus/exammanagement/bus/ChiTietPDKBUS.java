@@ -12,24 +12,12 @@ import java.util.List;
  * Business logic class for ChiTietPDK (Registration Form Detail) operations
  */
 public class ChiTietPDKBUS {
-    private final ChiTietPDKDAO chiTietPDKDAO;
-    
-    public ChiTietPDKBUS() {
-        this.chiTietPDKDAO = new ChiTietPDKDAO();
-    }
 
-    public List<ChiTietPDKDTO> layDSChiTietPDKTheoPhieuDangKy(String maPDK) throws IllegalArgumentException, SQLException {
+    public static List<ChiTietPDKDTO> layDSChiTietPDKTheoPhieuDangKy(String maPDK) throws IllegalArgumentException, SQLException {
         if (maPDK == null || maPDK.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã phiếu đăng ký không được để trống");
         }
-        return chiTietPDKDAO.findByPhieuDangKy(maPDK);
-    }
-
-    public List<ChiTietPDKDTO> layDSChiTietPDKTheoThiSinh(String maThiSinh) throws IllegalArgumentException, SQLException {
-        if (maThiSinh == null || maThiSinh.trim().isEmpty()) {
-            throw new IllegalArgumentException("Mã thí sinh không được để trống");
-        }
-        return chiTietPDKDAO.findByThiSinh(maThiSinh);
+        return ChiTietPDKDAO.findByPhieuDangKy(maPDK);
     }
 
     public static void themChiTietPDK(ChiTietPDKDTO chiTietPDK) throws IllegalArgumentException, SQLException {
@@ -51,7 +39,7 @@ public class ChiTietPDKBUS {
         ChiTietPDKDAO.insert(chiTietPDK);
     }
 
-    public void capNhatChiTietPDK(ChiTietPDKDTO chiTietPDK) throws IllegalArgumentException, SQLException {
+    public static void capNhatChiTietPDK(ChiTietPDKDTO chiTietPDK) throws IllegalArgumentException, SQLException {
         if (chiTietPDK == null) {
             throw new IllegalArgumentException("Chi tiết phiếu đăng ký không được để trống");
         }
@@ -61,7 +49,7 @@ public class ChiTietPDKBUS {
         }
         
         // Check if registration form detail exists
-        ChiTietPDKDTO existingChiTietPDK = chiTietPDKDAO.findById(chiTietPDK.getMaCTPDK());
+        ChiTietPDKDTO existingChiTietPDK = ChiTietPDKDAO.findById(chiTietPDK.getMaCTPDK());
         if (existingChiTietPDK == null) {
             throw new IllegalArgumentException("Chi tiết phiếu đăng ký với mã " + chiTietPDK.getMaCTPDK() + " không tồn tại");
         }
@@ -77,6 +65,6 @@ public class ChiTietPDKBUS {
             throw new IllegalArgumentException("Phiếu đăng ký với mã " + chiTietPDK.getMaPDK() + " không tồn tại");
         }
 
-        chiTietPDKDAO.update(chiTietPDK);
+        ChiTietPDKDAO.update(chiTietPDK);
     }
 }

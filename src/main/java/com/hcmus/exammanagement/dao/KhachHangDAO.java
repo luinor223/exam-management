@@ -96,7 +96,7 @@ public class KhachHangDAO {
             stmt.setString(3, khachHang.getEmail());
             stmt.setString(4, khachHang.getSdt());
             stmt.setString(5, khachHang.getDiaChi());
-            stmt.setString(6, khachHang.getLoai_kh());
+            stmt.setString(6, khachHang.getLoaiKh());
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {

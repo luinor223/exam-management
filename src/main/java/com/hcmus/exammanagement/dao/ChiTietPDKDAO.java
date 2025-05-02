@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 public class ChiTietPDKDAO {
 
-    public List<ChiTietPDKDTO> findAll() throws SQLException {
+    public static List<ChiTietPDKDTO> findAll() throws SQLException {
         List<ChiTietPDKDTO> chiTietPDKList = new ArrayList<>();
         String sql = "SELECT * FROM chi_tiet_phieu_dk";
 
@@ -33,7 +33,7 @@ public class ChiTietPDKDAO {
         return chiTietPDKList;
     }
 
-    public ChiTietPDKDTO findById(String maCTPDK) throws SQLException {
+    public static ChiTietPDKDTO findById(String maCTPDK) throws SQLException {
         String sql = "SELECT * FROM chi_tiet_phieu_dk WHERE ma_ctpdk = ?";
 
         try (Connection conn = Database.getConnection();
@@ -53,7 +53,7 @@ public class ChiTietPDKDAO {
         return null;
     }
 
-    public List<ChiTietPDKDTO> findByPhieuDangKy(String maPDK) throws SQLException {
+    public static List<ChiTietPDKDTO> findByPhieuDangKy(String maPDK) throws SQLException {
         List<ChiTietPDKDTO> chiTietPDKList = new ArrayList<>();
         String sql = "SELECT * FROM chi_tiet_phieu_dk WHERE ma_pdk = ?";
 
@@ -74,7 +74,7 @@ public class ChiTietPDKDAO {
         return chiTietPDKList;
     }
 
-    public List<ChiTietPDKDTO> findByThiSinh(String maThiSinh) throws SQLException {
+    public static List<ChiTietPDKDTO> findByThiSinh(String maThiSinh) throws SQLException {
         List<ChiTietPDKDTO> chiTietPDKList = new ArrayList<>();
         String sql = "SELECT * FROM chi_tiet_phieu_dk WHERE ma_ts = ?";
 
@@ -94,7 +94,7 @@ public class ChiTietPDKDAO {
         return chiTietPDKList;
     }
 
-    public List<ChiTietPDKDTO> findByLichThi(String maLichThi) throws SQLException {
+    public static List<ChiTietPDKDTO> findByLichThi(String maLichThi) throws SQLException {
         List<ChiTietPDKDTO> chiTietPDKList = new ArrayList<>();
         String sql = "SELECT * FROM chi_tiet_phieu_dk WHERE ma_lt = ?";
 
@@ -132,7 +132,7 @@ public class ChiTietPDKDAO {
         }
     }
 
-    public int update(ChiTietPDKDTO chiTietPDK) throws SQLException {
+    public static int update(ChiTietPDKDTO chiTietPDK) throws SQLException {
         String sql = "UPDATE chi_tiet_phieu_dk SET ma_pdk = ?, ma_ts = ?, ma_lt = ? WHERE ma_ctpdk = ?";
 
         try (Connection conn = Database.getConnection();
@@ -150,7 +150,7 @@ public class ChiTietPDKDAO {
         }
     }
 
-    public int delete(String maCTPDK) throws SQLException {
+    public static int delete(String maCTPDK) throws SQLException {
         String sql = "DELETE FROM chi_tiet_phieu_dk WHERE ma_ctpdk = ?";
 
         try (Connection conn = Database.getConnection();
