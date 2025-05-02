@@ -85,29 +85,6 @@ public class LichThiDAO {
         return null;
     }
 
-    public static List<LichThiDTO> findByChungChi(String maChungChi) throws SQLException {
-        List<LichThiDTO> lichThiList = new ArrayList<>();
-        String sql = "SELECT lt.*, cc.* FROM lich_thi lt " +
-                     "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
-                     "WHERE lt.ma_cchi = ?";
-
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, maChungChi);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                lichThiList.add(LichThiDTO.fromResultSet(rs));
-            }
-
-        } catch (SQLException e) {
-            log.error("Error finding lich thi by chung chi ID {}: {}", maChungChi, e.getMessage());
-            throw e;
-        }
-
-        return lichThiList;
-    }
-
     public static int insert(LichThiDTO lichThi) throws SQLException {
         String sql = "INSERT INTO lich_thi (ngay_gio_thi, thoi_luong_thi, ma_cchi) " +
                      "VALUES (?, ?, ?)";

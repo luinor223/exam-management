@@ -18,10 +18,6 @@ public class ThanhToanBUS {
         return HoaDonDAO.findAll();
     }
 
-    public static HoaDonDTO LayHoaDonTheoId(String maHd) {
-        return  HoaDonDAO.findById(maHd);
-    }
-
     public static void taoHoaDon(HoaDonDTO hoaDonDTO) {
         HoaDonDAO.insert(hoaDonDTO);
     }

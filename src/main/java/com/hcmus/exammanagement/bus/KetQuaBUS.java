@@ -13,18 +13,9 @@ import java.util.List;
  */
 @Slf4j
 public class KetQuaBUS {
-    private final KetQuaDAO ketQuaDAO;
-
-    public KetQuaBUS() {
-        this.ketQuaDAO = new KetQuaDAO();
-    }
-
-    public List<KetQuaDTO> layTatCaKetQua() {
-        return ketQuaDAO.findAll();
-    }
 
     public List<KetQuaDayDuDTO> layTatCaKetQuaChiTiet() {
-        return ketQuaDAO.findAllWithExtra();
+        return KetQuaDAO.findAllWithExtra();
     }
 
     public KetQuaDTO layKetQua(String maLT, String sbd) throws IllegalArgumentException, SQLException {
@@ -36,7 +27,7 @@ public class KetQuaBUS {
             throw new IllegalArgumentException("Số báo danh không được để trống");
         }
 
-        return ketQuaDAO.findById(maLT, sbd);
+        return KetQuaDAO.findById(maLT, sbd);
     }
 
     public boolean luuKetQua(KetQuaDTO ketQua) throws IllegalArgumentException {
@@ -44,13 +35,13 @@ public class KetQuaBUS {
             throw new IllegalArgumentException("Kết quả không được để trống");
         }
 
-        KetQuaDTO existingKetQua = ketQuaDAO.findById(ketQua.getMaLT(), ketQua.getSbd());
+        KetQuaDTO existingKetQua = KetQuaDAO.findById(ketQua.getMaLT(), ketQua.getSbd());
         log.info("KetQuaDAO.findById() = {}", existingKetQua);
 
         if (existingKetQua == null) {
-            return ketQuaDAO.insert(ketQua);
+            return KetQuaDAO.insert(ketQua);
         } else {
-            return ketQuaDAO.update(ketQua);
+            return KetQuaDAO.update(ketQua);
         }
     }
 
@@ -63,7 +54,7 @@ public class KetQuaBUS {
             throw new IllegalArgumentException("Số báo danh không được để trống");
         }
 
-        KetQuaDTO ketQua = ketQuaDAO.findById(maLT, sbd);
+        KetQuaDTO ketQua = KetQuaDAO.findById(maLT, sbd);
 
         if (ketQua == null) {
             throw new IllegalArgumentException("Không tìm thấy kết quả cho mã lịch thi " +
@@ -71,6 +62,6 @@ public class KetQuaBUS {
         }
 
         ketQua.setTrangThai("Đã cấp");
-        return ketQuaDAO.update(ketQua);
+        return KetQuaDAO.update(ketQua);
     }
 }

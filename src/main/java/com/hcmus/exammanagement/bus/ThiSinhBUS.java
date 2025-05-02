@@ -23,13 +23,6 @@ public class ThiSinhBUS {
         return ThiSinhDAO.findByPDK(maPDK);
     }
 
-    public static ThiSinhDTO layThiSinhBangMaTS(String maThiSinh) throws IllegalArgumentException, SQLException {
-        if (maThiSinh == null || maThiSinh.trim().isEmpty()) {
-            throw new IllegalArgumentException("Mã thí sinh không được để trống");
-        }
-        return ThiSinhDAO.findById(maThiSinh);
-    }
-
     public static ThiSinhDTO layThiSinhBangCCCD(String cccd) throws IllegalArgumentException, SQLException {
         if (cccd == null || cccd.trim().isEmpty()) {
             throw new IllegalArgumentException("CCCD không được để trống");

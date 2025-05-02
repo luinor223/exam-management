@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 public class KhachHangDAO {
-    public List<KhachHangDTO> findAll() throws SQLException {
+    public static List<KhachHangDTO> findAll() throws SQLException {
         List<KhachHangDTO> khList = new ArrayList<>();
         String sql = "SELECT * FROM khach_hang";
 

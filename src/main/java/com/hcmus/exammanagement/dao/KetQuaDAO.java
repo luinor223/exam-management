@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 public class KetQuaDAO {
 
-    public List<KetQuaDTO> findAll() {
+    public static List<KetQuaDTO> findAll() {
         List<KetQuaDTO> listKetQua = new ArrayList<>();
         String sql = "SELECT * from ket_qua";
 
@@ -30,7 +30,7 @@ public class KetQuaDAO {
         return listKetQua;
     }
 
-    public KetQuaDTO findById(String maLT, String sbd) {
+    public static KetQuaDTO findById(String maLT, String sbd) {
         String sql = "SELECT * FROM ket_qua WHERE ma_lt = ? AND sbd = ?";
 
         try (Connection conn = Database.getConnection();
@@ -51,7 +51,7 @@ public class KetQuaDAO {
         return null;
     }
 
-    public boolean insert(KetQuaDTO ketQua) {
+    public static boolean insert(KetQuaDTO ketQua) {
         String sql = "INSERT INTO ket_qua (ma_lt, sbd, diem, xep_loai, nhan_xet, " +
                 "ngay_cap_chung_chi, ngay_het_han, trang_thai) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -82,7 +82,7 @@ public class KetQuaDAO {
         }
     }
 
-    public boolean update(KetQuaDTO ketQua) {
+    public static boolean update(KetQuaDTO ketQua) {
         String sql = "UPDATE ket_qua SET diem = ?, xep_loai = ?, nhan_xet = ?, " +
                 "ngay_cap_chung_chi = ?, ngay_het_han = ?, trang_thai = ? " +
                 "WHERE ma_lt = ? AND sbd = ?";
@@ -117,7 +117,7 @@ public class KetQuaDAO {
         }
     }
 
-    public List<KetQuaDayDuDTO> findAllWithExtra() {
+    public static List<KetQuaDayDuDTO> findAllWithExtra() {
         List<KetQuaDayDuDTO> listKetQua = new ArrayList<>();
 
         String sql = "SELECT kq.*, ts.ma_ts, ts.ho_ten, ts.cccd, " +
