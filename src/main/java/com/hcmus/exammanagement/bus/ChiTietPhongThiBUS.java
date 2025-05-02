@@ -55,13 +55,4 @@ public class ChiTietPhongThiBUS {
         
         return ChiTietPhongThiDAO.delete(maLichThi, maPhong) > 0;
     }
-
-    public static void capNhatSoLuongHienTai(String maLT, String maPhong, int soLuong) throws IllegalArgumentException, SQLException {
-
-        if (soLuong < 0) {
-            throw new IllegalArgumentException("Số lượng hiện tại không hợp lệ");
-        }
-
-        ChiTietPhongThiDAO.updateSoLuongHienTai(maLT, maPhong, soLuong);
-    }
 }

@@ -58,24 +58,6 @@ public class ChiTietPhongThiDAO {
         }
     }
 
-    public static void updateSoLuongHienTai(String maLT, String maPhong, Integer soLuongHienTai) throws SQLException {
-        String sql = "UPDATE chi_tiet_phong_thi SET so_luong_hien_tai = ? WHERE ma_lt = ? AND ma_phong = ?";
-
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, soLuongHienTai);
-            stmt.setString(2, maLT);
-            stmt.setString(3, maPhong);
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            log.error("Error updating so luong for chi tiet phong thi with lich thi ID {} and phong ID {}: {}",
-                      maLT, maPhong, e.getMessage());
-            throw e;
-        }
-    }
-
     public static int delete(String maLichThi, String maPhong) throws SQLException {
         String sql = "DELETE FROM chi_tiet_phong_thi WHERE ma_lt = ? AND ma_phong = ?";
 

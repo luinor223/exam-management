@@ -16,10 +16,14 @@ public class LichThiDAO {
 
     public static List<LichThiDTO> findAll() throws SQLException {
         List<LichThiDTO> lichThiList = new ArrayList<>();
-        String sql = "SELECT lt.*, cc.*, SUM(ct.so_luong_hien_tai) AS so_luong_hien_tai, SUM(ct.so_luong_toi_da) AS so_luong_toi_da FROM lich_thi lt " +
-                     "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
-                "LEFT JOIN chi_tiet_phong_thi ct ON lt.ma_lt = ct.ma_lt " +
-                "GROUP BY (lt.ma_lt, lt.ma_cchi, lt.ngay_gio_thi, lt.thoi_luong_thi, cc.ma_cchi, cc.le_phi, cc.ten_chung_chi, cc.thoi_gian_hieu_luc, cc.mo_ta)";
+        String sql = "SELECT " +
+                    "lt.*, " +
+                    "cc.*, " +
+                    "(SELECT COUNT(ma_ts) FROM chi_tiet_phieu_dk WHERE ma_lt = lt.ma_lt) AS so_luong_hien_tai, " +
+                    "(SELECT SUM(so_luong_toi_da) FROM chi_tiet_phong_thi WHERE ma_lt = lt.ma_lt) AS so_luong_toi_da " +
+                    "FROM lich_thi lt " +
+                    "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
+                    "ORDER BY lt.ngay_gio_thi DESC";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -38,12 +42,15 @@ public class LichThiDAO {
 
     public static List<LichThiDTO> findAllNew() throws SQLException {
         List<LichThiDTO> lichThiList = new ArrayList<>();
-        String sql = "SELECT lt.*, cc.*, SUM(ct.so_luong_hien_tai) AS so_luong_hien_tai, SUM(ct.so_luong_toi_da) AS so_luong_toi_da FROM lich_thi lt " +
-                "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
-                "LEFT JOIN chi_tiet_phong_thi ct ON lt.ma_lt = ct.ma_lt " +
-                "WHERE lt.ngay_gio_thi > NOW() " +
-                "GROUP BY (lt.ma_lt, lt.ma_cchi, lt.ngay_gio_thi, lt.thoi_luong_thi, cc.ma_cchi, cc.le_phi, cc.ten_chung_chi, cc.thoi_gian_hieu_luc, cc.mo_ta)" +
-                " ORDER BY lt.ngay_gio_thi DESC";
+        String sql = "SELECT " +
+                    "lt.*, " +
+                    "cc.*, " +
+                    "(SELECT COUNT(ma_ts) FROM chi_tiet_phieu_dk WHERE ma_lt = lt.ma_lt) AS so_luong_hien_tai, " +
+                    "(SELECT SUM(so_luong_toi_da) FROM chi_tiet_phong_thi WHERE ma_lt = lt.ma_lt) AS so_luong_toi_da " +
+                    "FROM lich_thi lt " +
+                    "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
+                    "WHERE lt.ngay_gio_thi > NOW() " +
+                    "ORDER BY lt.ngay_gio_thi DESC";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -61,11 +68,14 @@ public class LichThiDAO {
     }
 
     public static LichThiDTO findById(String maLichThi) throws SQLException {
-        String sql = "SELECT lt.*, cc.*, SUM(ct.so_luong_hien_tai) AS so_luong_hien_tai, SUM(ct.so_luong_toi_da) AS so_luong_toi_da FROM lich_thi lt " +
-                "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
-                "LEFT JOIN chi_tiet_phong_thi ct ON lt.ma_lt = ct.ma_lt " +
-                "WHERE lt.ma_lt = ? " +
-                "GROUP BY (lt.ma_lt, lt.ma_cchi, lt.ngay_gio_thi, lt.thoi_luong_thi, cc.ma_cchi, cc.le_phi, cc.ten_chung_chi, cc.thoi_gian_hieu_luc, cc.mo_ta)";
+        String sql = "SELECT " +
+                    "lt.*, " +
+                    "cc.*, " +
+                    "(SELECT COUNT(ma_ts) FROM chi_tiet_phieu_dk WHERE ma_lt = lt.ma_lt) AS so_luong_hien_tai, " +
+                    "(SELECT SUM(so_luong_toi_da) FROM chi_tiet_phong_thi WHERE ma_lt = lt.ma_lt) AS so_luong_toi_da " +
+                    "FROM lich_thi lt " +
+                    "JOIN chung_chi cc ON lt.ma_cchi = cc.ma_cchi " +
+                    "WHERE lt.ma_lt = ?";
 
 
         try (Connection conn = Database.getConnection();

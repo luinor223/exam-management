@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/script/create_db.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/script/create_user.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/script/load_data.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/script/test.sql" dialect="PostgreSQL" />
     <file url="PROJECT" dialect="PostgreSQL" />
   </component>
 </project>

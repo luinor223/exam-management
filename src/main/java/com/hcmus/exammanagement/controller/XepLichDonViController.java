@@ -15,8 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static java.lang.Math.min;
-
 public class XepLichDonViController {
 
     private final ObservableList<ThiSinhDTO> thiSinhList = FXCollections.observableArrayList();
@@ -209,18 +207,6 @@ public class XepLichDonViController {
                     ChiTietPDKBUS.capNhatChiTietPDK(chiTiet);
                     scheduledCount++;
                 }
-            }
-
-            List<ChiTietPhongThiDTO> chiTietPhongThiList = ChiTietPhongThiBUS.layDSTheoLichThi(selectedLichThi.getMaLichThi());
-
-            int soLuongConLai = candidatesToSchedule;
-            for (ChiTietPhongThiDTO chiTietPhongThi : chiTietPhongThiList) {
-                int soLuongHienTaiPhong = chiTietPhongThi.getSoLuongHienTai();
-                int soLuongToiDaPhong = chiTietPhongThi.getSoLuongToiDa();
-
-                ChiTietPhongThiBUS.capNhatSoLuongHienTai(selectedLichThi.getMaLichThi(), chiTietPhongThi.getPhong().getMaPhong(), min(soLuongToiDaPhong, soLuongConLai + soLuongHienTaiPhong));
-
-                soLuongConLai -= soLuongToiDaPhong - soLuongHienTaiPhong;
             }
 
             PhieuDangKyBUS.capNhatTrangThai(selectedPhieuDangKy.getMaPhieuDangKy(), "Chờ xử lý");
