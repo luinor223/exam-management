@@ -63,7 +63,7 @@ CREATE TABLE phieu_dang_ky (
     ngay_lap DATE DEFAULT CURRENT_DATE,
     dia_chi_giao VARCHAR(100),
     ma_kh TEXT NOT NULL,
-    nhan_vien_tao TEXT NOT NULL,
+    nhan_vien_tao TEXT DEFAULT current_user,
     FOREIGN KEY (ma_kh) REFERENCES khach_hang(ma_kh) ON DELETE CASCADE,
     FOREIGN KEY (nhan_vien_tao) REFERENCES nhan_vien(ma_nv) ON DELETE CASCADE
 );
@@ -163,7 +163,7 @@ CREATE TABLE hoa_don (
     pt_thanh_toan VARCHAR(20) CHECK(pt_thanh_toan IN ('Tiền mặt', 'Chuyển khoản')),
     so_tien_giam FLOAT,
     ngay_lap DATE DEFAULT CURRENT_DATE,
-    nhan_vien_tao TEXT,
+    nhan_vien_tao TEXT DEFAULT current_user,
     ma_pdk TEXT,
     ma_thanh_toan TEXT,
 
@@ -176,7 +176,7 @@ CREATE TABLE phieu_gia_han (
     ma_pgh TEXT PRIMARY KEY DEFAULT 'PGH' || LPAD(nextval('seq_phieu_gia_han')::TEXT, 6, '0'),
     loai_gh VARCHAR(20),
     phi_gh FLOAT,
-    nhan_vien_tao TEXT,
+    nhan_vien_tao TEXT DEFAULT current_user,
     da_thanh_toan BOOLEAN,
     ma_ctpdk TEXT,
 

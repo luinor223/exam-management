@@ -1,6 +1,7 @@
 package com.hcmus.exammanagement.controller;
 
 import com.hcmus.exammanagement.AutoTaskScheduler;
+import com.hcmus.exammanagement.bus.NhanVienBUS;
 import com.hcmus.exammanagement.dao.NhanVienDAO;
 import com.hcmus.exammanagement.dto.Database;
 import javafx.event.ActionEvent;
@@ -42,7 +43,7 @@ public class LoginController {
             Database.initialize(username, password);
 
             // Lấy loại nhân viên từ DB
-            String loaiNV = NhanVienDAO.getLoaiNV(username);
+            String loaiNV = NhanVienBUS.layLoaiNV(username);
             if (loaiNV == null) {
                 loginMessage.setText("Không tìm thấy loại nhân viên.");
                 return;
