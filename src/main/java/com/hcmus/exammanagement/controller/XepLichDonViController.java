@@ -72,7 +72,7 @@ public class XepLichDonViController {
         ngayLapColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNgayLap()));
         soLuongTSColumn.setCellValueFactory(data -> {
             try {
-                List<ChiTietPDKDTO> chiTietList = ChiTietPDKBUS.layDSChiTietPDKTheoPhieuDangKy(data.getValue().getMaPhieuDangKy());
+                List<ChiTietPDKDTO> chiTietList = ChiTietPDKBUS.layDSChiTietPDKTheoPDK(data.getValue().getMaPhieuDangKy());
                 return new SimpleIntegerProperty(chiTietList.size()).asObject();
             } catch (Exception e) {
                 return new SimpleIntegerProperty(0).asObject();
@@ -135,7 +135,7 @@ public class XepLichDonViController {
 
     private void loadPhieuDangKyData() {
         try {
-            List<PhieuDangKyDTO> phieuDangKyDTOList = PhieuDangKyBUS.layDSPhieuDangKyTheoTrangThai("Chờ xếp lịch");
+            List<PhieuDangKyDTO> phieuDangKyDTOList = PhieuDangKyBUS.layDSPDKTheoTrangThai("Chờ xếp lịch");
             // Data
             ObservableList<PhieuDangKyDTO> phieuDangKyList = FXCollections.observableArrayList(phieuDangKyDTOList);
             phieuDangKyTable.setItems(phieuDangKyList);
@@ -174,7 +174,7 @@ public class XepLichDonViController {
         }
 
         try {
-            List<ChiTietPDKDTO> chiTietList = ChiTietPDKBUS.layDSChiTietPDKTheoPhieuDangKy(selectedPhieuDangKy.getMaPhieuDangKy());
+            List<ChiTietPDKDTO> chiTietList = ChiTietPDKBUS.layDSChiTietPDKTheoPDK(selectedPhieuDangKy.getMaPhieuDangKy());
 
             int candidatesToSchedule = 0;
             for (ChiTietPDKDTO chiTiet : chiTietList) {
@@ -202,11 +202,9 @@ public class XepLichDonViController {
 
             int scheduledCount = 0;
             for (ChiTietPDKDTO chiTiet : chiTietList) {
-                if (chiTiet.getMaLichThi() == null) {
-                    chiTiet.setMaLichThi(selectedLichThi.getMaLichThi());
-                    ChiTietPDKBUS.capNhatChiTietPDK(chiTiet);
-                    scheduledCount++;
-                }
+                chiTiet.setMaLichThi(selectedLichThi.getMaLichThi());
+                ChiTietPDKBUS.capNhatChiTietPDK(chiTiet);
+                scheduledCount++;
             }
 
             PhieuDangKyBUS.capNhatTrangThai(selectedPhieuDangKy.getMaPhieuDangKy(), "Chờ xử lý");

@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -188,6 +189,10 @@ public class DashboardController {
         ButtonType cancelButton = new ButtonType("Hủy", ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.getButtonTypes().setAll(yesButton, cancelButton);
 
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/com/hcmus/exammanagement/style.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-alert");
+
         alert.showAndWait().ifPresent(response -> {
             if (response == yesButton) {
                 try {
@@ -200,8 +205,8 @@ public class DashboardController {
                     stage.setScene(new Scene(root));
 
                     // Cập nhật kích thước về mặc định login
-                    stage.setWidth(960);
-                    stage.setHeight(540);
+//                    stage.setWidth(960);
+//                    stage.setHeight(540);
                     stage.centerOnScreen(); // Canh giữa cửa sổ
 
                 } catch (IOException e) {

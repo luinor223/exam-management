@@ -1,5 +1,6 @@
 package com.hcmus.exammanagement;
 
+import com.hcmus.exammanagement.dto.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,6 +32,7 @@ public class ExamApplication extends Application {
         if (autoTaskScheduler != null) {
             autoTaskScheduler.stop();
         }
+        Database.closeDataSource();
     }
 
     public static void main(String[] args) {

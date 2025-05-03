@@ -53,7 +53,7 @@ public class ChiTietPDKDAO {
         return null;
     }
 
-    public static List<ChiTietPDKDTO> findByPhieuDangKy(String maPDK) throws SQLException {
+    public static List<ChiTietPDKDTO> findByPDK(String maPDK) throws SQLException {
         List<ChiTietPDKDTO> chiTietPDKList = new ArrayList<>();
         String sql = "SELECT * FROM chi_tiet_phieu_dk WHERE ma_pdk = ?";
 
