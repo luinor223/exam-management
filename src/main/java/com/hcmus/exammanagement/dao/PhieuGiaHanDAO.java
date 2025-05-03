@@ -44,4 +44,17 @@ public class PhieuGiaHanDAO {
         }
         return list;
     }
+
+    public static boolean deletePhieuGiaHan(String maPGH) {
+        String query = "DELETE FROM phieu_gia_han WHERE ma_pgh = ?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, maPGH);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

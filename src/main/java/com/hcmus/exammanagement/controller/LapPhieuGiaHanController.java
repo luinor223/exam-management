@@ -1,5 +1,6 @@
 package com.hcmus.exammanagement.controller;
 
+import com.hcmus.exammanagement.bus.PhieuGiaHanBUS;
 import com.hcmus.exammanagement.dto.Database;
 import com.hcmus.exammanagement.dto.PhieuGiaHanDTO;
 import javafx.beans.property.*;
@@ -31,6 +32,8 @@ public class LapPhieuGiaHanController {
     @FXML private TableColumn<Map<String, Object>, String> colNgayThi;
     @FXML private TableColumn<Map<String, Object>, Boolean> colThanhToan;
     @FXML private Button btnThemGiaHan;
+    @FXML private TableColumn<Map<String, Object>, Void> colHanhDong;
+
 
     @FXML private Label lblTieuDe;
 
@@ -58,6 +61,40 @@ public class LapPhieuGiaHanController {
         colMaCCHI.setCellValueFactory(cell -> new SimpleStringProperty((String) cell.getValue().get("ma_cchi")));
         colSBD.setCellValueFactory(cell -> new SimpleStringProperty((String) cell.getValue().get("sbd")));
         colMaPhong.setCellValueFactory(cell -> new SimpleStringProperty((String) cell.getValue().get("ma_phong")));
+
+        colHanhDong.setCellFactory(col -> new TableCell<>() {
+            private final Button btnXoa = new Button("Xóa");
+
+            {
+                btnXoa.setOnAction(event -> {
+                    Map<String, Object> item = getTableView().getItems().get(getIndex());
+                    PhieuGiaHanDTO dto = (PhieuGiaHanDTO) item.get("dto");
+                    String maPGH = dto.getMaPhieuGH();
+
+                    Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                            "Bạn có chắc chắn muốn xóa phiếu gia hạn: " + maPGH + "?",
+                            ButtonType.YES, ButtonType.NO);
+                    confirm.setTitle("Xác nhận xóa");
+
+                    confirm.showAndWait().ifPresent(response -> {
+                        if (response == ButtonType.YES) {
+                            xoaPhieuGiaHan(maPGH);
+                            handleTraCuu();  // reload lại bảng
+                        }
+                    });
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btnXoa);
+                }
+            }
+        });
 
         tblLichSuGH.setItems(dataList);
     }
@@ -155,6 +192,17 @@ public class LapPhieuGiaHanController {
             showAlert("Lỗi", "Không thể mở dialog.");
         }
     }
+
+
+    private void xoaPhieuGiaHan(String maPGH) {
+        try {
+            PhieuGiaHanBUS.xoaPhieuGiaHan(maPGH);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể xóa phiếu gia hạn.");
+        }
+    }
+
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

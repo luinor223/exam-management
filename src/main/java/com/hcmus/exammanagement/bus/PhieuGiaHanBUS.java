@@ -12,4 +12,8 @@ public class PhieuGiaHanBUS {
     public static List<PhieuGiaHanDTO> layTatCaPhieuGiaHan() {
         return PhieuGiaHanDAO.getAllPhieuGiaHan();
     }
+
+    public static boolean xoaPhieuGiaHan(String maPGH) {
+        return PhieuGiaHanDAO.deletePhieuGiaHan(maPGH);
+    }
 }
