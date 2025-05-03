@@ -119,10 +119,12 @@ public class QLLichThiController {
 
         // Add Delete button to actionPhongColumn
         actionPhongColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button deleteButton = new Button("Xóa");
+            private final Button deleteButton = new Button();
 
             {
-                deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+                FontIcon deleteIcon = new FontIcon("fas-trash");
+                deleteButton.setGraphic(deleteIcon);
+                deleteButton.getStyleClass().add("action-button");
 
                 deleteButton.setOnAction(event -> {
                     ChiTietPhongThiDTO chiTietPhongThi = getTableView().getItems().get(getIndex());

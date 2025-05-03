@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="704.0" prefWidth="1066.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.CapChungChiController">
     <children>
-        <AnchorPane layoutX="12.0" layoutY="28.0" prefHeight="640.0" prefWidth="1035.0" styleClass="light-white-box" stylesheets="@../style.css">
+        <AnchorPane layoutX="12.0" layoutY="28.0" prefHeight="647.0" prefWidth="1081.0" styleClass="light-white-box" stylesheets="@../style.css">
             <children>
                 <Label layoutX="14.0" layoutY="6.0" style="-fx-font-weight: bold;" text="Cấp chứng chỉ">
                     <font>
@@ -42,18 +42,18 @@
                     </children>
                 </HBox>
 
-                <TableView fx:id="DSKetQua" layoutX="14.0" layoutY="85.0" prefHeight="540.0" prefWidth="1005.0" styleClass="custom-table-view" stylesheets="@../style.css">
+                <TableView fx:id="DSKetQua" layoutX="14.0" layoutY="85.0" prefHeight="540.0" prefWidth="1040.0" styleClass="custom-table-view" stylesheets="@../style.css">
                     <columns>
                         <TableColumn fx:id="colMaLT" prefWidth="100.0" text="Mã lịch thi" />
                         <TableColumn fx:id="colSBD" prefWidth="80.0" text="SBD" />
-                        <TableColumn fx:id="colHoTen" prefWidth="180.0" text="Họ tên thí sinh" />
-                        <TableColumn fx:id="colCCCD" prefWidth="110.0" text="CCCD" />
-                        <TableColumn fx:id="colTenChungChi" prefWidth="150.0" text="Chứng chỉ" />
-                        <TableColumn fx:id="colDiem" prefWidth="60.0" text="Điểm" />
-                        <TableColumn fx:id="colXepLoai" prefWidth="80.0" text="Xếp loại" />
-                        <TableColumn fx:id="colNgayThi" prefWidth="105.0" text="Ngày thi" />
-                        <TableColumn fx:id="colTrangThai" prefWidth="90.0" text="Trạng thái" />
-                        <TableColumn fx:id="colAction" prefWidth="150.0" text="Thao tác" />
+                        <TableColumn fx:id="colHoTen" prefWidth="144.5" text="Họ tên thí sinh" />
+                        <TableColumn fx:id="colCCCD" prefWidth="135.0" text="CCCD" />
+                        <TableColumn fx:id="colTenChungChi" prefWidth="115.0" text="Chứng chỉ" />
+                        <TableColumn fx:id="colDiem" prefWidth="74.0" text="Điểm" />
+                        <TableColumn fx:id="colXepLoai" prefWidth="85.5" text="Xếp loại" />
+                        <TableColumn fx:id="colNgayThi" prefWidth="110.5" text="Ngày thi" />
+                        <TableColumn fx:id="colTrangThai" prefWidth="100.5" text="Trạng thái" />
+                        <TableColumn fx:id="colAction" prefWidth="92.0" text="Thao tác" />
                     </columns>
                 </TableView>
             </children>
