@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -184,30 +185,19 @@ public class DashboardController {
         alert.setHeaderText(null);
         alert.setContentText("Bạn có chắc chắn muốn đăng xuất không?");
 
-        ButtonType yesButton = new ButtonType("Đồng ý");
-        ButtonType cancelButton = new ButtonType("Hủy", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(yesButton, cancelButton);
-
         alert.showAndWait().ifPresent(response -> {
-            if (response == yesButton) {
+            if (response == ButtonType.OK) {
                 try {
-                    // Tải giao diện login
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/login.fxml"));
                     Parent root = loader.load();
-
-                    // Lấy stage hiện tại và cập nhật lại root
                     Stage stage = (Stage) btnDangXuat.getScene().getWindow();
                     stage.setScene(new Scene(root));
-
-                    // Cập nhật kích thước về mặc định login
-                    stage.setWidth(960);
-                    stage.setHeight(540);
-                    stage.centerOnScreen(); // Canh giữa cửa sổ
-
+                    stage.centerOnScreen();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
     }
+
 }

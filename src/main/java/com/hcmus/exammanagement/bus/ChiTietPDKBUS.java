@@ -13,11 +13,11 @@ import java.util.List;
  */
 public class ChiTietPDKBUS {
 
-    public static List<ChiTietPDKDTO> layDSChiTietPDKTheoPhieuDangKy(String maPDK) throws IllegalArgumentException, SQLException {
+    public static List<ChiTietPDKDTO> layDSChiTietPDKTheoPDK(String maPDK) throws IllegalArgumentException, SQLException {
         if (maPDK == null || maPDK.trim().isEmpty()) {
             throw new IllegalArgumentException("Mã phiếu đăng ký không được để trống");
         }
-        return ChiTietPDKDAO.findByPhieuDangKy(maPDK);
+        return ChiTietPDKDAO.findByPDK(maPDK);
     }
 
     public static void themChiTietPDK(ChiTietPDKDTO chiTietPDK) throws IllegalArgumentException, SQLException {

@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="575.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.LapHoaDonDVController">
+<AnchorPane prefHeight="518.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmus.exammanagement.controller.LapHoaDonDVController">
     <children>
 
         <Label layoutX="122.0" layoutY="227.0" text="Tạm tính:" />
         <Label layoutX="119.0" layoutY="368.0" prefHeight="17.0" prefWidth="141.0" text="PT Thanh Toán:" />
-        <Label layoutX="119.0" layoutY="420.0" text="Email (Gửi hóa đơn):" />
-        <Label layoutX="119.0" layoutY="470.0" text="Mã Thanh Toán:" />
+        <Label layoutX="119.0" layoutY="419.0" text="Mã Thanh Toán:" />
         <Label layoutX="122.0" layoutY="272.0" text="Giảm giá:" />
         <Label layoutX="28.0" layoutY="14.0" text="Ngày lập hóa đơn:" /> <Label fx:id="labelNgayLap" layoutX="137.0" layoutY="10.0" prefHeight="27.0" prefWidth="158.0" text="" />
         <Label layoutX="122.0" layoutY="318.0" text="Tổng tiền:" />
@@ -24,8 +18,8 @@
         <TextField fx:id="giamGia" editable="false" layoutX="248.0" layoutY="265.0" prefHeight="34.0" prefWidth="400.0" promptText="Giảm giá" styleClass="text-field" /> <Label fx:id="labelTroGia" layoutX="568.0" layoutY="268.0" prefHeight="25.0" prefWidth="120.0" text="" />
         <TextField fx:id="tongTien" editable="false" layoutX="248.0" layoutY="310.0" prefHeight="34.0" prefWidth="400.0" promptText="Tổng tiền" styleClass="text-field" />
         <ComboBox fx:id="phuongThuc" layoutX="248.0" layoutY="360.0" prefHeight="34.0" prefWidth="400.0" promptText="Chuyển khoản" styleClass="custom-combobox" stylesheets="@../style.css" />
-        <TextField fx:id="emailGuiHoaDon" layoutX="248.0" layoutY="412.0" prefHeight="34.0" prefWidth="400.0" promptText="Email" styleClass="text-field" />
-        <TextField fx:id="maThanhToan" layoutX="248.0" layoutY="462.0" prefHeight="34.0" prefWidth="400.0" promptText="Mã thanh toán" styleClass="text-field" />
+<!--        <TextField fx:id="emailGuiHoaDon" layoutX="248.0" layoutY="412.0" prefHeight="34.0" prefWidth="400.0" promptText="Email" styleClass="text-field" />-->
+        <TextField fx:id="maThanhToan" layoutX="248.0" layoutY="411.0" prefHeight="34.0" prefWidth="400.0" promptText="Mã thanh toán" styleClass="text-field" />
 
         <TableView fx:id="tableThongTinLapHoaDon" layoutX="25.0" layoutY="49.0" prefHeight="150.0" prefWidth="778.0" styleClass="custom-table-view" stylesheets="@../style.css">
             <columns>
@@ -41,12 +35,12 @@
         </TableView>
 
 
-        <Button fx:id="btnHuy" layoutX="468.0" layoutY="526.0" prefHeight="25.0" prefWidth="150.0" styleClass="cancel-button" stylesheets="@../style.css" text="Hủy" textFill="WHITE">
+        <Button fx:id="btnHuy" layoutX="468.0" layoutY="475.0" prefHeight="25.0" prefWidth="150.0" styleClass="cancel-button" stylesheets="@../style.css" text="Hủy" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Button>
-        <Button fx:id="btnThanhToan" layoutX="632.0" layoutY="527.0" prefWidth="158.0" styleClass="linear-grad" stylesheets="@../style.css" text="Xác nhận" textFill="WHITE">
+        <Button fx:id="btnThanhToan" layoutX="632.0" layoutY="476.0" prefWidth="158.0" styleClass="linear-grad" stylesheets="@../style.css" text="Xác nhận" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>

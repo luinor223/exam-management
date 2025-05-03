@@ -48,6 +48,8 @@
 
         <Label layoutX="431.0" layoutY="76.0" text="Ngày ĐK:" />
         <Label fx:id="labelNgayDK" layoutX="490.0" layoutY="76.0" prefWidth="250.0" text="" />
+      <Label layoutX="432.0" layoutY="15.0" text="Nhân viên tạo:" />
+      <Label fx:id="labelNVtao" layoutX="517.0" layoutY="11.0" prefHeight="27.0" prefWidth="158.0" text="" />
 
     </children>
 </AnchorPane>

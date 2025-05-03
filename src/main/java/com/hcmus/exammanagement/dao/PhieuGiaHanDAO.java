@@ -8,14 +8,13 @@ import java.util.*;
 
 public class PhieuGiaHanDAO {
     public static boolean insertPhieuGiaHan(PhieuGiaHanDTO pgh) {
-        String query = "INSERT INTO phieu_gia_han (loai_gh, phi_gh, nhan_vien_tao, da_thanh_toan, ma_ctpdk) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO phieu_gia_han (loai_gh, phi_gh, da_thanh_toan, ma_ctpdk) VALUES (?, ?, ?, ?)";
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, pgh.getLoaiGH());
             ps.setDouble(2, pgh.getPhiGH());
-            ps.setString(3, pgh.getNhanVienTao());
-            ps.setBoolean(4, pgh.isDaThanhToan());
-            ps.setString(5, pgh.getMaCTPDK());
+            ps.setBoolean(3, pgh.isDaThanhToan());
+            ps.setString(4, pgh.getMaCTPDK());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

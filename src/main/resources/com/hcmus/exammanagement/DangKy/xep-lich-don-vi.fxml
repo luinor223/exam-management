@@ -26,10 +26,11 @@
                 </Label>
                 <TableView fx:id="phieuDangKyTable" layoutX="14.0" layoutY="44.0" prefHeight="240.0" prefWidth="470.0" styleClass="custom-table-view">
                     <columns>
-                        <TableColumn fx:id="maPDKColumn" prefWidth="100.0" text="Mã phiếu" />
-                        <TableColumn fx:id="tenDonViColumn" prefWidth="133.6000213623047" text="Tên đơn vị" />
-                        <TableColumn fx:id="ngayLapColumn" prefWidth="114.39996337890625" text="Ngày lập" />
-                        <TableColumn fx:id="soLuongTSColumn" prefWidth="120.0" text="Số lượng thí sinh" />
+                        <TableColumn fx:id="maPDKColumn" prefWidth="81.59997177124023" text="Mã phiếu" />
+                        <TableColumn fx:id="tenDonViColumn" prefWidth="149.6000518798828" text="Tên đơn vị" />
+                        <TableColumn fx:id="ngayLapColumn" prefWidth="91.99993896484375" text="Ngày lập" />
+                        <TableColumn fx:id="soLuongTSColumn" prefWidth="71.20001220703125" text="Số lượng" />
+                  <TableColumn fx:id="actionColumn" prefWidth="72.0" text="Column X" />
                     </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -75,6 +76,9 @@
                         <TableColumn fx:id="soLuongHienTaiColumn" prefWidth="100.0" text="SL hiện tại" />
                         <TableColumn fx:id="soLuongToiDaColumn" prefWidth="100.0" text="SL tối đa" />
                     </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
                 </TableView>
             </children>
         </AnchorPane>

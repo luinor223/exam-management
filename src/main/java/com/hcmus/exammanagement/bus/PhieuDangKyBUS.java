@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class PhieuDangKyBUS {
 
-    public static List<PhieuDangKyDTO> layDSPhieuDangKyTheoTrangThai(String trangThai) throws SQLException {
+    public static List<PhieuDangKyDTO> layDSPDKTheoTrangThai(String trangThai) throws SQLException {
         return PhieuDangKyDAO.findByTrangThai(trangThai);
     }
 

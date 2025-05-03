@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 public class LichThiDialogController {
 
-    @FXML private Button btnThem;
+    @FXML private Button btnLuu;
     @FXML private Button btnHuy;
     @FXML private ComboBox<ChungChiDTO> chungChiCombo;
     @FXML private TextField gioThiField;
@@ -129,7 +129,7 @@ public class LichThiDialogController {
                 showAlert(Alert.AlertType.INFORMATION, "Thành công", "Cập nhật lịch thi thành công", null);
             }
 
-            Stage stage = (Stage) btnThem.getScene().getWindow();
+            Stage stage = (Stage) btnLuu.getScene().getWindow();
             stage.close();
 
         } catch (NumberFormatException e) {

@@ -70,8 +70,6 @@ public class PhanCongDialogController {
 
     public void setLichThi(LichThiDTO lichThi) {
         this.lichThi = lichThi;
-
-        // If UI is already initialized, populate it with data
         if (maLichThiField != null) {
             maLichThiField.setText(lichThi.getMaLichThi());
             loadPhongTrong();

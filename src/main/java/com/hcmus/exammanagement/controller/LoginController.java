@@ -45,6 +45,7 @@ public class LoginController {
             String loaiNV = NhanVienBUS.layLoaiNV(username);
             if (loaiNV == null) {
                 loginMessage.setText("Không tìm thấy loại nhân viên.");
+                loginMessage.setStyle("-fx-text-fill: red;");
                 return;
             }
 
@@ -57,6 +58,7 @@ public class LoginController {
 
         } catch (Exception e) {
             loginMessage.setText("Tên đăng nhập hoặc mật khẩu sai.");
+            loginMessage.setStyle("-fx-text-fill: red;");
         }
     }
 
@@ -70,6 +72,8 @@ public class LoginController {
             dashboardController.initializeRole(role);
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setX(110); // 100 pixels from left edge
+            stage.setY(50);  // 50 pixels from top edge
             Scene scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/hcmus/exammanagement/style.css")).toExternalForm());
             stage.setScene(scene);
