@@ -25,7 +25,7 @@ public class DialogThemGiaHanController {
     private void handleLuu() {
         String maCTPDK = cbMaCTPDK.getValue();
         String loaiGH = txtLoaiGH.getText().trim();
-        String nhanVienTao = txtNhanVienTao.getText().trim();
+//        String nhanVienTao = txtNhanVienTao.getText().trim();
         double phiGH;
 
         try {
@@ -35,13 +35,13 @@ public class DialogThemGiaHanController {
             return;
         }
 
-        if (maCTPDK == null || loaiGH.isEmpty() || nhanVienTao.isEmpty()) {
+        if (maCTPDK == null || loaiGH.isEmpty()) {
             showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.");
             return;
         }
 
         PhieuGiaHanDTO newPGH = new PhieuGiaHanDTO(
-                null, loaiGH, phiGH, nhanVienTao, chkDaThanhToan.isSelected(), maCTPDK
+                null, loaiGH, phiGH, null, chkDaThanhToan.isSelected(), maCTPDK
         );
 
         if (PhieuGiaHanBUS.taoPhieuGiaHan(newPGH)) {

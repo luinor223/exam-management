@@ -127,7 +127,7 @@ public class LapHoaDonCNController {
                 phuongThucTT,
                 0,
                 java.sql.Date.valueOf(labelNgayLap.getText()),
-                "NV000001",
+                null,
                 phieuDangKy,
                 null
         );

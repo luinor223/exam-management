@@ -57,20 +57,21 @@ public class HoaDonDAO {
     }
 
     public static void insert(HoaDonDTO hoaDon) {
-        String sql = "INSERT INTO hoa_don ( tong_tien, pt_thanh_toan, so_tien_giam, ngay_lap, nhan_vien_tao, ma_pdk, ma_thanh_toan) " +
-                "VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO hoa_don ( tong_tien, pt_thanh_toan, so_tien_giam, ngay_lap, ma_pdk, ma_thanh_toan) " +
+                "VALUES ( ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             System.out.println("Query SQL = " + sql);
-            stmt.setDouble(1, hoaDon.getTongTien());
-            stmt.setString(2, hoaDon.getPtThanhToan());
-            stmt.setDouble(3, hoaDon.getSoTienGiam());
-            stmt.setDate(4, hoaDon.getNgayLap());
-            stmt.setString(5, hoaDon.getNhanVienTao());
-            stmt.setString(6, hoaDon.getPhieuDangKy().getMaPhieuDangKy());
-            stmt.setString(7, hoaDon.getMaTt());
+            int cnt = 1;
+            stmt.setDouble(cnt++, hoaDon.getTongTien());
+            stmt.setString(cnt++, hoaDon.getPtThanhToan());
+            stmt.setDouble(cnt++, hoaDon.getSoTienGiam());
+            stmt.setDate(cnt++, hoaDon.getNgayLap());
+//            stmt.setString(cnt++, hoaDon.getNhanVienTao());
+            stmt.setString(cnt++, hoaDon.getPhieuDangKy().getMaPhieuDangKy());
+            stmt.setString(cnt, hoaDon.getMaTt());
 
             stmt.executeUpdate();
 
@@ -81,21 +82,21 @@ public class HoaDonDAO {
 
 
     public static void update(HoaDonDTO hoaDon) {
-        String sql = "UPDATE hoa_don SET tong_tien = ?, pt_thanh_toan = ?, so_tien_giam = ?, ngay_lap = ?, nhan_vien_tao = ?, ma_pdk = ?, ma_thanh_toan = ? WHERE ma_hd = ?";
+        String sql = "UPDATE hoa_don SET tong_tien = ?, pt_thanh_toan = ?, so_tien_giam = ?, ngay_lap = ?, ma_pdk = ?, ma_thanh_toan = ? WHERE ma_hd = ?";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             System.out.println("Query SQL = " + sql);
-
-            stmt.setDouble(1, hoaDon.getTongTien());
-            stmt.setString(2, hoaDon.getPtThanhToan());
-            stmt.setDouble(3, hoaDon.getSoTienGiam());
-            stmt.setDate(4, hoaDon.getNgayLap());
-            stmt.setString(5, hoaDon.getNhanVienTao());
-            stmt.setString(6, hoaDon.getPhieuDangKy().getMaPhieuDangKy());
-            stmt.setString(7, hoaDon.getMaTt());
-            stmt.setString(8, hoaDon.getMaHd());
+            int cnt = 1;
+            stmt.setDouble(cnt++, hoaDon.getTongTien());
+            stmt.setString(cnt++, hoaDon.getPtThanhToan());
+            stmt.setDouble(cnt++, hoaDon.getSoTienGiam());
+            stmt.setDate(cnt++, hoaDon.getNgayLap());
+//            stmt.setString(cnt++, hoaDon.getNhanVienTao());
+            stmt.setString(cnt++, hoaDon.getPhieuDangKy().getMaPhieuDangKy());
+            stmt.setString(cnt++, hoaDon.getMaTt());
+            stmt.setString(cnt, hoaDon.getMaHd());
 
 
             stmt.executeUpdate();

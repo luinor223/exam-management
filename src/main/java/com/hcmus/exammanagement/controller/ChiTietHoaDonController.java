@@ -38,6 +38,7 @@ public class ChiTietHoaDonController {
     @FXML private Label labelSDT;
     @FXML private Label labelMaPDK;
     @FXML private Label labelNgayDK;
+    @FXML private Label labelNVtao;
 
     private HoaDonDTO hoaDon;
     private KhachHangDTO khachHang;
@@ -109,6 +110,7 @@ public class ChiTietHoaDonController {
         giamGia.setText(currencyFormat.format(hoaDon.getSoTienGiam()) + "đ");
         tongTien.setText(currencyFormat.format(hoaDon.getTongTien()) + "đ");
         phuongThuc.setText(hoaDon.getPtThanhToan());
+        labelNVtao.setText(hoaDon.getNhanVienTao());
     }
 
     private void loadKhachHangDetails() {
