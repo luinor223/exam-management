@@ -16,21 +16,20 @@
         <!-- Tiêu đề động -->
         <Label fx:id="lblTieuDe" layoutX="20" layoutY="50" style="-fx-font-weight: bold;" text="Lịch sử gia hạn cho thí sinh:" />
 
-        <TableView fx:id="tblLichSuGH" layoutX="20" layoutY="80" prefHeight="380.0" prefWidth="1054.0">
+        <TableView fx:id="tblLichSuGH" layoutX="20" layoutY="80" prefHeight="380.0" prefWidth="1054.0" editable="true">
             <columns>
                 <TableColumn fx:id="colMaPGH" prefWidth="90" text="Mã PGH" />
-                <TableColumn fx:id="colLoaiGH" prefWidth="158.3999786376953" text="Loại GH" />
-                <TableColumn fx:id="colPhiGH" prefWidth="95.20001220703125" text="Phí GH" />
-                <TableColumn fx:id="colMaCTPDK" prefWidth="80.7999267578125" text="Mã CTPĐK" />
+                <TableColumn fx:id="colLoaiGH" prefWidth="112.79998779296875" text="Loại GH" />
+                <TableColumn fx:id="colPhiGH" prefWidth="95.19996643066406" text="Phí GH" />
+                <TableColumn fx:id="colMaCTPDK" prefWidth="128.80001831054688" text="Mã CTPĐK" />
                 <TableColumn fx:id="colNgayThi" prefWidth="122.4000244140625" text="Ngày Giờ Thi" />
                 <TableColumn fx:id="colMaCCHI" prefWidth="84.0" text="Mã CCHI" />
                 <TableColumn fx:id="colSBD" prefWidth="84.79998779296875" text="SBD" />
                 <TableColumn fx:id="colMaPhong" prefWidth="105.60003662109375" text="Phòng Thi" />
-                <TableColumn fx:id="colThanhToan" prefWidth="118.4000244140625" text="Thanh Toán" />
+                <TableColumn fx:id="colThanhToan" prefWidth="118.4000244140625" text="Thanh Toán"/>
                 <TableColumn fx:id="colHanhDong" prefWidth="108.79998779296875" text="Hành động" />
             </columns>
         </TableView>
-
         <Button fx:id="btnThemGiaHan" layoutX="958.0" layoutY="476.0" onAction="#handleThemGiaHan" text="Thêm gia hạn" />
     </children>
 </AnchorPane>

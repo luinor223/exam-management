@@ -21,6 +21,4 @@ public class PhieuGiaHanDTO {
         this.daThanhToan = daThanhToan;
         this.maCTPDK = maCTPDK;
     }
-
 }
-

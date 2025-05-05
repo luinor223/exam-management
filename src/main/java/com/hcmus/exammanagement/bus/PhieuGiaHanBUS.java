@@ -16,4 +16,7 @@ public class PhieuGiaHanBUS {
     public static boolean xoaPhieuGiaHan(String maPGH) {
         return PhieuGiaHanDAO.deletePhieuGiaHan(maPGH);
     }
+    public static boolean capNhatThanhToan(String maPGH, boolean daThanhToan) {
+        return PhieuGiaHanDAO.updateThanhToan(maPGH, daThanhToan);
+    }
 }

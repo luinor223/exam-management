@@ -163,4 +163,21 @@ public class ChiTietPDKDAO {
             throw e;
         }
     }
+
+    public static int updateLichThiForCTPDK(String maCTPDK, String maLichThi) throws SQLException {
+        String sql = "UPDATE chi_tiet_phieu_dk SET ma_lt = ? WHERE ma_ctpdk = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, maLichThi);
+            stmt.setString(2, maCTPDK);
+
+            return stmt.executeUpdate();
+        } catch (SQLException e) {
+            log.error("Error updating ma_lt for ma_ctpdk {}: {}", maCTPDK, e.getMessage());
+            throw e;
+        }
+    }
+
 }

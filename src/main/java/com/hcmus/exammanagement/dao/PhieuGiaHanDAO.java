@@ -56,4 +56,17 @@ public class PhieuGiaHanDAO {
         }
     }
 
+    public static boolean updateThanhToan(String maPGH, boolean daThanhToan) {
+        String query = "UPDATE phieu_gia_han SET da_thanh_toan = ? WHERE ma_pgh = ?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setBoolean(1, daThanhToan);
+            ps.setString(2, maPGH);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

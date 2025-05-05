@@ -1,7 +1,10 @@
 package com.hcmus.exammanagement.controller;
 
+import com.hcmus.exammanagement.bus.LichThiBUS;
 import com.hcmus.exammanagement.bus.PhieuGiaHanBUS;
+import com.hcmus.exammanagement.dao.LichThiDAO;
 import com.hcmus.exammanagement.dto.Database;
+import com.hcmus.exammanagement.dto.LichThiDTO;
 import com.hcmus.exammanagement.dto.PhieuGiaHanDTO;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -11,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -20,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class LapPhieuGiaHanController {
 
@@ -49,7 +55,24 @@ public class LapPhieuGiaHanController {
         colMaPGH.setCellValueFactory(cell -> new SimpleStringProperty(((PhieuGiaHanDTO) cell.getValue().get("dto")).getMaPhieuGH()));
         colLoaiGH.setCellValueFactory(cell -> new SimpleStringProperty(((PhieuGiaHanDTO) cell.getValue().get("dto")).getLoaiGH()));
         colPhiGH.setCellValueFactory(cell -> new SimpleDoubleProperty(((PhieuGiaHanDTO) cell.getValue().get("dto")).getPhiGH()).asObject());
-        colThanhToan.setCellValueFactory(cell -> new SimpleBooleanProperty(((PhieuGiaHanDTO) cell.getValue().get("dto")).isDaThanhToan()).asObject());
+        colThanhToan.setCellValueFactory(cellData -> {
+            PhieuGiaHanDTO dto = (PhieuGiaHanDTO) cellData.getValue().get("dto");
+            BooleanProperty booleanProperty = new SimpleBooleanProperty(dto.isDaThanhToan());
+
+            // Lắng nghe thay đổi
+            booleanProperty.addListener((obs, oldVal, newVal) -> {
+                dto.setDaThanhToan(newVal);
+                boolean success = PhieuGiaHanBUS.capNhatThanhToan(dto.getMaPhieuGH(), newVal);
+                if (!success) {
+                    showAlert("Lỗi", "Cập nhật trạng thái thanh toán thất bại!");
+                    booleanProperty.set(oldVal); // rollback nếu lỗi
+                }
+            });
+
+            return booleanProperty;
+        });
+        colThanhToan.setCellFactory(tc -> new CheckBoxTableCell<>());
+
         colMaCTPDK.setCellValueFactory(cell -> new SimpleStringProperty((String) cell.getValue().get("ma_ctpdk")));
         colNgayThi.setCellValueFactory(cell -> {
             Timestamp ts = (Timestamp) cell.getValue().get("ngay_thi");
@@ -166,32 +189,67 @@ public class LapPhieuGiaHanController {
         }
 
         try {
+            // Load FXML and controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hcmus/exammanagement/LapPhieuGiaHan/dialog-them-gia-han.fxml"));
             Parent root = loader.load();
-
             DialogThemGiaHanController controller = loader.getController();
-            // Lấy danh sách mã ct_pdk của thí sinh đang xem
-            List<String> maCTPDKList = dataList.stream()
-                    .map(row -> (String) row.get("ma_ctpdk"))
-                    .distinct()
-                    .toList();
 
+            // Lấy danh sách mã ct_pdk
+            List<String> maCTPDKList;
+            try {
+                maCTPDKList = dataList.stream()
+                        .map(row -> {
+                            try {
+                                return (String) row.get("ma_ctpdk");
+                            } catch (Exception e) {
+                                System.err.println("Lỗi lấy ma_ctpdk: " + e.getMessage());
+                                return null;
+                            }
+                        })
+                        .filter(Objects::nonNull)
+                        .distinct()
+                        .toList();
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Lỗi", "Không thể lấy danh sách mã chi tiết phiếu đăng ký.");
+                return;
+            }
+
+            // Lấy danh sách lịch thi
+            List<LichThiDTO> danhSachLichThi;
+            try {
+                danhSachLichThi = LichThiDAO.findAll();
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Lỗi", "Không thể lấy danh sách lịch thi.");
+                return;
+            }
+
+            // Khởi tạo dữ liệu cho dialog
             controller.setDanhSachCTPDK(maCTPDKList);
+            controller.initLichThiTable(danhSachLichThi);
 
+            // Hiển thị dialog
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Thêm Gia Hạn");
             dialogStage.setScene(new Scene(root));
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.showAndWait();
 
-            // Sau khi thêm, làm mới lại bảng
-            loadLichSuGiaHan(maTS);
+            // Làm mới bảng sau khi thêm
+            try {
+                loadLichSuGiaHan(maTS);
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Lỗi", "Không thể tải lại lịch sử gia hạn.");
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Lỗi", "Không thể mở dialog.");
+            showAlert("Lỗi", "Không thể mở giao diện thêm gia hạn.");
         }
     }
+
 
 
     private void xoaPhieuGiaHan(String maPGH) {
